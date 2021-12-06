@@ -6,9 +6,9 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
-    defined('SITE_VR_KEY') or define('SITE_VR_KEY', trim($config['general_settings']->vr_key));
-    defined('SITE_PRC_CD') or define('SITE_PRC_CD', trim($config['general_settings']->purchase_code));
-    defined('COOKIE_PREFIX') or define('COOKIE_PREFIX', trim($config['general_settings']->cookie_prefix));
+
+
+
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -177,7 +177,7 @@ class App extends BaseConfig
      *
      * @var int
      */
-    public $sessionExpiration = 7200;
+    public $sessionExpiration = 172800;
 
     /**
      * --------------------------------------------------------------------------

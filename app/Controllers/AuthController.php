@@ -9,7 +9,7 @@ class AuthController extends BaseController
 
     public function index()
     {
-        $data['title'] = 'Login';
+        $data['title'] = trans('login');
 
         return view('admin/login', $data);
     }
@@ -39,11 +39,11 @@ class AuthController extends BaseController
             if ($userModel->login()) {
                 return redirect()->to('/');
             } else {
-                return redirect()->back();
+                return redirect()->back()->withInput()->with('error', $validation->getErrors());
             }
         } else {
             $this->session->setFlashData('errors_form', $validation->listErrors());
-            return redirect()->back();
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
         }
     }
 }

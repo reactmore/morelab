@@ -4,33 +4,53 @@ use App\Models\User;
 
 $CI4 = new \App\Controllers\BaseController;
 
-
-function register_CI4(&$_ci)
-{
-    global $CI4;
-    $CI4 = $_ci;
+if (!function_exists('register_CI4')) {
+    function register_CI4(&$_ci)
+    {
+        global $CI4;
+        $CI4 = $_ci;
+    }
 }
 
-function general_settings()
-{
-    $db = \Config\Database::connect();
-    return $db->table('general_settings')->getRow();
+if (!function_exists('get_general_settings')) {
+    function get_general_settings()
+    {
+        $db = \Config\Database::connect();
+        return $db->table('general_settings')->get()->getRow();
+    }
 }
 
-function get_routes()
-{
-    $db = \Config\Database::connect();
-    return $db->table('routes')->getRow();
+if (!function_exists('get_routes')) {
+    function get_routes()
+    {
+        $db = \Config\Database::connect();
+        return $db->table('routes')->get()->getRow();
+    }
 }
 
-function get_langguage()
-{
-    $db = \Config\Database::connect();
-    return  $db->table('languages')->getWhere(['status' => 1])->orderBy('language_order', 'DESC')->getResult();
+if (!function_exists('get_langguage')) {
+    function get_langguage()
+    {
+        $db = \Config\Database::connect();
+        return  $db->table('languages')->getWhere(['status' => 1])->getResult();
+    }
 }
 
+if (!function_exists('get_langguage_default')) {
+    function get_langguage_default()
+    {
+        $db = \Config\Database::connect();
+        return  $db->table('languages')->getWhere(['id' => 1])->getRow();
+    }
+}
 
-
+if (!function_exists('get_langguage_id')) {
+    function get_langguage_id($id)
+    {
+        $db = \Config\Database::connect();
+        return  $db->table('languages')->getWhere(['id' => $id])->getRow();
+    }
+}
 
 //check auth
 if (!function_exists('auth_check')) {
@@ -55,7 +75,6 @@ if (!function_exists('clean_number')) {
 if (!function_exists('clean_str')) {
     function clean_str($str)
     {
-
         $str = remove_special_characters($str, false);
         return $str;
     }
@@ -150,5 +169,42 @@ if (!function_exists('trans')) {
             return $CI4->language_translations[$string];
         }
         return "";
+    }
+}
+
+//lang base url
+if (!function_exists('lang_base_url')) {
+    function lang_base_url()
+    {
+        global $CI4;
+        return $CI4->lang_base_url;
+    }
+}
+
+//get route
+if (!function_exists('get_route')) {
+    function get_route($key, $slash = false)
+    {
+        global $CI4;
+        $route = $key;
+        if (!empty($CI4->routes->$key)) {
+            $route = $CI4->routes->$key;
+            if ($slash == true) {
+                $route .= '/';
+            }
+        }
+        return $route;
+    }
+}
+
+//generate static url
+if (!function_exists('generate_url')) {
+    function generate_url($route_1, $route_2 = null)
+    {
+        if (!empty($route_2)) {
+            return lang_base_url() . get_route($route_1, true) . get_route($route_2);
+        } else {
+            return lang_base_url() . get_route($route_1);
+        }
     }
 }

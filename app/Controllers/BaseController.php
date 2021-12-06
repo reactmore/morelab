@@ -53,6 +53,9 @@ class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
+        $this->general_settings = get_general_settings();
+        $this->routes = get_routes();
+
         // Preload any models, libraries, etc, here.
         $this->bcrypt = new Bcrypt();
         $this->session = \Config\Services::session();
@@ -63,22 +66,23 @@ class BaseController extends Controller
         //lang base url
         $this->lang_base_url = base_url();
         //languages
-        $this->languages = config('App')->language;
+        $this->languages = get_langguage();
         //site lang
-        $this->site_lang = $this->language_model->get_one($this->general_settings->site_lang);
+        $this->site_lang = get_langguage_id($this->general_settings->site_lang);
         if (empty($this->site_lang)) {
-            $this->site_lang = $this->language_model->get_one(1);
+            $this->site_lang = get_langguage_default();
         }
         $this->selected_lang = $this->site_lang;
         //set language
-        $lang_segment = $this->uri->segment(1);
+        $uri = current_url(true);
+        $lang_segment = $uri->getSegment(1);
         foreach ($this->languages as $lang) {
             if ($lang_segment == $lang->short_form) {
                 if ($this->general_settings->multilingual_system == 1) :
                     $this->selected_lang = $lang;
                     $this->lang_base_url = base_url() . $lang->short_form . "/";
                 else :
-                    redirect(base_url());
+                    return redirect(base_url());
                 endif;
             }
         }
@@ -91,5 +95,37 @@ class BaseController extends Controller
 
         //language translations
         $this->language_translations = $this->get_translation_array($this->selected_lang->id);
+    }
+
+    public function get_translation_array($land_id)
+    {
+        $db = \Config\Database::connect();
+
+        $translations = $db->table('language_translations')->getWhere(['lang_id' => $land_id])->getResult();
+
+        $array = array();
+        if (!empty($translations)) {
+            foreach ($translations as $translation) {
+                $array[$translation->label] = $translation->translation;
+            }
+        }
+        $validation =  \Config\Services::validation();
+        //set custom error messages
+        if (isset($array["form_validation_required"])) {
+            $validation->setRules(['required' => $array["form_validation_required"]]);
+        }
+        if (isset($array["form_validation_min_length"])) {
+            $validation->setRules(['required' => $array["form_validation_min_length"]]);
+        }
+        if (isset($array["form_validation_max_length"])) {
+            $validation->setRules(['required' => $array["form_validation_max_length"]]);
+        }
+        if (isset($array["form_validation_matches"])) {
+            $validation->setRules(['required' => $array["form_validation_matches"]]);
+        }
+        if (isset($array["form_validation_is_unique"])) {
+            $validation->setRules(['required' => $array["form_validation_is_unique"]]);
+        }
+        return $array;
     }
 }
