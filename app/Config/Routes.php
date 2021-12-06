@@ -36,23 +36,15 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index', ['filter' => \App\Filters\Auth::class]);
+$routes->get('/', 'Home::index');
 
-
-/*
- * --------------------------------------------------------------------
- * Route Common No Need Auth
- * --------------------------------------------------------------------
- */
+$routes->group("admin", ["filter" => \App\Filters\Auth::class], function ($routes) {
+    $routes->get('', 'Administrator::index');
+    $routes->get('dashboard', 'Administrator::index');
+});
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');
-
-/*
- * --------------------------------------------------------------------
- * Route Common Need Auth
- * --------------------------------------------------------------------
- */
-
+$routes->get("/$custom_routes->logout", 'Common::logout');
 
 /*
  * --------------------------------------------------------------------

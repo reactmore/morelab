@@ -17,6 +17,12 @@ class Common extends BaseController
     {
         $data['title'] = trans('login');
 
+        set_cookie([
+            'name' => 'auth_cookie_id',
+            'value' => 'value_of_cookie',
+
+        ]);
+
         return view('admin/login', $data);
     }
 
@@ -52,5 +58,22 @@ class Common extends BaseController
             $this->session->setFlashData('errors_form', $validation->listErrors());
             return redirect()->back()->withInput()->with('error', $validation->getErrors());
         }
+    }
+
+    /**
+     * Logout
+     */
+    public function logout()
+    {
+        //unset user data
+        $this->session->remove('vr_sess_user_id');
+        $this->session->remove('vr_sess_user_email');
+        $this->session->remove('vr_sess_user_role');
+        $this->session->remove('vr_sess_logged_in');
+        $this->session->remove('vr_sess_app_key');
+        $this->session->remove('vr_sess_user_ps');
+        helper_deletecookie("remember_user_id");
+
+        return redirect()->to('/');
     }
 }

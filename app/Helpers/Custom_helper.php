@@ -263,7 +263,7 @@ if (!function_exists('admin_url')) {
     function admin_url()
     {
         global $CI4;
-        return base_url() . $CI4->routes->admin . '/';
+        return base_url() . '/' . $CI4->routes->admin . '/';
     }
 }
 
@@ -276,7 +276,7 @@ if (!function_exists('generate_base_url')) {
             if ($CI4->selected_lang->id == $lang->id) {
                 return base_url();
             }
-            return base_url() . $lang->short_form . "/";
+            return base_url() . '/' . $lang->short_form . "/";
         }
         return lang_base_url();
     }
@@ -303,9 +303,69 @@ if (!function_exists('generate_url')) {
     function generate_url($route_1, $route_2 = null)
     {
         if (!empty($route_2)) {
-            return lang_base_url() . get_route($route_1, true) . get_route($route_2);
+            return lang_base_url() . '/' . get_route($route_1, true) . get_route($route_2);
         } else {
-            return lang_base_url() . get_route($route_1);
+            return lang_base_url() . '/' . get_route($route_1);
         }
+    }
+}
+
+
+//set cookie
+if (!function_exists('helper_setcookie')) {
+    function helper_setcookie($name, $value)
+    {
+
+        setcookie(get_general_settings()->cookie_prefix . '_' . $name, $value, time() + (86400 * 30), "/"); //30 days
+    }
+}
+
+//get cookie
+if (!function_exists('helper_getcookie')) {
+    function helper_getcookie($name, $data_type = 'string')
+    {
+        $general_setting = get_general_settings();
+
+        if (isset($_COOKIE[$general_setting->cookie_prefix . '_' . $name])) {
+            return $_COOKIE[$general_setting->cookie_prefix . '_' . $name];
+        }
+        if ($data_type == 'int') {
+            return 0;
+        }
+        return "";
+    }
+}
+
+//delete cookie
+if (!function_exists('helper_deletecookie')) {
+    function helper_deletecookie($name)
+    {
+        if (!empty(helper_getcookie($name))) {
+            setcookie(get_general_settings()->cookie_prefix . '_' . $name, "", time() - 3600, "/");
+        }
+    }
+}
+
+//set session
+if (!function_exists('helper_setsession')) {
+    function helper_setsession($name, $value)
+    {
+        global $CI4;
+        $CI4->session->set($name, $value);
+    }
+}
+
+//get session
+if (!function_exists('helper_getsession')) {
+    function helper_getsession($name, $data_type = 'string')
+    {
+        global $CI4;
+        if (!empty($CI4->session->get($name))) {
+            return $CI4->session->get($name);
+        }
+        if ($data_type == 'int') {
+            return 0;
+        }
+        return "";
     }
 }

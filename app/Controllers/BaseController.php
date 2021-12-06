@@ -42,7 +42,7 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['custom_helper', 'form', 'security', 'url'];
+    protected $helpers = ['custom_helper', 'form', 'security', 'url', 'cookie'];
 
     # Create Custom variable
     protected $bcrypt;
@@ -54,7 +54,7 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-        $userModel = new UserModel();
+        $this->userModel = new UserModel();
         $RolesPermissionsModel = new Roles_permissionsModel();
         $this->general_settings = get_general_settings();
         $this->routes = get_routes();
@@ -65,6 +65,9 @@ class BaseController extends Controller
         $this->agent = $this->request->getUserAgent();
 
         register_CI4($this); // Registering controller instance for helpers;
+
+        //check auth
+        $this->auth_check = auth_check();
 
         //lang base url
         $this->lang_base_url = base_url();

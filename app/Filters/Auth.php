@@ -27,7 +27,7 @@ class Auth implements FilterInterface
     {
         helper("custom");
         if (!auth_check()) {
-            return redirect()->route('auth');
+            return redirect()->route('admin/login');
         }
     }
 

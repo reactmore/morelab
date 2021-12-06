@@ -7,8 +7,6 @@ use CodeIgniter\Config\BaseConfig;
 class App extends BaseConfig
 {
 
-
-
     /**
      * --------------------------------------------------------------------------
      * Base Site URL

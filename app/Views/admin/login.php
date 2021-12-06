@@ -10,6 +10,21 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/adminlte.min.css">
+    <!-- jQuery -->
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <script>
+        csrfName = '<?php echo csrf_token() ?>';
+        csrfHash = '<?php echo csrf_hash() ?>';
+        baseUrl = "<?php echo base_url(); ?>";
+        userId = "<?php echo session()->get('vr_sess_user_id'); ?>";
+        select_image = "<?php echo trans("select_image"); ?>";
+        sweetalert_ok = "<?php echo trans("ok"); ?>";
+        sweetalert_cancel = "<?php echo trans("cancel"); ?>";
+        var sys_lang_id = "<?php echo ''; ?>";
+    </script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
 </head>
 
 <body class="hold-transition login-page">
@@ -23,7 +38,8 @@
 
                 <?php echo $this->include('admin/includes/_messages') ?>
 
-                <form action="<?php echo base_url(); ?>/AuthController/admin_login_post" method="post">
+                <form id="form_safe" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
+                    <input type="hidden" id="crsf">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="<?php echo trans('email') ?>" value="<?php echo old('email') ?>" required>
                         <div class="input-group-append">
@@ -58,8 +74,7 @@
     </div>
     <!-- /.login-box -->
 
-    <!-- jQuery -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery/jquery.min.js"></script>
+
     <!-- Bootstrap 4 -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
