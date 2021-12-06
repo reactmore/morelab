@@ -9,6 +9,11 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+# Custom Class
+use App\Libraries\Bcrypt;
+
+
+
 /**
  * Class BaseController
  *
@@ -35,7 +40,10 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['custom', 'form'];
+
+    # Create Custom variable
+    protected $bcrypt;
 
     /**
      * Constructor.
@@ -46,7 +54,42 @@ class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+        $this->bcrypt = new Bcrypt();
+        $this->session = \Config\Services::session();
+        $this->agent = $this->request->getUserAgent();
 
-        // E.g.: $this->session = \Config\Services::session();
+        register_CI4($this); // Registering controller instance for helpers;
+
+        //lang base url
+        $this->lang_base_url = base_url();
+        //languages
+        $this->languages = config('App')->language;
+        //site lang
+        $this->site_lang = $this->language_model->get_one($this->general_settings->site_lang);
+        if (empty($this->site_lang)) {
+            $this->site_lang = $this->language_model->get_one(1);
+        }
+        $this->selected_lang = $this->site_lang;
+        //set language
+        $lang_segment = $this->uri->segment(1);
+        foreach ($this->languages as $lang) {
+            if ($lang_segment == $lang->short_form) {
+                if ($this->general_settings->multilingual_system == 1) :
+                    $this->selected_lang = $lang;
+                    $this->lang_base_url = base_url() . $lang->short_form . "/";
+                else :
+                    redirect(base_url());
+                endif;
+            }
+        }
+        //set lang base url
+        if ($this->general_settings->site_lang == $this->selected_lang->id) {
+            $this->lang_base_url = base_url();
+        } else {
+            $this->lang_base_url = base_url() . $this->selected_lang->short_form . "/";
+        }
+
+        //language translations
+        $this->language_translations = $this->get_translation_array($this->selected_lang->id);
     }
 }

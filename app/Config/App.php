@@ -6,6 +6,9 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+    defined('SITE_VR_KEY') or define('SITE_VR_KEY', trim($config['general_settings']->vr_key));
+    defined('SITE_PRC_CD') or define('SITE_PRC_CD', trim($config['general_settings']->purchase_code));
+    defined('COOKIE_PREFIX') or define('COOKIE_PREFIX', trim($config['general_settings']->cookie_prefix));
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -36,7 +39,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = 'index.php';
+    public $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -461,4 +464,9 @@ class App extends BaseConfig
      * @var bool
      */
     public $CSPEnabled = false;
+
+    /*
+    * APP KEY
+    */
+    public $AppKey =  '5f634e0f730e32-80765296-66595989';
 }
