@@ -11,6 +11,11 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
+helper(['custom_helper']);
+
+$general_settings = get_general_settings();
+$custom_routes = get_routes();
+
 /*
  * --------------------------------------------------------------------
  * Router Setup
@@ -33,9 +38,20 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index', ['filter' => \App\Filters\Auth::class]);
 
-$routes->get('/auth', 'AuthController::index');
 
-// $routes->get('Home', ' AuthController::index', );
+/*
+ * --------------------------------------------------------------------
+ * Route Common No Need Auth
+ * --------------------------------------------------------------------
+ */
+
+$routes->get("/$custom_routes->admin/login", 'Common::index');
+
+/*
+ * --------------------------------------------------------------------
+ * Route Common Need Auth
+ * --------------------------------------------------------------------
+ */
 
 
 /*

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
+
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
@@ -20,7 +20,7 @@ use App\Libraries\Bcrypt;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-class AdminController extends Controller
+class AdminController extends BaseController
 {
     /**
      * Instance of the main Request object.
@@ -49,10 +49,12 @@ class AdminController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-
         // Preload any models, libraries, etc, here.
-        $this->bcrypt = new Bcrypt();
-        $this->session = \Config\Services::session();
-        $this->agent = $this->request->getUserAgent();
+        $this->control_panel_lang = $this->selected_lang;
+        if (!empty($this->session->get('vr_control_panel_lang'))) {
+            $this->control_panel_lang = $this->session->get('vr_control_panel_lang');
+            //language translations
+            $this->language_translations = $this->get_translation_array($this->control_panel_lang->id);
+        }
     }
 }

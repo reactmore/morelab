@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\UserModel;
 
 $CI4 = new \App\Controllers\BaseController;
 
@@ -56,7 +56,7 @@ if (!function_exists('get_langguage_id')) {
 if (!function_exists('auth_check')) {
     function auth_check()
     {
-        $user_model = new User;
+        $user_model = new UserModel;
         return $user_model->is_logged_in();
     }
 }
@@ -178,6 +178,107 @@ if (!function_exists('lang_base_url')) {
     {
         global $CI4;
         return $CI4->lang_base_url;
+    }
+}
+
+
+//current full url
+if (!function_exists('current_full_url')) {
+    function current_full_url()
+    {
+        $current_url = current_url();
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $current_url = $current_url . "?" . $_SERVER['QUERY_STRING'];
+        }
+        return $current_url;
+    }
+}
+
+//check auth
+if (!function_exists('auth_check')) {
+    function auth_check()
+    {
+        global $CI4;
+        return $CI4->auth_model->is_logged_in();
+    }
+}
+
+//check admin
+if (!function_exists('is_admin')) {
+    function is_admin()
+    {
+        global $CI4;
+        return $CI4->auth_model->is_admin();
+    }
+}
+
+//check user permission
+if (!function_exists('check_user_permission')) {
+    function check_user_permission($section)
+    {
+        global $CI4;
+        if ($CI4->auth_check) {
+            $user_role = $CI4->auth_user->role;
+            if ($user_role == 'admin') {
+                return true;
+            }
+            $role_permission = array_filter($CI4->roles_permissions, function ($item) use ($user_role) {
+                return $item->role == $user_role;
+            });
+            foreach ($role_permission as $key => $value) {
+                $role_permission = $value;
+                break;
+            }
+            if (!empty($role_permission) && $role_permission->$section == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+//check permission
+if (!function_exists('check_permission')) {
+    function check_permission($section)
+    {
+        if (!check_user_permission($section)) {
+            redirect(lang_base_url());
+        }
+    }
+}
+
+//check permission
+if (!function_exists('check_admin')) {
+    function check_admin()
+    {
+        if (!is_admin()) {
+            redirect(lang_base_url());
+        }
+    }
+}
+
+
+//admin url
+if (!function_exists('admin_url')) {
+    function admin_url()
+    {
+        global $CI4;
+        return base_url() . $CI4->routes->admin . '/';
+    }
+}
+
+//generate base url
+if (!function_exists('generate_base_url')) {
+    function generate_base_url($lang)
+    {
+        global $CI4;
+        if (!empty($lang)) {
+            if ($CI4->selected_lang->id == $lang->id) {
+                return base_url();
+            }
+            return base_url() . $lang->short_form . "/";
+        }
+        return lang_base_url();
     }
 }
 

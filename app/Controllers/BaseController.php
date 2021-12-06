@@ -11,6 +11,8 @@ use Psr\Log\LoggerInterface;
 
 # Custom Class
 use App\Libraries\Bcrypt;
+use App\Models\UserModel;
+use App\Models\Roles_permissionsModel;
 
 
 
@@ -40,7 +42,7 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['custom', 'form'];
+    protected $helpers = ['custom_helper', 'form', 'security', 'url'];
 
     # Create Custom variable
     protected $bcrypt;
@@ -52,7 +54,8 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-
+        $userModel = new UserModel();
+        $RolesPermissionsModel = new Roles_permissionsModel();
         $this->general_settings = get_general_settings();
         $this->routes = get_routes();
 
@@ -95,6 +98,7 @@ class BaseController extends Controller
 
         //language translations
         $this->language_translations = $this->get_translation_array($this->selected_lang->id);
+        $this->roles_permissions = $RolesPermissionsModel->get_roles_permissions();
     }
 
     public function get_translation_array($land_id)

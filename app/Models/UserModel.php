@@ -6,21 +6,11 @@ use CodeIgniter\Model;
 use App\Libraries\Bcrypt;
 
 
-class User extends Model
+class UserModel extends Model
 {
 
     protected $table            = 'users';
     protected $primaryKey       = 'id';
-
-    protected $allowedFields    = [];
-
-
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
-
 
     // Custom 
     protected $bcrypt;
