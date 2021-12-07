@@ -245,7 +245,7 @@
 				</li>
 				<li class="menu-item hidden"><a href="<?php echo base_url(); ?>">Home</a></li>
 				<li class="menu-item hidden"><a href="<?php echo admin_url(); ?>">Dashboard</a></li>
-				<li class="menu-item hidden"><a href="<?php echo admin_url(); ?>">Login</a></li>
+				<li class="menu-item hidden"><a href="<?php echo generate_url('logout'); ?>">logout</a></li>
 			</ul>
 		</div>
 

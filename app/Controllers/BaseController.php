@@ -16,6 +16,7 @@ use App\Models\Roles_permissionsModel;
 
 
 
+
 /**
  * Class BaseController
  *
@@ -42,7 +43,7 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['custom_helper', 'form', 'security', 'url', 'cookie'];
+    protected $helpers = ['custom_helper', 'form', 'security', 'url', 'cookie', 'date'];
 
     # Create Custom variable
     protected $bcrypt;
@@ -54,10 +55,20 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+
+
+
         $this->userModel = new UserModel();
         $RolesPermissionsModel = new Roles_permissionsModel();
         $this->general_settings = get_general_settings();
         $this->routes = get_routes();
+
+
+        //set timezone
+        if (!empty($this->general_settings->timezone)) {
+            date_default_timezone_set($this->general_settings->timezone);
+        }
+
 
         // Preload any models, libraries, etc, here.
         $this->bcrypt = new Bcrypt();

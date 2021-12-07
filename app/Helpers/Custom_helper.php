@@ -203,6 +203,22 @@ if (!function_exists('auth_check')) {
     }
 }
 
+//get logged user
+if (!function_exists('user')) {
+    function user()
+    {
+        $user_model = new UserModel;
+        $user = $user_model->get_logged_user();
+        if (empty($user)) {
+            $user_model->logout();
+            return redirect()->back();
+            exit();
+        } else {
+            return $user;
+        }
+    }
+}
+
 //check admin
 if (!function_exists('is_admin')) {
     function is_admin()
@@ -315,8 +331,14 @@ if (!function_exists('generate_url')) {
 if (!function_exists('helper_setcookie')) {
     function helper_setcookie($name, $value)
     {
+        set_cookie([
+            'name' => $name,
+            'value' => $value,
+            'expire' => time() + (86400 * 30),
+            'domain' => base_url(),
+            'path' => '/'
 
-        setcookie(get_general_settings()->cookie_prefix . '_' . $name, $value, time() + (86400 * 30), "/"); //30 days
+        ]);
     }
 }
 
@@ -324,10 +346,8 @@ if (!function_exists('helper_setcookie')) {
 if (!function_exists('helper_getcookie')) {
     function helper_getcookie($name, $data_type = 'string')
     {
-        $general_setting = get_general_settings();
-
-        if (isset($_COOKIE[$general_setting->cookie_prefix . '_' . $name])) {
-            return $_COOKIE[$general_setting->cookie_prefix . '_' . $name];
+        if (get_cookie($name)) {
+            return get_cookie($name);
         }
         if ($data_type == 'int') {
             return 0;
@@ -341,7 +361,14 @@ if (!function_exists('helper_deletecookie')) {
     function helper_deletecookie($name)
     {
         if (!empty(helper_getcookie($name))) {
-            setcookie(get_general_settings()->cookie_prefix . '_' . $name, "", time() - 3600, "/");
+            set_cookie([
+                'name' => $name,
+                'value' => "",
+                'expire' => time() - 3600,
+                'domain' => base_url(),
+                'path' => '/'
+
+            ]);
         }
     }
 }

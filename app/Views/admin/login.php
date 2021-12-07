@@ -19,10 +19,6 @@
         csrfHash = '<?php echo csrf_hash() ?>';
         baseUrl = "<?php echo base_url(); ?>";
         userId = "<?php echo session()->get('vr_sess_user_id'); ?>";
-        select_image = "<?php echo trans("select_image"); ?>";
-        sweetalert_ok = "<?php echo trans("ok"); ?>";
-        sweetalert_cancel = "<?php echo trans("cancel"); ?>";
-        var sys_lang_id = "<?php echo ''; ?>";
     </script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
 </head>
@@ -32,12 +28,11 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="<?php echo base_url(); ?>/public/assets/admin/index2.html" class="h1"><b>Admin</b>LTE</a>
+                <a href="<?php echo base_url(); ?>/public/assets/admin/index2.html" class="h1"><b><?php echo get_general_settings()->application_name ?></b></a>
             </div>
             <div class="card-body">
 
                 <?php echo $this->include('admin/includes/_messages') ?>
-
                 <form id="form_safe" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
                     <input type="hidden" id="crsf">
                     <div class="input-group mb-3">
@@ -48,7 +43,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
+
+
+                    <div class="input-group ">
                         <input type="password" name="password" class="form-control" placeholder="<?php echo trans('form_password') ?>" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -56,10 +53,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <small><a href="#"><?php echo trans('forgot_password') ?></a></small>
+
+                    <div class="row mt-4">
                         <div class="col-8">
-                            <a href="forgot-password.html"><?php echo trans('forgot_password') ?></a>
+                            <div class="icheck-primary">
+                                <input type="checkbox" name="remember_me" id="remember" value="1">
+                                <label for="remember">
+                                    <?php echo trans("remember_me"); ?>
+                                </label>
+                            </div>
                         </div>
+
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block"><?php echo trans("login"); ?></button>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use CodeIgniter\I18n\Time;
 
 class Common extends BaseController
 {
@@ -15,13 +16,11 @@ class Common extends BaseController
 
     public function index()
     {
+        if (auth_check()) {
+            return redirect()->to(admin_url());
+        }
+
         $data['title'] = trans('login');
-
-        set_cookie([
-            'name' => 'auth_cookie_id',
-            'value' => 'value_of_cookie',
-
-        ]);
 
         return view('admin/login', $data);
     }
@@ -50,7 +49,12 @@ class Common extends BaseController
             }
 
             if ($userModel->login()) {
-                return redirect()->to('/');
+                //remember user
+                $remember_me = $this->request->getVar('remember_me');
+                if ($remember_me == 1) {
+                    $this->response->setCookie('remember_user_id', user()->id, time() + 86400)->setHeader('Location', '/');
+                }
+                return redirect()->to(admin_url())->withCookies();
             } else {
                 return redirect()->back()->withInput()->with('error', $validation->getErrors());
             }
@@ -73,7 +77,6 @@ class Common extends BaseController
         $this->session->remove('vr_sess_app_key');
         $this->session->remove('vr_sess_user_ps');
         helper_deletecookie("remember_user_id");
-
         return redirect()->to('/');
     }
 }

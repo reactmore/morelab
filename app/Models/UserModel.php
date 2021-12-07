@@ -66,6 +66,7 @@ class UserModel extends Model
                 'vr_sess_app_key' => config('app')->AppKey,
             );
             $this->session->set($user_data);
+
             return true;
         } else {
             $this->session->setFlashData('errors_form', 'Wrong username or password!');
@@ -100,5 +101,68 @@ class UserModel extends Model
         $sql = "SELECT * FROM users WHERE users.id = ?";
         $query = $this->db->query($sql, array(clean_number($id)));
         return $query->getRow();
+    }
+
+    //update last seen time
+    public function update_last_seen()
+    {
+        // if ($this->auth_check) {
+        //     //update last seen
+        //     $data = array(
+        //         'last_seen' => date("Y-m-d H:i:s"),
+        //     );
+        //     $this->db->where('id', $this->auth_user->id);
+        //     $this->db->update('users', $data);
+        // }
+    }
+
+    //remember me
+    public function remember_me($user_id)
+    {
+        helper_setcookie('remember_user_id', $user_id);
+    }
+
+    //check remember
+    public function check_remember()
+    {
+        $user_id = get_cookie('remember_user_id');
+        if (!empty($user_id)) {
+            $user = $this->get_user($user_id);
+            if (!empty($user)) {
+                $this->login_direct($user);
+            }
+        }
+    }
+
+    //login direct
+    public function login_direct($user)
+    {
+        //set user data
+        $user_data = array(
+            'vr_sess_user_id' => $user->id,
+            'vr_sess_user_email' => $user->email,
+            'vr_sess_user_role' => $user->role,
+            'vr_sess_logged_in' => true,
+            'vr_sess_user_ps' => md5($user->password),
+            'vr_sess_app_key' => config('app')->AppKey,
+        );
+
+        $this->session->set($user_data);
+    }
+
+    //function get user
+    public function get_logged_user()
+    {
+        if ($this->session->get('vr_sess_logged_in') == true && $this->session->get('vr_sess_app_key') == config('app')->AppKey && !empty($this->session->get('vr_sess_user_id'))) {
+            $sess_user_id = @clean_number($this->session->get('vr_sess_user_id'));
+            if (!empty($sess_user_id)) {
+                $sess_pass = $this->session->get("vr_sess_user_ps");
+                $user = $this->get_user($sess_user_id);
+                if (!empty($user) && !empty($sess_pass) && md5($user->password) == $sess_pass) {
+                    return $user;
+                }
+            }
+        }
+        return false;
     }
 }

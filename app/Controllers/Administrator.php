@@ -8,7 +8,9 @@ class Administrator extends AdminController
 {
     public function index()
     {
-        return view('welcome_message');
+        $data['title'] = trans('dashboard');
+
+        return view('admin/dashboard', $data);
     }
     public function index2()
     {

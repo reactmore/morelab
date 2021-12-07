@@ -36,7 +36,7 @@ class AdminController extends BaseController
      *
      * @var array
      */
-    protected $helpers = ['custom', 'form'];
+    protected $helpers = ['custom_helper', 'form', 'cookie'];
 
     # Create Custom variable
     protected $bcrypt;
