@@ -22,7 +22,7 @@
 - Windows 10 
 - Laragon
 - Visual Studio 
-- Visual Studio 
+- PHP 8 
 
 
 ## What is CodeIgniter?

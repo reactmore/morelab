@@ -16,7 +16,7 @@
 
     <script>
         csrfName = '<?php echo csrf_token() ?>';
-        csrfHash = '<?php echo csrf_hash() ?>';
+        csrfCookie = '<?php echo config('cookie')->prefix . config('security')->cookieName ?>';
         baseUrl = "<?php echo base_url(); ?>";
         userId = "<?php echo session()->get('vr_sess_user_id'); ?>";
     </script>

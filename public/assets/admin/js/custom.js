@@ -5,9 +5,8 @@
 
 $(document).ready(function () {
     $('#wait').hide();
-
     $("form").on('submit', function () {
-        $("#crsf").attr("name", csrfName).val(csrfHash);
+        $("#crsf").attr("name", csrfName).val($.cookie(csrfCookie));
     });
 
     $("#checkAll").on('click', function () {
@@ -34,74 +33,6 @@ document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
     });
 });
 
-document.querySelectorAll('#role').forEach(function (role) {
-    role.addEventListener("change", function (event) {
-
-        var selected = event.target.value;
-        const result = document.querySelector('#addon_info');
-        const button = document.querySelector('#single_submit');
-
-        if (selected === 'employee') {
-            result.style.display = "block";
-            button.style.display = "none";
-            document.querySelector('[data-required="true"]').required = true;
-        } else {
-            result.style.display = "none";
-            button.style.display = "block";
-            document.querySelector('[data-required="true"]').required = false;
-        }
-        get_department();
-        $('.department').change(function () {
-            var dept_id = $('.department').val();
-            get_positions_by_id(dept_id);
-        });
-
-    });
-});
-
-$('.edit_department').change(function () {
-    var dept_id = $('.edit_department').val();
-    get_positions_by_id(dept_id);
-});
-
-function get_department() {
-
-
-    $.ajax({
-        url: baseUrl + "ajax_controller/get_department",
-        method: "GET",
-        async: true,
-        dataType: 'json',
-        success: function (data) {
-            var html = '';
-            var i;
-            for (i = 0; i < data.length; i++) {
-                html += '<option value=' + data[i].id + '>' + data[i].text + '</option>';
-            }
-
-            $('.department').html(html);
-
-        }
-    });
-}
-
-function get_positions_by_id(id) {
-    $.ajax({
-        url: baseUrl + "ajax_controller/get_positions/" + id,
-        method: "GET",
-        async: true,
-        dataType: 'json',
-        success: function (data) {
-            var html = '';
-            var i;
-            for (i = 0; i < data.length; i++) {
-                html += '<option value=' + data[i].id + '>' + data[i].text + '</option>';
-            }
-            $('.positions').html(html);
-
-        }
-    });
-}
 
 function generateUniqueString(prefix) {
     var time = String(new Date().getTime()),
@@ -191,7 +122,8 @@ function ban_user(id, message, option) {
                 'id': id,
                 'option': option
             };
-            data[csfr_token_name] = $.cookie(csfr_cookie_name);
+            const newLocal = $.cookie(csfr_cookie_name);
+            data[csfr_token_name] = newLocal;
             $.ajax({
                 type: "POST",
                 url: baseUrl + "admin_controller/ban_user_post",

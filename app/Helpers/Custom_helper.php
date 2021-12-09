@@ -332,7 +332,7 @@ if (!function_exists('helper_setcookie')) {
     function helper_setcookie($name, $value)
     {
         set_cookie([
-            'name' => $name,
+            'name' => config('cookie')->prefix . '_' . $name,
             'value' => $value,
             'expire' => time() + (86400 * 30),
             'domain' => base_url(),
@@ -346,8 +346,8 @@ if (!function_exists('helper_setcookie')) {
 if (!function_exists('helper_getcookie')) {
     function helper_getcookie($name, $data_type = 'string')
     {
-        if (get_cookie($name)) {
-            return get_cookie($name);
+        if (get_cookie(config('cookie')->prefix . '_' . $name)) {
+            return get_cookie(config('cookie')->prefix . '_' . $name);
         }
         if ($data_type == 'int') {
             return 0;
@@ -362,7 +362,7 @@ if (!function_exists('helper_deletecookie')) {
     {
         if (!empty(helper_getcookie($name))) {
             set_cookie([
-                'name' => $name,
+                'name' => config('cookie')->prefix . '_' . $name,
                 'value' => "",
                 'expire' => time() - 3600,
                 'domain' => base_url(),

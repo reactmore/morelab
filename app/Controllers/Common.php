@@ -52,7 +52,7 @@ class Common extends BaseController
                 //remember user
                 $remember_me = $this->request->getVar('remember_me');
                 if ($remember_me == 1) {
-                    $this->response->setCookie('remember_user_id', user()->id, time() + 86400)->setHeader('Location', '/');
+                    $this->response->setCookie(config('cookie')->prefix . '_remember_user_id', user()->id, time() + 86400)->setHeader('Location', '/');
                 }
                 return redirect()->to(admin_url())->withCookies();
             } else {
