@@ -12,12 +12,14 @@ class Administrator extends AdminController
 
         return view('admin/dashboard', $data);
     }
-    public function index2()
+    public function users()
     {
-        return view('welcome_message');
-    }
-    public function index3()
-    {
-        return view('welcome_message');
+        $data['title'] = trans("users");
+        //paginate
+        $data['paginate'] = $this->userModel->userPaginate();
+        $data['pager'] =  $data['paginate']['pager'];
+
+
+        return view('admin/users/users', $data);
     }
 }

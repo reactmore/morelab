@@ -41,6 +41,7 @@ $routes->get('/', 'Home::index');
 $routes->group("admin", ["filter" => \App\Filters\Auth::class], function ($routes) {
     $routes->get('', 'Administrator::index');
     $routes->get('dashboard', 'Administrator::index');
+    $routes->get('users', 'Administrator::users');
 });
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');

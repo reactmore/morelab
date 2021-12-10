@@ -41,6 +41,7 @@ class AdminController extends BaseController
     # Create Custom variable
     protected $bcrypt;
     protected $agent;
+    protected $uri;
 
     /**
      * Constructor.
@@ -49,6 +50,7 @@ class AdminController extends BaseController
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        $this->uri = service('uri');
         // Preload any models, libraries, etc, here.
         $this->control_panel_lang = $this->selected_lang;
         if (!empty($this->session->get('vr_control_panel_lang'))) {

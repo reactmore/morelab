@@ -26,6 +26,7 @@ class UserModel extends Model
         $this->session = session();
         $this->db = db_connect();
         $this->request = \Config\Services::request();
+        // $this->builder = $this->table('mytable');
     }
 
     //input values
@@ -164,5 +165,47 @@ class UserModel extends Model
             }
         }
         return false;
+    }
+
+    public function userPaginate()
+    {
+        $request = service('request');
+        $show = 15;
+        if ($request->getGet('show')) {
+            $show = $request->getGet('show');
+        }
+
+        $paginateData = $this->select('users.*, roles_permissions.role_name as role')
+            ->join('roles_permissions', 'users.role = roles_permissions.role');
+
+        $search = trim($request->getGet('search'));
+        if (!empty($search)) {
+            $this->builder()->groupStart()
+                ->like('username', clean_str($search))
+                ->orLike('email', clean_str($search))
+                ->groupEnd();
+        }
+
+        $status = trim($request->getGet('status'));
+        if ($status != null && ($status == 1 || $status == 0)) {
+            $this->builder()->where('status', clean_number($status));
+        }
+
+        $email_status = trim($request->getGet('email_status'));
+        if ($email_status != null && ($email_status == 1 || $email_status == 0)) {
+            $this->builder()->where('email_status', clean_number($email_status));
+        }
+
+        $role = trim($request->getGet('role'));
+        if (!empty($role)) {
+            $this->builder()->where('role', clean_str($role));
+        }
+
+        $result = $paginateData->paginate($show, 'default');
+
+        return [
+            'users'  =>  $result,
+            'pager'     => $this->pager,
+        ];
     }
 }

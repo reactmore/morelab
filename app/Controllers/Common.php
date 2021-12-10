@@ -79,4 +79,12 @@ class Common extends BaseController
         helper_deletecookie("remember_user_id");
         return redirect()->to('/');
     }
+
+    public function run_internal_cron()
+    {
+        if ($this->request->isAJAX()) {
+            //delete old sessions
+            $this->db->query("DELETE FROM ci_sessions WHERE timestamp < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 3 DAY))");
+        }
+    }
 }

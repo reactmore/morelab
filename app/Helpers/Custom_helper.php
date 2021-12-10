@@ -396,3 +396,104 @@ if (!function_exists('helper_getsession')) {
         return "";
     }
 }
+
+//check admin nav
+if (!function_exists('is_admin_nav_active')) {
+    function is_admin_nav_active($array_nav_items, $class = 'active')
+    {
+
+        $uri = service('uri');
+        $segment1 = @$uri->getSegment(1);
+        $segment2 = @$uri->getSegment(2);
+        if (!empty($segment2) && !empty($array_nav_items)) {
+            if (in_array($segment2, $array_nav_items)) {
+                echo ' ' . $class;
+            }
+        } else {
+            if (in_array($segment1, $array_nav_items)) {
+                echo ' ' . $class;
+            }
+        }
+    }
+}
+
+//check admin nav
+if (!function_exists('is_auth_nav_active')) {
+    function is_auth_nav_active()
+    {
+        global $CI4;
+        $uri = service('uri');
+        $segment1 = @$CI4->uri->segment(1);
+
+        if (in_array($segment1, [$CI4->routes->admin, $CI4->routes->register, $CI4->routes->login, $CI4->routes->change_password, $CI4->routes->forgot_password, $CI4->routes->reset_password, 'unsubscribe', 'confirm'])) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+//get user avatar
+if (!function_exists('get_user_avatar')) {
+    function get_user_avatar($avatar_path)
+    {
+        if (!empty($avatar_path)) {
+            if (file_exists(FCPATH . $avatar_path)) {
+                return base_url() . $avatar_path;
+            } else {
+                return $avatar_path;
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/user.png";
+        }
+    }
+}
+
+//date format
+if (!function_exists('replace_month_name')) {
+    function replace_month_name($str)
+    {
+        $str = trim($str);
+        $str = str_replace("Jan", trans("January"), $str);
+        $str = str_replace("Feb", trans("February"), $str);
+        $str = str_replace("Mar", trans("March"), $str);
+        $str = str_replace("Apr", trans("April"), $str);
+        $str = str_replace("May", trans("May"), $str);
+        $str = str_replace("Jun", trans("June"), $str);
+        $str = str_replace("Jul", trans("July"), $str);
+        $str = str_replace("Aug", trans("August"), $str);
+        $str = str_replace("Sep", trans("September"), $str);
+        $str = str_replace("Oct", trans("October"), $str);
+        $str = str_replace("Nov", trans("November"), $str);
+        $str = str_replace("Dec", trans("December"), $str);
+        return $str;
+    }
+}
+
+//date format
+if (!function_exists('helper_date_format')) {
+    function helper_date_format($datetime)
+    {
+        $date = date("M j, Y", strtotime($datetime));
+        $date = replace_month_name($date);
+        return $date;
+    }
+}
+
+//date format
+if (!function_exists('custom_date_format')) {
+    function custom_date_format($format, $datetime)
+    {
+        $date = date($format, strtotime($datetime));
+        $date = replace_month_name($date);
+        return $date;
+    }
+}
+
+//print date
+if (!function_exists('formatted_date')) {
+    function formatted_date($timestamp)
+    {
+        return date("Y-m-d / H:i", strtotime($timestamp));
+    }
+}
