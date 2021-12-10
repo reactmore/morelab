@@ -1,4 +1,4 @@
-# CodeIgniter 4 Framework
+# Reactmore Admin Panel With Codeigniter 4 
 
 ## TO DO
 - [x] Auth
@@ -31,6 +31,7 @@
 - Laragon
 - Visual Studio 
 - PHP 8 
+- Codeigniter Version 4.1.5
 
 
 ## What is CodeIgniter?
