@@ -79,6 +79,12 @@ class BaseController extends Controller
 
         //check auth
         $this->auth_check = auth_check();
+        if ($this->auth_check) {
+            $this->auth_user = user();
+        } else {
+            //check remember
+            $this->userModel->check_remember();
+        }
 
         //lang base url
         $this->lang_base_url = base_url();
@@ -113,6 +119,9 @@ class BaseController extends Controller
         //language translations
         $this->language_translations = $this->get_translation_array($this->selected_lang->id);
         $this->roles_permissions = $RolesPermissionsModel->get_roles_permissions();
+
+        //update last seen
+        $this->userModel->update_last_seen();
     }
 
     public function get_translation_array($land_id)

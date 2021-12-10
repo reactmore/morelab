@@ -25,6 +25,7 @@ class UserModel extends Model
         $this->bcrypt = new Bcrypt();
         $this->session = session();
         $this->db = db_connect();
+
         $this->request = \Config\Services::request();
         // $this->builder = $this->table('mytable');
     }
@@ -107,14 +108,14 @@ class UserModel extends Model
     //update last seen time
     public function update_last_seen()
     {
-        // if ($this->auth_check) {
-        //     //update last seen
-        //     $data = array(
-        //         'last_seen' => date("Y-m-d H:i:s"),
-        //     );
-        //     $this->db->where('id', $this->auth_user->id);
-        //     $this->db->update('users', $data);
-        // }
+        if (auth_check()) {
+            //update last seen
+            $data = array(
+                'last_seen' => date("Y-m-d H:i:s"),
+            );
+            $this->builder()->where('id', user()->id);
+            $this->builder()->update($data);
+        }
     }
 
     //remember me
