@@ -20,7 +20,7 @@ class UserTable extends Seeder
                 'email_status' => 1,
                 'token' => NULL,
                 'password' => '$2a$08$sPowX6bGos9lGrtf3PDzjO2C8ClUf90RhXRbEG15e6rqrJVdA4pPC', //reactmorcom321
-                'role' => 'admin',
+                'role' => 'user',
                 'user_type' => 'registered',
                 'google_id' => NULL,
                 'facebook_id' => NULL,

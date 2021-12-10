@@ -49,7 +49,6 @@
                                                     <th><?php echo trans('fullname'); ?></th>
                                                     <th><?php echo trans('username'); ?></th>
                                                     <th><?php echo trans('email'); ?></th>
-                                                    <th><?php echo trans('role'); ?></th>
                                                     <th><?php echo trans('status'); ?></th>
                                                     <th><?php echo trans('date'); ?></th>
                                                     <th class="max-width-120"><?php echo trans('options'); ?></th>
@@ -74,7 +73,6 @@
                                                                 <small class="text-danger">(<?php echo trans("unconfirmed"); ?>)</small>
                                                             <?php endif; ?>
                                                         </td>
-                                                        <td><?php echo $user['role']; ?></td>
                                                         <td>
                                                             <?php if ($user['status'] == 1) : ?>
                                                                 <span class="badge badge-success-lighten"><?php echo trans('active'); ?></span>

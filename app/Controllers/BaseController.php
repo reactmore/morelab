@@ -56,10 +56,8 @@ class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-
-
         $this->userModel = new UserModel();
-        $RolesPermissionsModel = new Roles_permissionsModel();
+        $this->RolesPermissionsModel = new Roles_permissionsModel();
         $this->general_settings = get_general_settings();
         $this->routes = get_routes();
 
@@ -118,7 +116,7 @@ class BaseController extends Controller
 
         //language translations
         $this->language_translations = $this->get_translation_array($this->selected_lang->id);
-        $this->roles_permissions = $RolesPermissionsModel->get_roles_permissions();
+        $this->roles_permissions = $this->RolesPermissionsModel->get_roles_permissions();
 
         //update last seen
         $this->userModel->update_last_seen();

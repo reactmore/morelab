@@ -177,29 +177,72 @@ class UserModel extends Model
         }
 
         $paginateData = $this->select('users.*, roles_permissions.role_name as role')
-            ->join('roles_permissions', 'users.role = roles_permissions.role');
+            ->join('roles_permissions', 'users.role = roles_permissions.role')
+            ->where('users.role !=', 'admin');
 
         $search = trim($request->getGet('search'));
         if (!empty($search)) {
             $this->builder()->groupStart()
-                ->like('username', clean_str($search))
-                ->orLike('email', clean_str($search))
+                ->like('users.username', clean_str($search))
+                ->orLike('users.first_name', clean_str($search))
+                ->orLike('users.last_name', clean_str($search))
+                ->orLike('users.email', clean_str($search))
                 ->groupEnd();
         }
 
         $status = trim($request->getGet('status'));
         if ($status != null && ($status == 1 || $status == 0)) {
-            $this->builder()->where('status', clean_number($status));
+            $this->builder()->where('users.status', clean_number($status));
         }
 
         $email_status = trim($request->getGet('email_status'));
         if ($email_status != null && ($email_status == 1 || $email_status == 0)) {
-            $this->builder()->where('email_status', clean_number($email_status));
+            $this->builder()->where('users.email_status', clean_number($email_status));
         }
 
         $role = trim($request->getGet('role'));
         if (!empty($role)) {
-            $this->builder()->where('role', clean_str($role));
+            $this->builder()->where('users.role', clean_str($role));
+        }
+
+        $result = $paginateData->paginate($show, 'default');
+
+        return [
+            'users'  =>  $result,
+            'pager'     => $this->pager,
+        ];
+    }
+
+    public function administratorsPaginate()
+    {
+        $request = service('request');
+        $show = 15;
+        if ($request->getGet('show')) {
+            $show = $request->getGet('show');
+        }
+
+        $paginateData = $this->select('users.*, roles_permissions.role_name as role')
+            ->join('roles_permissions', 'users.role = roles_permissions.role')
+            ->where('users.role', 'admin');
+
+        $search = trim($request->getGet('search'));
+        if (!empty($search)) {
+            $this->builder()->groupStart()
+                ->like('users.username', clean_str($search))
+                ->orLike('users.first_name', clean_str($search))
+                ->orLike('users.last_name', clean_str($search))
+                ->orLike('users.email', clean_str($search))
+                ->groupEnd();
+        }
+
+        $status = trim($request->getGet('status'));
+        if ($status != null && ($status == 1 || $status == 0)) {
+            $this->builder()->where('users.status', clean_number($status));
+        }
+
+        $email_status = trim($request->getGet('email_status'));
+        if ($email_status != null && ($email_status == 1 || $email_status == 0)) {
+            $this->builder()->where('users.email_status', clean_number($email_status));
         }
 
         $result = $paginateData->paginate($show, 'default');

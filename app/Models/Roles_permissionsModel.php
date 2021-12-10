@@ -17,6 +17,14 @@ class Roles_permissionsModel extends Model
         return $query->getResult();
     }
 
+    //get roles and permissions W/o Admin
+    public function get_roles()
+    {
+        $sql = "SELECT * FROM $this->table WHERE role != ?";
+        $query = $this->db->query($sql, array('admin'));
+        return $query->getResult();
+    }
+
     //get role
     public function get_role($id)
     {
