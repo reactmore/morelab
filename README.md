@@ -10,8 +10,16 @@
     - [ ] Facebook
 - [x] Admin Panel
     - [x] Dashboard
-    - [ ] User Management
-    - [ ] User Permission
+    - [x] CRUD User Management
+        - [x] User Paginate
+            - [ ] Add
+            - [ ] Edit
+            - [ ] Deleted
+        - [x] Administrator Paginate
+             - [ ] Add
+             - [ ] Edit
+             - [ ] Deleted
+    - [ ] Permission Management
     - [ ] File Manager
     - [ ] Settings
     - [ ] Profile
