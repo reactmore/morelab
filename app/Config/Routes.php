@@ -43,7 +43,9 @@ $routes->group("admin", ["filter" => \App\Filters\Auth::class], function ($route
     $routes->get('dashboard', 'Administrator::index');
     $routes->get('administrators', 'Administrator::administrators');
     $routes->get('users', 'Administrator::users');
+    $routes->get('add-user', 'Administrator::add_user');
 });
+
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');
 $routes->get("/$custom_routes->logout", 'Common::logout');

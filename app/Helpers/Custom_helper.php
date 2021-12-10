@@ -223,8 +223,8 @@ if (!function_exists('user')) {
 if (!function_exists('is_admin')) {
     function is_admin()
     {
-        global $CI4;
-        return $CI4->auth_model->is_admin();
+        $user_model = new UserModel;
+        return $user_model->is_admin();
     }
 }
 

@@ -32,4 +32,13 @@ class Administrator extends AdminController
 
         return view('admin/users/users', $data);
     }
+
+    public function add_user()
+    {
+        check_admin();
+        $data['title'] = trans("add_user");
+        $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
+
+        return view('admin/users/add_users', $data);
+    }
 }

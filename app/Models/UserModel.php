@@ -76,6 +76,21 @@ class UserModel extends Model
         }
     }
 
+    //is admin
+    public function is_admin()
+    {
+        //check logged in
+        if (!$this->is_logged_in()) {
+            return false;
+        }
+        //check role
+        if (user()->role == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //is logged in
     public function is_logged_in()
     {

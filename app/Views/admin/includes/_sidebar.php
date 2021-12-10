@@ -44,7 +44,7 @@
                   <li class="nav-header"><?php echo trans('users') ?> Management</li>
 
                   <li class="nav-item <?php is_admin_nav_active(['users', 'edit-user', 'add-user', 'administrators'], 'menu-open'); ?>">
-                      <a href="#" class="nav-link <?php is_admin_nav_active(['users', 'edit-user', 'administrators'], 'active'); ?>">
+                      <a href="#" class="nav-link <?php is_admin_nav_active(['users', 'edit-user', 'add-user', 'administrators'], 'active'); ?>">
                           <i class="nav-icon fas fa-users"></i>
                           <p>
                               <?php echo trans("users"); ?>
