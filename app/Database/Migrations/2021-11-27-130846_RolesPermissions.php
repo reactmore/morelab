@@ -38,6 +38,15 @@ class RolesPermissions extends Migration
                 'type' => 'TINYINT',
                 'constraint' => '1',
                 'null' => true,
+            ],
+            'deleted' => [
+                'type' => 'TINYINT',
+                'constraint' => '1',
+                'null' => true,
+            ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
             ]
         ]);
         $this->forge->addKey('id', true);
