@@ -195,6 +195,7 @@ class UserModel extends Model
             ->join('roles_permissions', 'users.role = roles_permissions.role')
             ->where('users.role !=', 'admin');
 
+
         $search = trim($request->getGet('search'));
         if (!empty($search)) {
             $this->builder()->groupStart()

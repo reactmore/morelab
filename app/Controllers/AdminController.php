@@ -55,6 +55,7 @@ class AdminController extends BaseController
         $this->control_panel_lang = $this->selected_lang;
         if (!empty($this->session->get('vr_control_panel_lang'))) {
             $this->control_panel_lang = $this->session->get('vr_control_panel_lang');
+
             //language translations
             $this->language_translations = $this->get_translation_array($this->control_panel_lang->id);
         }

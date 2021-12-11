@@ -13,6 +13,7 @@ class Administrator extends AdminController
 
         return view('admin/dashboard', $data);
     }
+
     public function administrators()
     {
         $data['title'] = trans("administrators");
