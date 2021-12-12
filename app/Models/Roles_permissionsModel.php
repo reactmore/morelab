@@ -14,7 +14,7 @@ class Roles_permissionsModel extends Model
     {
         $sql = "SELECT * FROM $this->table";
         $query = $this->db->query($sql);
-        return $query->getResult();
+        return $query->getResultArray();
     }
 
     //get roles and permissions W/o Admin

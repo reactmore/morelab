@@ -34,6 +34,7 @@ class Administrator extends AdminController
         $data['paginate'] = $this->userModel->userPaginate();
         $data['pager'] =  $data['paginate']['pager'];
 
+
         return view('admin/users/users', $data);
     }
 
@@ -226,6 +227,85 @@ class Administrator extends AdminController
             $this->session->setFlashData('success', trans("user") . " " . trans("msg_suc_deleted"));
         } else {
             $this->session->setFlashData('error', trans("msg_error"));
+        }
+    }
+
+    /**
+     * Ban User Post
+     */
+    public function ban_user_post()
+    {
+        if (!check_user_permission('users')) {
+            exit();
+        }
+        $option = $this->request->getVar('option');
+        $id = $this->request->getVar('id');
+
+        $user = $this->userModel->asObject()->find($id);
+        if ($user->id == 1) {
+            $this->session->setFlashData('error', trans("msg_error"));
+            exit();
+        }
+
+        //if option ban
+        if ($option == 'ban') {
+            if ($this->userModel->ban_user($id)) {
+                $this->session->setFlashData('success', trans("msg_user_banned"));
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+            }
+        }
+
+        //if option remove ban
+        if ($option == 'remove_ban') {
+            if ($this->userModel->remove_user_ban($id)) {
+                $this->session->setFlashData('success', trans("msg_ban_removed"));
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+            }
+        }
+    }
+
+    /**
+     * Confirm User Email
+     */
+    public function confirm_user_email()
+    {
+        $id = $this->request->getVar('id');
+        $user = $this->userModel->asObject()->find($id);
+        if ($this->userModel->verify_email($user)) {
+            $this->session->setFlashData('success', trans("msg_updated"));
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+        }
+    }
+
+    /** 
+     * Change User Role
+     */
+    public function change_user_role_post()
+    {
+        check_permission('users');
+        $id = $this->request->getVar('user_id');
+        $role = $this->request->getVar('role');
+        $user = $this->userModel->asObject()->find($id);
+
+        //check if exists
+        if (empty($user)) {
+            return redirect()->back();
+        } else {
+            if ($user->id == 1) {
+                $this->session->setFlashData('error', trans("msg_error"));
+                return redirect()->back();
+                exit();
+            }
+            if ($this->userModel->change_user_role($id, $role)) {
+                $this->session->setFlashData('success', trans("msg_role_changed"));
+                return redirect()->back();
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+                return redirect()->back();
+            }
         }
     }
 }

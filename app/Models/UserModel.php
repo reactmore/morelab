@@ -100,6 +100,66 @@ class UserModel extends Model
         return false;
     }
 
+    //ban user
+    public function ban_user($id)
+    {
+        $id = clean_number($id);
+        $user = $this->get_user($id);
+        if (!empty($user)) {
+
+            $data = array(
+                'status' => 0
+            );
+            return $this->protect(false)->update($user->id, $data);
+        } else {
+            return false;
+        }
+    }
+
+    //remove user ban
+    public function remove_user_ban($id)
+    {
+        $id = clean_number($id);
+        $user = $this->get_user($id);
+
+        if (!empty($user)) {
+
+            $data = array(
+                'status' => 1
+            );
+
+            return $this->protect(false)->update($user->id, $data);
+        } else {
+            return false;
+        }
+    }
+
+    //change user role
+    public function change_user_role($id, $role)
+    {
+        $id = clean_number($id);
+        $data = array(
+            'role' => $role
+        );
+
+        return $this->protect(false)->update($id, $data);
+    }
+
+    //verify email
+    public function verify_email($user)
+    {
+        if (!empty($user)) {
+
+            $data = array(
+                'email_status' => 1,
+                'token' => generate_unique_id()
+            );
+
+            return $this->protect(false)->update($user->id, $data);
+        }
+        return false;
+    }
+
     //generate uniqe username
     public function generate_uniqe_username($username)
     {

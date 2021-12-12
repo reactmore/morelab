@@ -72,6 +72,23 @@ function custom_alert(type, msg, reload = true) {
     });
 };
 
+
+//confirm user email
+function confirm_user_email(id) {
+    var data = {
+        'id': id,
+    };
+    data[csrfName] = $.cookie(csrfCookie);
+    $.ajax({
+        type: "POST",
+        url: `${baseUrl}/administrator/confirm_user_email`,
+        data: data,
+        success: function (response) {
+            location.reload();
+        }
+    });
+};
+
 //delete item
 function delete_item(url, id, message) {
     Swal.fire({
@@ -124,11 +141,11 @@ function ban_user(id, message, option) {
                 'id': id,
                 'option': option
             };
-            const newLocal = $.cookie(csfr_cookie_name);
-            data[csfr_token_name] = newLocal;
+            const newLocal = $.cookie(csrfCookie);
+            data[csrfName] = newLocal;
             $.ajax({
                 type: "POST",
-                url: baseUrl + "admin_controller/ban_user_post",
+                url: `${baseUrl}/administrator/ban_user_post`,
                 data: data,
                 beforeSend: function () {
                     $("#wait").show();

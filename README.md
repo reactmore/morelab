@@ -13,8 +13,8 @@
     - [x] CRUD User Management
         - [x] User Paginate
             - [x] Add
-            - [ ] Edit
-            - [ ] Deleted
+            - [x] Edit
+            - [x] Deleted
         - [x] Administrator Paginate
              - [x] Add
              - [ ] Edit
