@@ -12,11 +12,11 @@
     - [x] Dashboard
     - [x] CRUD User Management
         - [x] User Paginate
-            - [ ] Add
+            - [x] Add
             - [ ] Edit
             - [ ] Deleted
         - [x] Administrator Paginate
-             - [ ] Add
+             - [x] Add
              - [ ] Edit
              - [ ] Deleted
     - [ ] Permission Management
