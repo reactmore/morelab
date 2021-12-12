@@ -52,9 +52,11 @@ function custom_alert(type, msg, reload = true) {
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
+
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer);
             toast.addEventListener('mouseleave', Swal.resumeTimer);
+            toast.addEventListener('click', Swal.close);
         },
         didClose: () => {
             if (reload) {
@@ -85,7 +87,7 @@ function delete_item(url, id, message) {
             var data = {
                 'id': id,
             };
-            data[csfr_token_name] = $.cookie(csfr_cookie_name);
+            data[csrfName] = $.cookie(csrfCookie);
             $.ajax({
                 type: "POST",
                 url: baseUrl + url,

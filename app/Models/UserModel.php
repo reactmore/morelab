@@ -85,6 +85,21 @@ class UserModel extends Model
         }
     }
 
+    //delete user
+    public function delete_user($id)
+    {
+        $id = clean_number($id);
+        $user = $this->get_user($id);
+        if (!empty($user)) {
+            if (file_exists(FCPATH . $user->avatar)) {
+                @unlink(FCPATH . $user->avatar);
+            }
+            //delete account
+            return $this->where('id', $id)->delete();
+        }
+        return false;
+    }
+
     //generate uniqe username
     public function generate_uniqe_username($username)
     {

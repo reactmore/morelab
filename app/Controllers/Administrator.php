@@ -108,6 +108,9 @@ class Administrator extends AdminController
         if (empty($data['user']->id)) {
             return redirect()->back();
         }
+
+
+
         // $data['user_option'] = $this->auth_model->get_user_options($data['user']->id);
         // $data["states"] = array();
         // $data["cities"] = array();
@@ -201,6 +204,28 @@ class Administrator extends AdminController
         } else {
             $this->session->setFlashData('errors_form', $validation->listErrors());
             return redirect()->back()->withInput()->with('error', $validation->getErrors());
+        }
+    }
+
+    /**
+     * Delete User Post
+     */
+    public function delete_user_post()
+    {
+        if (!check_user_permission('users')) {
+            exit();
+        }
+        $id = $this->request->getVar('id');
+        $user = $this->userModel->asObject()->find($id);
+
+        if ($user->id == 1) {
+            $this->session->set_flashdata('error', trans("msg_error"));
+            exit();
+        }
+        if ($this->userModel->delete_user($id)) {
+            $this->session->setFlashData('success', trans("user") . " " . trans("msg_suc_deleted"));
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
         }
     }
 }

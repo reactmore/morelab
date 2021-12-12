@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/custom.css">
@@ -21,9 +23,10 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
-        csfr_token_name = '<?php echo csrf_token() ?>';
-        csfr_cookie_name = '<?php echo csrf_hash() ?>';
+        csrfName = '<?php echo csrf_token() ?>';
+        csrfCookie = '<?php echo config('cookie')->prefix . config('security')->cookieName ?>';
         baseUrl = "<?php echo base_url(); ?>";
         userId = "<?php echo session()->get('vr_sess_user_id'); ?>";
         select_image = "<?php echo trans("select_image"); ?>";
@@ -31,6 +34,7 @@
         sweetalert_cancel = "<?php echo trans("cancel"); ?>";
         var sys_lang_id = "<?php echo get_langguage_id(get_general_settings()->site_lang)->id; ?>";
     </script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -59,12 +63,23 @@
     </script>
     <!-- Bootstrap 4 -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <!-- SweetAlert2 -->
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/adminlte.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            <?php if (session()->getFlashdata('success')) : ?>
+                custom_alert('success', '<?php echo session()->getFlashdata('success'); ?>', false);
+            <?php endif; ?>
 
+            <?php if (session()->getFlashdata('error')) : ?>
+                custom_alert('error', '<?php echo session()->getFlashdata('error'); ?>', false);
+            <?php endif; ?>
+        });
+    </script>
 </body>
 
 </html>
