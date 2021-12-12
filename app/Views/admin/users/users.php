@@ -31,6 +31,7 @@
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
+                <?php echo $this->include('admin/includes/_messages') ?>
                 <div class="col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">

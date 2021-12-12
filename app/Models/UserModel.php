@@ -34,12 +34,72 @@ class UserModel extends Model
     public function input_values()
     {
         $data = array(
-            'fullname' => remove_special_characters($this->request->getVar('fullname')),
-            'username' => strtolower(remove_special_characters($this->request->getVar('username'))),
+            'username' => strtolower(remove_special_characters(trim($this->request->getVar('username')))),
             'email' => $this->request->getVar('email'),
             'password' => $this->request->getVar('password')
         );
         return $data;
+    }
+
+    //add user
+    public function add_user()
+    {
+
+        $data = $this->input_values();
+
+        //secure password
+        $data['first_name'] = $this->request->getVar('first_name');
+        $data['last_name'] = $this->request->getVar('last_name');
+        $data['password'] = $this->bcrypt->hash_password($data['password']);
+        $data['mobile_no'] =  $this->request->getVar('mobile_no');
+        $data['user_type'] = "registered";
+        $data["slug"] = $this->generate_uniqe_slug($data["username"]);
+        $data['role'] = $this->request->getVar('role');
+        $data['status'] = 1;
+        $data['email_status'] = 1;
+        $data['token'] = generate_unique_id();
+        $data['last_seen'] = date('Y-m-d H:i:s');
+        $data['created_at'] = date('Y-m-d H:i:s');
+
+        return $this->protect(false)->insert($data);
+    }
+
+    //generate uniqe username
+    public function generate_uniqe_username($username)
+    {
+        $new_username = $username;
+        if (!empty($this->get_user_by_username($new_username))) {
+            $new_username = $username . " 1";
+            if (!empty($this->get_user_by_username($new_username))) {
+                $new_username = $username . " 2";
+                if (!empty($this->get_user_by_username($new_username))) {
+                    $new_username = $username . " 3";
+                    if (!empty($this->get_user_by_username($new_username))) {
+                        $new_username = $username . "-" . uniqid();
+                    }
+                }
+            }
+        }
+        return $new_username;
+    }
+
+    //generate uniqe slug
+    public function generate_uniqe_slug($username)
+    {
+        $slug = str_slug($username);
+        if (!empty($this->get_user_by_slug($slug))) {
+            $slug = str_slug($username . "-1");
+            if (!empty($this->get_user_by_slug($slug))) {
+                $slug = str_slug($username . "-2");
+                if (!empty($this->get_user_by_slug($slug))) {
+                    $slug = str_slug($username . "-3");
+                    if (!empty($this->get_user_by_slug($slug))) {
+                        $slug = str_slug($username . "-" . uniqid());
+                    }
+                }
+            }
+        }
+        return $slug;
     }
 
     //login
@@ -109,6 +169,22 @@ class UserModel extends Model
     {
         $sql = "SELECT * FROM users WHERE users.email = ?";
         $query = $this->db->query($sql, array(clean_str($email)));
+        return $query->getRow();
+    }
+
+    //get user by username
+    public function get_user_by_username($username)
+    {
+        $sql = "SELECT * FROM users WHERE users.username = ?";
+        $query = $this->db->query($sql, array(clean_str($username)));
+        return $query->getRow();
+    }
+
+    //get user by slug
+    public function get_user_by_slug($slug)
+    {
+        $sql = "SELECT * FROM users WHERE users.slug = ?";
+        $query = $this->db->query($sql, array(clean_str($slug)));
         return $query->getRow();
     }
 
@@ -267,5 +343,61 @@ class UserModel extends Model
             'users'  =>  $result,
             'pager'     => $this->pager,
         ];
+    }
+
+    //check slug
+    public function check_is_slug_unique($slug, $id)
+    {
+
+        $sql = "SELECT * FROM users WHERE users.slug = ? AND users.id != ?";
+        $query = $this->db->query($sql, array(clean_str($slug), clean_number($id)));
+        if (!empty($query->getRow())) {
+            return true;
+        }
+        return false;
+    }
+
+    //check if email is unique
+    public function is_unique_email($email, $user_id = 0)
+    {
+        $user = $this->get_user_by_email($email);
+        //if id doesnt exists
+        if ($user_id == 0) {
+            if (empty($user)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if ($user_id != 0) {
+            if (!empty($user) && $user->id != $user_id) {
+                //email taken
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    //check if username is unique
+    public function is_unique_username($username, $user_id = 0)
+    {
+        $user = $this->get_user_by_username($username);
+        //if id doesnt exists
+        if ($user_id == 0) {
+            if (empty($user)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if ($user_id != 0) {
+            if (!empty($user) && $user->id != $user_id) {
+                //username taken
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 }

@@ -497,3 +497,22 @@ if (!function_exists('formatted_date')) {
         return date("Y-m-d / H:i", strtotime($timestamp));
     }
 }
+
+//generate unique id
+if (!function_exists('generate_unique_id')) {
+    function generate_unique_id()
+    {
+        $id = uniqid("", TRUE);
+        $id = str_replace(".", "-", $id);
+        return $id . "-" . rand(10000000, 99999999);
+    }
+}
+
+//generate slug
+if (!function_exists('str_slug')) {
+    function str_slug($str)
+    {
+        $str = trim($str);
+        return url_title(convert_accented_characters($str), "-", true);
+    }
+}

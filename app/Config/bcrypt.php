@@ -1,28 +1,13 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
-/*
-|--------------------------------------------------------------------------
-| Iteration count
-|--------------------------------------------------------------------------
-|
-| How many iterations of hashing should occur?
-|
-| Default: 8
-|
-*/
-$config['iteration_count'] = 8;
+namespace Config;
 
-/*
-|--------------------------------------------------------------------------
-| Portable hashes
-|--------------------------------------------------------------------------
-|
-| Should the hash be portable?
-|
-| Default: false
-|
-*/
-$config['portable_hashes'] = FALSE;
+use CodeIgniter\Config\BaseConfig;
 
-/* End of file bcrypt.php */
-/* Location: ./system/application/config/bcrypt.php */
+class Bcrypt extends BaseConfig
+{
+
+    public $iteration_count = 8;
+
+    public $portable_hashes = FALSE;
+}
