@@ -19,6 +19,7 @@ class Administrator extends AdminController
 
     public function administrators()
     {
+        check_admin();
         $data['title'] = trans("administrators");
         //paginate
         $data['paginate'] = $this->userModel->administratorsPaginate();
@@ -29,6 +30,10 @@ class Administrator extends AdminController
 
     public function users()
     {
+        check_permission('users');
+        // if (!check_user_permission('users')) {
+        //     return redirect()->to(admin_url());
+        // }
         $data['title'] = trans("users");
         //paginate
         $data['paginate'] = $this->userModel->userPaginate();
@@ -54,7 +59,7 @@ class Administrator extends AdminController
      */
     public function add_user_post()
     {
-
+        check_admin();
         $validation =  \Config\Services::validation();
 
         //validate inputs
@@ -133,6 +138,8 @@ class Administrator extends AdminController
      */
     public function edit_user_post()
     {
+        check_permission('users');
+
         $validation =  \Config\Services::validation();
 
         //validate inputs
@@ -219,10 +226,12 @@ class Administrator extends AdminController
         $id = $this->request->getVar('id');
         $user = $this->userModel->asObject()->find($id);
 
-        if ($user->id == 1) {
-            $this->session->set_flashdata('error', trans("msg_error"));
+        if ($user->id == 1 || $user->id == user()->id) {
+            $this->session->setFlashData('error', trans("msg_error"));
             exit();
         }
+
+
         if ($this->userModel->delete_user($id)) {
             $this->session->setFlashData('success', trans("user") . " " . trans("msg_suc_deleted"));
         } else {
@@ -242,7 +251,7 @@ class Administrator extends AdminController
         $id = $this->request->getVar('id');
 
         $user = $this->userModel->asObject()->find($id);
-        if ($user->id == 1) {
+        if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
             exit();
         }
@@ -294,11 +303,14 @@ class Administrator extends AdminController
         if (empty($user)) {
             return redirect()->back();
         } else {
-            if ($user->id == 1) {
+            if ($user->id == 1 || $user->id == user()->id) {
                 $this->session->setFlashData('error', trans("msg_error"));
                 return redirect()->back();
                 exit();
             }
+
+
+
             if ($this->userModel->change_user_role($id, $role)) {
                 $this->session->setFlashData('success', trans("msg_role_changed"));
                 return redirect()->back();

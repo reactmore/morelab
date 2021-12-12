@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\UserModel;
+use App\Models\Roles_permissionsModel;
 
 $CI4 = new \App\Controllers\BaseController;
 
@@ -232,19 +233,25 @@ if (!function_exists('is_admin')) {
 if (!function_exists('check_user_permission')) {
     function check_user_permission($section)
     {
-        global $CI4;
-        if ($CI4->auth_check) {
-            $user_role = $CI4->auth_user->role;
+        if (auth_check()) {
+            $user_role = user()->role;
             if ($user_role == 'admin') {
                 return true;
             }
-            $role_permission = array_filter($CI4->roles_permissions, function ($item) use ($user_role) {
+            $RolesPermissionsModel = new Roles_permissionsModel();
+
+            $role_permission = array_filter($RolesPermissionsModel->get_roles_permissions(), function ($item) use ($user_role) {
                 return $item->role == $user_role;
             });
+
+
+
             foreach ($role_permission as $key => $value) {
                 $role_permission = $value;
                 break;
             }
+
+
             if (!empty($role_permission) && $role_permission->$section == 1) {
                 return true;
             }
@@ -257,8 +264,9 @@ if (!function_exists('check_user_permission')) {
 if (!function_exists('check_permission')) {
     function check_permission($section)
     {
+
         if (!check_user_permission($section)) {
-            redirect(lang_base_url());
+            return redirect()->to(admin_url());
         }
     }
 }
@@ -268,7 +276,7 @@ if (!function_exists('check_admin')) {
     function check_admin()
     {
         if (!is_admin()) {
-            redirect(lang_base_url());
+            return redirect()->to(admin_url());
         }
     }
 }
@@ -279,7 +287,7 @@ if (!function_exists('admin_url')) {
     function admin_url()
     {
         global $CI4;
-        return base_url() . '/' . $CI4->routes->admin . '/';
+        return base_url() . '/' . get_routes()->admin . '/';
     }
 }
 
@@ -297,6 +305,7 @@ if (!function_exists('generate_base_url')) {
         return lang_base_url();
     }
 }
+
 
 //get route
 if (!function_exists('get_route')) {
