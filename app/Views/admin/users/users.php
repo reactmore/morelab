@@ -87,7 +87,33 @@
                                                         <td>
 
 
+                                                            <div class="dropdown btn-group">
+                                                                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="mdi mdi-circle-edit-outline mr-2"></i><?php echo trans('select_an_option'); ?>
+                                                                </button>
 
+                                                                <div class="dropdown-menu dropdown-menu-animated">
+                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-role" onclick="$('#modal_user_id').val('<?php echo html_escape($user['id']); ?>');"><?php echo trans('change_user_role'); ?></a>
+                                                                    <?php endif; ?>
+                                                                    <?php if ($user['email_status'] != 1) : ?>
+                                                                        <a class="dropdown-item" href="javascript:void(0)" onclick="confirm_user_email(<?php echo $user['id']; ?>);"><?php echo trans('confirm_user_email'); ?></a>
+                                                                    <?php endif; ?>
+                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                        <?php if ($user['status'] == "1") : ?>
+                                                                            <a class="dropdown-item" href="javascript:void(0)" onclick="ban_user('<?php echo $user['id']; ?>','<?php echo trans('confirm_ban'); ?>', 'ban');"><?php echo trans('ban_user'); ?></a>
+                                                                        <?php else : ?>
+                                                                            <a class="dropdown-item" href="javascript:void(0)" onclick="ban_user('<?php echo $user['id']; ?>', '<?php echo trans('confirm_remove_ban'); ?>', 'remove_ban');"><?php echo trans('remove_ban'); ?></a>
+                                                                        <?php endif; ?>
+                                                                    <?php endif; ?>
+
+                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                        <a class="dropdown-item" href="<?php echo admin_url() . 'edit-user/'; ?><?php echo html_escape($user['id']); ?>"><?php echo trans('edit'); ?></a>
+                                                                        <div class="dropdown-divider"></div>
+                                                                        <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('admin_controller/delete_user_post','<?php echo $user['id']; ?>','<?php echo trans('confirm_user'); ?>')"><?php echo trans('delete'); ?></a>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </div>
 
                                                         </td>
                                                     </tr>

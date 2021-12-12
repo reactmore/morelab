@@ -516,3 +516,29 @@ if (!function_exists('str_slug')) {
         return url_title(convert_accented_characters($str), "-", true);
     }
 }
+
+if (!function_exists('html_escape')) {
+    /**
+     * Returns HTML escaped variable.
+     *
+     * @param	mixed	$var		The input string or array of strings to be escaped.
+     * @param	bool	$double_encode	$double_encode set to FALSE prevents escaping twice.
+     * @return	mixed			The escaped string or array of strings as a result.
+     */
+    function html_escape($var, $double_encode = TRUE)
+    {
+        if (empty($var)) {
+            return $var;
+        }
+
+        if (is_array($var)) {
+            foreach (array_keys($var) as $key) {
+                $var[$key] = html_escape($var[$key], $double_encode);
+            }
+
+            return $var;
+        }
+
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8', $double_encode);
+    }
+}

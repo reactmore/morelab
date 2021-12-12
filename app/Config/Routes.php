@@ -44,6 +44,7 @@ $routes->group("admin", ["filter" => \App\Filters\Auth::class], function ($route
     $routes->get('administrators', 'Administrator::administrators');
     $routes->get('users', 'Administrator::users');
     $routes->get('add-user', 'Administrator::add_user');
+    $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1');
 });
 
 

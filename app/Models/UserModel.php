@@ -64,6 +64,27 @@ class UserModel extends Model
         return $this->protect(false)->insert($data);
     }
 
+    //edit user
+    public function edit_user($id)
+    {
+        $user = $this->get_user($id);
+        if (!empty($user)) {
+            $data = array(
+                'username' => strtolower(remove_special_characters(trim($this->request->getVar('username')))),
+                'first_name' => $this->request->getVar('first_name'),
+                'last_name' => $this->request->getVar('last_name'),
+                'email' => $this->request->getVar('email'),
+                'password' => empty($this->request->getVar('password')) ? $user->password : $this->request->getVar('password'),
+                'slug' => $this->request->getVar('slug'),
+                'about_me' => $this->request->getVar('about_me'),
+                'mobile_no' => $this->request->getVar('mobile_no'),
+                'role' => $this->request->getVar('role'),
+            );
+
+            return $this->protect(false)->update($user->id, $data);
+        }
+    }
+
     //generate uniqe username
     public function generate_uniqe_username($username)
     {
