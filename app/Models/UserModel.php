@@ -363,6 +363,7 @@ class UserModel extends Model
             $show = $request->getGet('show');
         }
 
+
         $paginateData = $this->select('users.*, roles_permissions.role_name as role')
             ->join('roles_permissions', 'users.role = roles_permissions.role')
             ->where('users.role !=', 'admin');

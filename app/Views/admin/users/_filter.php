@@ -5,6 +5,7 @@
         <?php $request = \Config\Services::request();; ?>
         <?php echo form_open(admin_url() . $uri->getSegment(2), ['method' => 'GET']); ?>
 
+
         <div class="item-table-filter" style="width: 80px; min-width: 80px;">
             <label><?php echo trans("show"); ?></label>
             <select name="show" class="form-control">
@@ -49,7 +50,7 @@
             <label><?php echo trans("search"); ?></label>
             <input name="search" class="form-control" placeholder="<?php echo trans("search") ?>" type="search" value="<?php echo $request->getVar('search'); ?>">
         </div>
-
+        <input type="hidden" name="page" value="<?php echo (!empty($request->getVar('page'))) ? $request->getVar('page') : '1'; ?>">
 
         <div class="item-table-filter md-top-10" style="width: 65px; min-width: 65px;">
             <label style="display: block">&nbsp;</label>
