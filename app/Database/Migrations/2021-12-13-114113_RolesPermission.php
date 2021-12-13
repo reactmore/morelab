@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class RolesPermissions extends Migration
+class RolesPermission extends Migration
 {
     public function up()
     {
@@ -37,17 +37,9 @@ class RolesPermissions extends Migration
             'settings' => [
                 'type' => 'TINYINT',
                 'constraint' => '1',
-                'null' => true,
+                'null' => false,
             ],
-            'deleted' => [
-                'type' => 'TINYINT',
-                'constraint' => '1',
-                'null' => true,
-            ],
-            'created_at' => [
-                'type' => 'TIMESTAMP',
-                'null' => true,
-            ]
+
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('roles_permissions');

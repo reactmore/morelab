@@ -39,6 +39,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
+
     $routes->get('', 'Administrator::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
     $routes->get('dashboard', 'Administrator::index', ["filter" => 'check-permissions:admin_panel']);
 
@@ -48,6 +49,12 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
         $routes->get('list-users', 'Administrator::users');
         $routes->get('add-user', 'Administrator::add_user', ["filter" => 'check-permissions:admin_panel']);
         $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+    });
+
+    $routes->group('roles-permissions', ["filter" => 'check-admin'], function ($routes) {
+        $routes->get('', 'Administrator::roles_permissions');
+        $routes->get('add-role', 'Administrator::add_role', ["filter" => 'check-admin']);
+        $routes->get('edit-role/(:num)', 'Administrator::edit_role/$1', ["filter" => 'check-admin']);
     });
 });
 

@@ -1,7 +1,7 @@
 <?php if (session()->getFlashdata('success_form')) : ?>
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <i class="icon fas fa-ban"></i> <?php echo session()->getFlashdata('success_form'); ?>
+        <i class="icon fas fa-check"></i> <?php echo session()->getFlashdata('success_form'); ?>
     </div>
 <?php endif; ?>
 

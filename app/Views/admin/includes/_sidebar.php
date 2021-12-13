@@ -9,12 +9,10 @@
       <!-- Sidebar -->
       <div class="sidebar">
           <!-- Sidebar user panel (optional) -->
-          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
-          </div>
 
           <!-- SidebarSearch Form -->
-          <div class="form-inline">
+          <div class="form-inline mt-3">
               <div class="input-group" data-widget="sidebar-search">
                   <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                   <div class="input-group-append">
@@ -73,6 +71,18 @@
                           </li>
                       </ul>
                   </li>
+
+                  <?php if (check_user_permission('settings')) : ?>
+                      <li class="nav-header"><?php echo trans('settings') ?></li>
+
+                      <li class="nav-item ">
+                          <a href="<?php echo admin_url() ?>roles-permissions" class="nav-link <?php is_admin_nav_active(['roles-permissions'], 2); ?>">
+                              <i class="nav-icon fas fa-user-shield"></i>
+                              <p><?php echo trans('roles_permissions') ?></p>
+                          </a>
+                      </li>
+
+                  <?php endif; ?>
 
               </ul>
           </nav>

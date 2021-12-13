@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class UserTable extends Migration
+class Users extends Migration
 {
     public function up()
     {
@@ -114,7 +114,6 @@ class UserTable extends Migration
 
     public function down()
     {
-
         $this->forge->dropTable('users');
     }
 }
