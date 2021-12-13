@@ -38,13 +38,17 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group("admin", ["filter" => \App\Filters\Auth::class], function ($routes) {
-    $routes->get('', 'Administrator::index');
-    $routes->get('dashboard', 'Administrator::index');
-    $routes->get('administrators', 'Administrator::administrators', ["filter" => \App\Filters\CheckAdmin::class]);
-    $routes->get('users', 'Administrator::users');
-    $routes->get('add-user', 'Administrator::add_user');
-    $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1');
+$routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
+    $routes->get('', 'Administrator::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
+    $routes->get('dashboard', 'Administrator::index', ["filter" => 'check-permissions:admin_panel']);
+
+    $routes->get('administrators', 'Administrator::administrators', ["filter" => 'check-admin']);
+
+    $routes->group('users', ["filter" => 'check-permissions:users'], function ($routes) {
+        $routes->get('users', 'Administrator::users');
+        $routes->get('add-user', 'Administrator::add_user', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+    });
 });
 
 

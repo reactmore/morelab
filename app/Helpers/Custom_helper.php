@@ -195,14 +195,7 @@ if (!function_exists('current_full_url')) {
     }
 }
 
-//check auth
-if (!function_exists('auth_check')) {
-    function auth_check()
-    {
-        global $CI4;
-        return $CI4->auth_model->is_logged_in();
-    }
-}
+
 
 //get logged user
 if (!function_exists('user')) {
@@ -250,9 +243,9 @@ if (!function_exists('check_user_permission')) {
                 $role_permission = $value;
                 break;
             }
+            $permisions = $section[0];
 
-
-            if (!empty($role_permission) && $role_permission->$section == 1) {
+            if (!empty($role_permission) && $role_permission->$permisions == 1) {
                 return true;
             }
         }
@@ -264,9 +257,8 @@ if (!function_exists('check_user_permission')) {
 if (!function_exists('check_permission')) {
     function check_permission($section)
     {
-
         if (!check_user_permission($section)) {
-            return redirect()->to(admin_url());
+            redirect()->to(admin_url());
         }
     }
 }

@@ -19,7 +19,6 @@ class Administrator extends AdminController
 
     public function administrators()
     {
-        check_admin();
         $data['title'] = trans("administrators");
         //paginate
         $data['paginate'] = $this->userModel->administratorsPaginate();
@@ -30,10 +29,6 @@ class Administrator extends AdminController
 
     public function users()
     {
-        check_permission('users');
-        // if (!check_user_permission('users')) {
-        //     return redirect()->to(admin_url());
-        // }
         $data['title'] = trans("users");
         //paginate
         $data['paginate'] = $this->userModel->userPaginate();
@@ -45,11 +40,8 @@ class Administrator extends AdminController
 
     public function add_user()
     {
-        check_admin();
         $data['title'] = trans("add_user");
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
-
-
 
         return view('admin/users/add_users', $data);
     }
@@ -59,7 +51,9 @@ class Administrator extends AdminController
      */
     public function add_user_post()
     {
-        check_admin();
+        if (!check_user_permission('users')) {
+            exit();
+        }
         $validation =  \Config\Services::validation();
 
         //validate inputs
@@ -106,7 +100,7 @@ class Administrator extends AdminController
      */
     public function edit_user($id)
     {
-        check_permission('users');
+
         $data['title'] = trans("update_profile");
         $data['user'] = $this->userModel->get_user($id);
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
@@ -138,7 +132,9 @@ class Administrator extends AdminController
      */
     public function edit_user_post()
     {
-        check_permission('users');
+        if (!check_user_permission('users')) {
+            exit();
+        }
 
         $validation =  \Config\Services::validation();
 

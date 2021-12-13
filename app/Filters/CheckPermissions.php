@@ -6,13 +6,18 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class CheckAdmin implements FilterInterface
+class CheckPermissions implements FilterInterface
 {
 
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!is_admin()) {
-            return redirect()->to(admin_url());
+
+        if (!check_user_permission($arguments)) {
+            if ($arguments[0] === 'admin_panel') {
+                return redirect()->to(base_url());
+            } else {
+                return redirect()->to(admin_url());
+            }
         }
     }
 
@@ -20,5 +25,6 @@ class CheckAdmin implements FilterInterface
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         //
+
     }
 }

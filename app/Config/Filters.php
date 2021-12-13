@@ -6,6 +6,9 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
+use App\Filters\CheckAdmin;
+use App\Filters\CheckPermissions;
+use App\Filters\Auth;
 
 class Filters extends BaseConfig
 {
@@ -19,6 +22,9 @@ class Filters extends BaseConfig
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
+        'auth-login' => Auth::class,
+        'check-admin' => CheckAdmin::class,
+        'check-permissions' => CheckPermissions::class,
     ];
 
     /**

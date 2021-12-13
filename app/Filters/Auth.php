@@ -25,7 +25,7 @@ class Auth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper("custom");
+
         if (!auth_check()) {
             return redirect()->route('admin/login');
         }
