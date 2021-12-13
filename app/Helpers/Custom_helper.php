@@ -398,25 +398,26 @@ if (!function_exists('helper_getsession')) {
     }
 }
 
+
+
 //check admin nav
 if (!function_exists('is_admin_nav_active')) {
-    function is_admin_nav_active($array_nav_items, $class = 'active')
+    function is_admin_nav_active(array $array_nav_items,  int $getSegment = 1, string $class = 'active')
     {
 
         $uri = service('uri');
-        $segment1 = @$uri->getSegment(1);
-        $segment2 = @$uri->getSegment(2);
-        if (!empty($segment2) && !empty($array_nav_items)) {
-            if (in_array($segment2, $array_nav_items)) {
+        $segment = $uri->getSegment($getSegment);
+
+        if (!empty($segment) && !empty($array_nav_items)) {
+            if (in_array($segment, $array_nav_items)) {
                 echo ' ' . $class;
             }
         } else {
-            if (in_array($segment1, $array_nav_items)) {
-                echo ' ' . $class;
-            }
+            echo '';
         }
     }
 }
+
 
 //check admin nav
 if (!function_exists('is_auth_nav_active')) {
