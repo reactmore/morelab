@@ -544,3 +544,26 @@ if (!function_exists('html_escape')) {
         return htmlspecialchars($var, ENT_QUOTES, 'UTF-8', $double_encode);
     }
 }
+
+if (!function_exists('get_permissions_field')) {
+
+    function get_permissions_field()
+    {
+        $db = \Config\Database::connect();
+
+        $fields = $db->getFieldNames('roles_permissions');
+
+        $data = array();
+        foreach ($fields as $index => $field) {
+            if ($index == 0 || $index == 1 || $index == 2) {
+                continue;
+            }
+
+            $data[$index] = $field;
+        }
+
+
+
+        return $data;
+    }
+}

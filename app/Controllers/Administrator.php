@@ -291,7 +291,9 @@ class Administrator extends AdminController
      */
     public function change_user_role_post()
     {
-        check_permission('users');
+        if (!is_admin()) {
+            return redirect()->to(admin_url());
+        }
         $id = $this->request->getVar('user_id');
         $role = $this->request->getVar('role');
         $user = $this->userModel->asObject()->find($id);
@@ -347,6 +349,10 @@ class Administrator extends AdminController
      */
     public function add_role_post()
     {
+        if (!is_admin()) {
+            return redirect()->to(admin_url());
+        }
+
         $validation =  \Config\Services::validation();
 
         //validate inputs
@@ -364,10 +370,8 @@ class Administrator extends AdminController
                 return redirect()->back()->withInput();
             }
 
-
             //add user
-            // $id =  $this->RolesPermissionsModel->protect(false)->insert(['role' =>  $role, 'role_name' => ucfirst($role)]);
-            $id =  $this->RolesPermissionsModel->added_permissions();
+            $id =  $this->RolesPermissionsModel->AddRole();
             if ($id) {
                 $this->session->setFlashData('success', trans("msg_suc_added"));
                 return redirect()->back();
@@ -404,6 +408,10 @@ class Administrator extends AdminController
     public function edit_role_post()
     {
 
+        if (!is_admin()) {
+            return redirect()->to(admin_url());
+        }
+
         $id = $this->request->getVar('id');
 
         if ($this->RolesPermissionsModel->update_role($id)) {
@@ -413,5 +421,26 @@ class Administrator extends AdminController
         }
 
         return redirect()->back();
+    }
+
+    public function delete_role_post()
+    {
+        if (!is_admin()) {
+            return redirect()->to(admin_url());
+        }
+        $id = $this->request->getVar('id');
+        $role = $this->RolesPermissionsModel->asObject()->find($id);
+
+        if ($role->id == 1) {
+            $this->session->setFlashData('error', trans("msg_error"));
+            exit();
+        }
+
+
+        if ($this->RolesPermissionsModel->delete_role($id)) {
+            $this->session->setFlashData('success',  trans("msg_suc_deleted"));
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+        }
     }
 }
