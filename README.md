@@ -1,5 +1,8 @@
 # Reactmore Admin Panel With Codeigniter 4 
 
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/reactmore/morelab) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Freactmore%2Fmorelab&count_bg=%231DC297&title_bg=%23555555&icon=nucleo.svg&icon_color=%23E7E7E7&title=Hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
+
 ## TO DO
 - [x] Auth
     - [x] Login
@@ -17,9 +20,9 @@
             - [x] Deleted
         - [x] Administrator Paginate
              - [x] Add
-             - [ ] Edit
-             - [ ] Deleted
-    - [ ] Permission Management
+             - [x] Edit
+             - [x] Deleted
+    - [x] Permission Management
     - [ ] File Manager
     - [ ] Settings
     - [ ] Profile
@@ -32,6 +35,10 @@
 - Visual Studio 
 - PHP 8 
 - Codeigniter Version 4.1.5
+
+## Screenshoot
+![This is an image](https://i.ibb.co/M1rhXyN/image.png)
+![This is an image](https://i.ibb.co/hBCy1FS/image.png)
 
 
 ## What is CodeIgniter?
