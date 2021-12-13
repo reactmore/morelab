@@ -45,7 +45,7 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
     $routes->get('administrators', 'Administrator::administrators', ["filter" => 'check-admin']);
 
     $routes->group('users', ["filter" => 'check-permissions:users'], function ($routes) {
-        $routes->get('users', 'Administrator::users');
+        $routes->get('', 'Administrator::users');
         $routes->get('add-user', 'Administrator::add_user', ["filter" => 'check-permissions:admin_panel']);
         $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
     });
