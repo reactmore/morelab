@@ -106,7 +106,7 @@
                                                                     <?php endif; ?>
 
                                                                     <?php if (user()->role == 'admin') : ?>
-                                                                        <a class="dropdown-item" href="<?php echo admin_url() . 'edit-user/'; ?><?php echo html_escape($user['id']); ?>"><?php echo trans('edit'); ?></a>
+                                                                        <a class="dropdown-item" href="<?php echo admin_url() . 'users/edit-user/'; ?><?php echo html_escape($user['id']); ?>"><?php echo trans('edit'); ?></a>
                                                                         <div class="dropdown-divider"></div>
                                                                         <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/administrator/delete_user_post','<?php echo $user['id']; ?>','<?php echo trans('confirm_user'); ?>')"><?php echo trans('delete'); ?></a>
                                                                     <?php endif; ?>
