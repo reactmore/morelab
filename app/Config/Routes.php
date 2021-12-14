@@ -60,8 +60,10 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
 
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');
-$routes->get("/$custom_routes->logout", 'Common::logout');
+$routes->get("/$custom_routes->admin/forgot-password", 'Common::forgot_password');
+$routes->get("/$custom_routes->admin/reset-password", 'Common::reset_password');
 
+$routes->get("/$custom_routes->logout", 'Common::logout');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
