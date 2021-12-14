@@ -32,46 +32,27 @@
             </div>
             <div class="card-body">
 
+                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
                 <?php echo $this->include('admin/includes/_messages') ?>
-                <form id="form_safe" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
-                    <input type="hidden" id="crsf">
-                    <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="<?php echo trans('email') ?>" value="<?php echo old('email') ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
+                <?php echo form_open("common/forgot_password_post", ['id' => 'form_safe', 'class' => '']); ?>
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control form-input" placeholder="Type <?php echo trans("email"); ?>" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
-
-
-                    <div class="input-group ">
-                        <input type="password" name="password" class="form-control" placeholder="<?php echo trans('form_password') ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block"><?php echo trans('forgot_password') ?></button>
                     </div>
-                    <small><a href="#"><?php echo trans('forgot_password') ?></a></small>
-
-                    <div class="row mt-4">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" name="remember_me" id="remember" value="1">
-                                <label for="remember">
-                                    <?php echo trans("remember_me"); ?>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block"><?php echo trans("login"); ?></button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
+                    <!-- /.col -->
+                </div>
+                <?php echo form_close(); ?>
+                <p class="mt-3 mb-1">
+                    <a href="<?php echo admin_url() ?>login"><?php echo trans('login') ?></a>
+                </p>
             </div>
             <!-- /.card-body -->
         </div>

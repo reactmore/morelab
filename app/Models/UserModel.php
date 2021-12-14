@@ -284,6 +284,14 @@ class UserModel extends Model
         return $query->getRow();
     }
 
+    //get user by token
+    public function get_user_by_token($token)
+    {
+        $sql = "SELECT * FROM users WHERE users.token = ?";
+        $query = $this->db->query($sql, array(clean_str($token)));
+        return $query->getRow();
+    }
+
     //get user by id
     public function get_user($id)
     {
@@ -496,5 +504,23 @@ class UserModel extends Model
                 return true;
             }
         }
+    }
+
+    //reset password
+    public function reset_password($token)
+    {
+        $user = $this->get_user_by_token($token);
+        if (!empty($user)) {
+
+            $new_password = $this->request->getVar('password');
+            $data = array(
+                'password' => $this->bcrypt->hash_password($new_password),
+                'token' => generate_unique_id()
+            );
+            //change password
+            $this->builder()->where('id', $user->id);
+            return $this->builder()->update($data);
+        }
+        return false;
     }
 }

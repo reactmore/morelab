@@ -13,7 +13,8 @@
         "kint-php/kint": "^3.3",
         "laminas/laminas-escaper": "^2.9",
         "psr/log": "^1.1",
-        "fakerphp/faker": "^1.17"
+        "fakerphp/faker": "^1.17",
+        "phpmailer/phpmailer": "^6.5"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.1",

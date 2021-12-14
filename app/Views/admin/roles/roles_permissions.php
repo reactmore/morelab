@@ -35,7 +35,7 @@
                 <div class="col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="<?php echo admin_url() ?>roles-permissions/add-role" class="btn btn-primary float-right"><?php echo trans("add"); ?></a>
+                            <a href="<?php echo admin_url() ?>roles-permissions/add-role" class="btn btn-primary float-right"><?php echo trans("add_role"); ?> </a>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped" role="grid">

@@ -339,7 +339,7 @@ class Administrator extends AdminController
     public function add_role()
     {
 
-        $data['title'] = trans("edit_role");
+        $data['title'] = trans("add_role");
 
         return view('admin/roles/add_role', $data);
     }
