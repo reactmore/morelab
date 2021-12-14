@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\Exception as MAILER_Exception;
 
 class EmailModel extends Model
 {
-    protected $table            = 'users';
+
     protected $session;
 
     public function __construct()
@@ -36,9 +36,10 @@ class EmailModel extends Model
     }
 
     //send email activation
-    public function send_email_activation($user_id)
+    public function send_email_activation($user_id, $sess = 'admin')
     {
-        $user = $this->UserModel->get_user($user_id);
+        $userModel = new UserModel();
+        $user = $userModel->get_user($user_id);
         if (!empty($user)) {
             $token = $user->token;
             //check token
@@ -47,15 +48,19 @@ class EmailModel extends Model
                 $data = array(
                     'token' => $token
                 );
-                $this->table('users')->where('id', $user->id)->update('users', $data);
+                $userModel->builder()->where('id', $user->id)->update($data);
             }
 
             $data = array(
                 'subject' => trans("confirm_your_email"),
                 'to' => $user->email,
-                'template_path' => "email/email_activation",
+                'template_path' => "admin/auth/email/email_activation",
                 'token' => $token
             );
+
+            if ($sess == 'user') {
+                $data['template_path'] = 'email/email_activation';
+            }
 
             $this->send_email($data);
         }
@@ -95,7 +100,7 @@ class EmailModel extends Model
     }
 
     //send email reset password
-    public function send_email_reset_password($user_id)
+    public function send_email_reset_password($user_id, $sess = 'admin')
     {
         $userModel = new UserModel();
         $user = $userModel->get_user($user_id);
@@ -117,9 +122,17 @@ class EmailModel extends Model
                 'token' => $token
             );
 
+            if ($sess == 'user') {
+                $data['template_path'] = 'email/email_reset_password';
+            }
+
             $this->send_email($data);
         }
     }
+
+
+
+    // Proccess
 
     //send email
     public function send_email($data)
@@ -203,8 +216,9 @@ class EmailModel extends Model
             $mail->send();
             return true;
         } catch (MAILER_Exception $e) {
-
-            $this->session->setFlashData('errors_form', $mail->ErrorInfo);
+            if ($e) {
+                $this->session->setFlashData('errors_form', $mail->ErrorInfo);
+            }
 
             return false;
         }
