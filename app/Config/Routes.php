@@ -56,6 +56,10 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
         $routes->get('add-role', 'Administrator::add_role', ["filter" => 'check-admin']);
         $routes->get('edit-role/(:num)', 'Administrator::edit_role/$1', ["filter" => 'check-admin']);
     });
+
+    $routes->group('general-settings', ["filter" => 'check-permissions:settings'], function ($routes) {
+        $routes->get('', 'Administrator::general_settings');
+    });
 });
 
 

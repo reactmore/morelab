@@ -445,4 +445,24 @@ class Administrator extends AdminController
             $this->session->setFlashData('error', trans("msg_error"));
         }
     }
+
+    public function general_settings()
+    {
+
+        $data['title'] = trans("general_settings");
+        $data['active_tab'] = 'general_settings';
+
+        $data["selected_lang"] = $this->request->getVar('lang');
+
+        if (empty($data["selected_lang"])) {
+            $data["selected_lang"] = get_general_settings()->site_lang;
+            return redirect()->to(admin_url() . "general-settings?lang=" . $data["selected_lang"]);
+        }
+
+
+        $data['settings'] = get_general_settings();
+
+
+        return view('admin/settings/general_settings', $data);
+    }
 }

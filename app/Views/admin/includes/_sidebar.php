@@ -55,13 +55,15 @@
                               </a>
                           </li>
 
-                          <li class="nav-item">
+                          <?php if (is_admin()) : ?>
+                              <li class="nav-item">
 
-                              <a href="<?php echo admin_url() ?>administrators" class="nav-link ">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p><?php echo trans("administrators"); ?></p>
-                              </a>
-                          </li>
+                                  <a href="<?php echo admin_url() ?>administrators" class="nav-link ">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p><?php echo trans("administrators"); ?></p>
+                                  </a>
+                              </li>
+                          <?php endif; ?>
 
                           <li class="nav-item">
                               <a href="<?php echo admin_url() ?>users/list-users" class="nav-link ">
@@ -74,11 +76,18 @@
 
                   <?php if (check_user_permission('settings')) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
-
+                      <?php if (is_admin()) : ?>
+                          <li class="nav-item ">
+                              <a href="<?php echo admin_url() ?>roles-permissions" class="nav-link <?php is_admin_nav_active(['roles-permissions'], 2); ?>">
+                                  <i class="nav-icon fas fa-user-shield"></i>
+                                  <p><?php echo trans('roles_permissions') ?></p>
+                              </a>
+                          </li>
+                      <?php endif; ?>
                       <li class="nav-item ">
-                          <a href="<?php echo admin_url() ?>roles-permissions" class="nav-link <?php is_admin_nav_active(['roles-permissions'], 2); ?>">
-                              <i class="nav-icon fas fa-user-shield"></i>
-                              <p><?php echo trans('roles_permissions') ?></p>
+                          <a href="<?php echo admin_url() ?>general-settings" class="nav-link <?php is_admin_nav_active(['general-settings'], 2); ?>">
+                              <i class="nav-icon fas fa-cog"></i>
+                              <p><?php echo trans('general_settings') ?></p>
                           </a>
                       </li>
 
