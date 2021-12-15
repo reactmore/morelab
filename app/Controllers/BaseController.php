@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use App\Libraries\Bcrypt;
 use App\Models\UserModel;
 use App\Models\Roles_permissionsModel;
+use App\Models\GeneralSettingModel;
 
 
 
@@ -58,12 +59,15 @@ class BaseController extends Controller
 
         $this->userModel = new UserModel();
         $this->RolesPermissionsModel = new Roles_permissionsModel();
+        $this->GeneralSettingModel = new GeneralSettingModel();
         $this->general_settings = get_general_settings();
         $this->routes = get_routes();
 
 
         //set timezone
+
         if (!empty($this->general_settings->timezone)) {
+
             date_default_timezone_set($this->general_settings->timezone);
         }
 

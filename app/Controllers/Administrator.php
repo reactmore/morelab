@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 use App\Models\UserModel;
+
 use CodeIgniter\I18n\Time;
 
 
@@ -464,5 +465,19 @@ class Administrator extends AdminController
 
 
         return view('admin/settings/general_settings', $data);
+    }
+
+    public function settings_post()
+    {
+
+        if ($this->GeneralSettingModel->update_settings()) {
+            $this->session->setFlashData('success', trans("settings") . " " . trans("msg_suc_updated"));
+            $this->session->setFlashData("mes_settings", 1);
+            return redirect()->to($this->agent->getReferrer());
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+            $this->session->setFlashData("mes_settings", 1);
+            return redirect()->to($this->agent->getReferrer());
+        }
     }
 }

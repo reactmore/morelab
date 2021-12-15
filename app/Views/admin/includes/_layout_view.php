@@ -70,6 +70,33 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/adminlte.js"></script>
 
     <script>
+        function display_ct7() {
+            var x = new Date()
+
+            var ampm = x.getHours() >= 12 ? ' PM' : ' AM';
+            hours = x.getHours() % 12;
+            hours = hours ? hours : 12;
+            hours = hours.toString().length == 1 ? 0 + hours.toString() : hours;
+
+            var minutes = x.getMinutes().toString()
+            minutes = minutes.length == 1 ? 0 + minutes : minutes;
+
+            var seconds = x.getSeconds().toString()
+            seconds = seconds.length == 1 ? 0 + seconds : seconds;
+
+            var x1 = hours + ":" + minutes + ":" + seconds + " " + ampm;
+            document.getElementById('ct7').innerHTML = x1;
+            display_c7();
+        }
+
+        function display_c7() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct7()', refresh)
+        }
+        display_c7()
+    </script>
+
+    <script>
         $(document).ready(function() {
             <?php if (session()->getFlashdata('success')) : ?>
                 custom_alert('success', '<?php echo session()->getFlashdata('success'); ?>', false);
@@ -78,6 +105,29 @@
             <?php if (session()->getFlashdata('error')) : ?>
                 custom_alert('error', '<?php echo session()->getFlashdata('error'); ?>', false);
             <?php endif; ?>
+
+
+            window.onload = function() {
+                get_time_now();
+            }
+
+            function get_time_now() {
+                var e = document.getElementById('time'),
+                    d = new Date(),
+                    h, m, s;
+                h = d.getHours();
+                m = set(d.getMinutes());
+                s = set(d.getSeconds());
+
+                e.innerHTML = h + ':' + m + ':' + s;
+
+                setTimeout('get_time_now()', 1000);
+            }
+
+            function set(e) {
+                e = e < 10 ? '0' + e : e;
+                return e;
+            };
         });
     </script>
 </body>

@@ -50,8 +50,73 @@
                             </div>
 
                             <div class="mt-3">
+                                <?php echo form_open_multipart('administrator/settings_post'); ?>
+
+                                <?php if (!empty(session()->getFlashdata("mes_settings"))) :
+                                    echo $this->include('admin/includes/_messages');
+                                endif; ?>
+
+                                <div class="mb-3">
+                                    <label class="form-label"><?php echo trans("language_settings"); ?></label>
+                                    <select name="lang_id" class="form-control max-400" onchange="window.location.href = '<?php echo admin_url(); ?>'+'settings?lang='+this.value;">
+                                        <?php foreach (get_langguage() as $language) : ?>
+                                            <option value="<?php echo $language->id; ?>" <?php echo ($selected_lang == $language->id) ? 'selected' : ''; ?>><?php echo $language->name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label"><?php echo trans('app_name'); ?></label>
+                                    <input type="text" class="form-control" name="application_name" placeholder="<?php echo trans('app_name'); ?>" value="<?php echo html_escape($settings->application_name); ?>">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label"><?php echo trans('timezone'); ?></label>
+                                    <select name="timezone" class="form-control max-600">
+                                        <?php $timezones = timezone_identifiers_list();
+                                        if (!empty($timezones)) :
+                                            foreach ($timezones as $timezone) : ?>
+                                                <option value="<?php echo $timezone; ?>" <?php echo ($timezone == $settings->timezone) ? 'selected' : ''; ?>><?php echo $timezone; ?></option>
+                                        <?php endforeach;
+                                        endif; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label"><?php echo trans('copyright'); ?></label>
+                                    <input type="text" class="form-control" name="copyright" placeholder="<?php echo trans('copyright'); ?>" value="<?php echo html_escape($settings->copyright); ?>">
+                                </div>
+
+                                <h5 class="mb-3 text-uppercase bg-light p-2"><i class="fa fa-cog pr-2"></i> <?php echo trans('contact_settings') ?></h5>
+
+                                <div class="mb-3 ">
+                                    <label class="form-label">Contact <?php echo trans('name'); ?></label>
+                                    <input type="text" class="form-control" name="contact_name" placeholder="<?php echo trans('name'); ?>" value="<?php echo html_escape($settings->contact_name); ?>">
+                                </div>
+
+                                <div class="mb-3 ">
+                                    <label class="form-label"><?php echo trans('address'); ?></label>
+                                    <input type="text" class="form-control" name="contact_address" placeholder="<?php echo trans('address'); ?>" value="<?php echo html_escape($settings->contact_address); ?>">
+                                </div>
+
+                                <div class="mb-3 ">
+                                    <label class="form-label"><?php echo trans('email'); ?></label>
+                                    <input type="text" class="form-control" name="contact_email" placeholder="<?php echo trans('email'); ?>" value="<?php echo html_escape($settings->contact_email); ?>">
+                                </div>
+
+                                <div class="mb-3 ">
+                                    <label class="form-label"><?php echo trans('phone'); ?></label>
+                                    <input type="text" class="form-control" name="contact_phone" placeholder="<?php echo trans('phone'); ?>" value="<?php echo html_escape($settings->contact_phone); ?>">
+                                </div>
+
+                                <div class="mb-3 ">
+                                    <label class="form-label"><?php echo trans('contact_text'); ?></label>
+                                    <textarea class="tinyMCE form-control" name="contact_text"><?php echo $settings->contact_text; ?></textarea>
+                                </div>
 
 
+                                <button type="submit" class="btn btn-primary float-right"><?php echo trans('save_changes'); ?></button>
+                                <?php echo form_close(); ?>
                             </div>
 
 
