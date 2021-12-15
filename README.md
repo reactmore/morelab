@@ -24,7 +24,7 @@
              - [x] Deleted
     - [x] Permission Management
     - [ ] File Manager
-    - [ ] Settings
+    - [x] Settings
     - [ ] Profile
 - [ ] Website
     - [ ] Index
