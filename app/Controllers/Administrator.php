@@ -223,6 +223,8 @@ class Administrator extends AdminController
         $id = $this->request->getVar('id');
         $user = $this->userModel->asObject()->find($id);
 
+
+
         if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
             exit();
