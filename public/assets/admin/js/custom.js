@@ -12,26 +12,28 @@ $(document).ready(function () {
     $("#checkAll").on('click', function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
-});
 
-document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
-    el.addEventListener("click", function (e) {
-        e.preventDefault();
+    document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
+        el.addEventListener("click", function (e) {
+            e.preventDefault();
 
-        var target = el.dataset.target;
-        var icon = el.dataset.icon;
-        document.querySelector(target).focus();
-        document.querySelector(icon).focus();
+            var target = el.dataset.target;
+            var icon = el.dataset.icon;
+            document.querySelector(target).focus();
+            document.querySelector(icon).focus();
 
-        if (document.querySelector(target).getAttribute('type') == 'password') {
-            document.querySelector(target).setAttribute('type', 'text');
-            document.querySelector(icon).setAttribute('class', 'fa fa-eye-slash');
-        } else {
-            document.querySelector(target).setAttribute('type', 'password');
-            document.querySelector(icon).setAttribute('class', 'fa fa-eye');
-        }
+            if (document.querySelector(target).getAttribute('type') == 'password') {
+                document.querySelector(target).setAttribute('type', 'text');
+                document.querySelector(icon).setAttribute('class', 'fa fa-eye-slash');
+            } else {
+                document.querySelector(target).setAttribute('type', 'password');
+                document.querySelector(icon).setAttribute('class', 'fa fa-eye');
+            }
+        });
     });
 });
+
+
 
 
 function generateUniqueString(prefix) {

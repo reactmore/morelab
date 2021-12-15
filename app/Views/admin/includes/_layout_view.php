@@ -98,6 +98,7 @@
 
     <script>
         $(document).ready(function() {
+
             <?php if (session()->getFlashdata('success')) : ?>
                 custom_alert('success', '<?php echo session()->getFlashdata('success'); ?>', false);
             <?php endif; ?>
@@ -106,28 +107,6 @@
                 custom_alert('error', '<?php echo session()->getFlashdata('error'); ?>', false);
             <?php endif; ?>
 
-
-            window.onload = function() {
-                get_time_now();
-            }
-
-            function get_time_now() {
-                var e = document.getElementById('time'),
-                    d = new Date(),
-                    h, m, s;
-                h = d.getHours();
-                m = set(d.getMinutes());
-                s = set(d.getSeconds());
-
-                e.innerHTML = h + ':' + m + ':' + s;
-
-                setTimeout('get_time_now()', 1000);
-            }
-
-            function set(e) {
-                e = e < 10 ? '0' + e : e;
-                return e;
-            };
         });
     </script>
 </body>

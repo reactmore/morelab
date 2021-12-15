@@ -58,7 +58,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label"><?php echo trans("language_settings"); ?></label>
-                                    <select name="lang_id" class="form-control max-400" onchange="window.location.href = '<?php echo admin_url(); ?>'+'settings?lang='+this.value;">
+                                    <select name="lang_id" class="form-control max-400" onchange="window.location.href = '<?php echo admin_url(); ?>'+'settings/general?lang='+this.value;">
                                         <?php foreach (get_langguage() as $language) : ?>
                                             <option value="<?php echo $language->id; ?>" <?php echo ($selected_lang == $language->id) ? 'selected' : ''; ?>><?php echo $language->name; ?></option>
                                         <?php endforeach; ?>

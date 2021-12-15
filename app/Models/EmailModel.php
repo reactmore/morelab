@@ -31,6 +31,7 @@ class EmailModel extends Model
                 'template_path' => "email/email_newsletter",
                 'subscriber' => "",
             );
+
             return $this->send_email($data);
         }
     }

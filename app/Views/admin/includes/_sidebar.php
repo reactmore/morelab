@@ -85,7 +85,7 @@
                           </li>
                       <?php endif; ?>
                       <li class="nav-item ">
-                          <a href="<?php echo admin_url() ?>general-settings" class="nav-link <?php is_admin_nav_active(['general-settings'], 2); ?>">
+                          <a href="<?php echo admin_url() ?>settings" class="nav-link <?php is_admin_nav_active(['general-settings'], 2); ?>">
                               <i class="nav-icon fas fa-cog"></i>
                               <p><?php echo trans('general_settings') ?></p>
                           </a>
