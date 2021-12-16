@@ -62,6 +62,7 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
         $routes->get('general', 'Administrator::general_settings');
         $routes->get('email', 'Administrator::email_settings', ["filter" => 'check-admin']);
         $routes->get('social', 'Administrator::social_settings', ["filter" => 'check-admin']);
+        $routes->get('visual', 'Administrator::visual_settings', ["filter" => 'check-admin']);
     });
 });
 

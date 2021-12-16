@@ -567,3 +567,100 @@ if (!function_exists('get_permissions_field')) {
         return $data;
     }
 }
+
+
+//get logo
+if (!function_exists('get_logo')) {
+    function get_logo($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->logo_light) && file_exists(FCPATH . "/public/" . $visual_settings->logo_light)) {
+                return base_url() . '/public/' . $visual_settings->logo_light;
+            } else {
+                return base_url() . "/public/assets/admin/img/logo.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/logo.png";
+        }
+    }
+}
+
+//get favicon
+if (!function_exists('get_logo_sm')) {
+    function get_logo_sm($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->favicon) && file_exists(FCPATH . $visual_settings->favicon)) {
+                return base_url() . $visual_settings->favicon;
+            } else {
+                return base_url() . "/public/assets/admin/img/logo_sm.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/logo_sm.png";
+        }
+    }
+}
+
+//get logo footer
+if (!function_exists('get_logo_dark')) {
+    function get_logo_dark($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->logo_dark) && file_exists(FCPATH . "/public/" . $visual_settings->logo_dark)) {
+                return base_url() . '/public/' . $visual_settings->logo_dark;
+            } else {
+                return base_url() . "/public/assets/admin/img/logo-dark.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/logo-dark.png";
+        }
+    }
+}
+
+//get favicon
+if (!function_exists('get_logo_sm_dark')) {
+    function get_logo_sm_dark($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->favicon) && file_exists(FCPATH . $visual_settings->favicon)) {
+                return base_url() . $visual_settings->favicon;
+            } else {
+                return base_url() . "/public/assets/admin/img/logo_sm_dark.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/logo_sm_dark.png";
+        }
+    }
+}
+
+//get logo email
+if (!function_exists('get_logo_email')) {
+    function get_logo_email($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->logo_email) && file_exists(FCPATH . "/public/" . $visual_settings->logo_email)) {
+                return base_url() . '/public/' . $visual_settings->logo_email;
+            } else {
+                return base_url() . "/public/assets/admin/img/logo.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/logo.png";
+        }
+    }
+}
+
+//get favicon
+if (!function_exists('get_favicon')) {
+    function get_favicon($visual_settings)
+    {
+        if (!empty($visual_settings)) {
+            if (!empty($visual_settings->favicon) && file_exists(FCPATH . $visual_settings->favicon)) {
+                return base_url() . $visual_settings->favicon;
+            } else {
+                return base_url() . "/public/assets/admin/img/favicon.png";
+            }
+        } else {
+            return base_url() . "/public/assets/admin/img/favicon.png";
+        }
+    }
+}

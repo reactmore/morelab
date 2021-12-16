@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\EmailModel;
+use App\Models\UploadModel;
 use App\Models\UserModel;
 
 use CodeIgniter\I18n\Time;
@@ -594,6 +595,35 @@ class Administrator extends AdminController
         if ($this->GeneralSettingModel->update_social_google_settings()) {
             $this->session->setFlashData('msg_social_google', '1');
             $this->session->setFlashData('success', trans("configurations") . " " . trans("msg_suc_updated"));
+            return redirect()->to($this->agent->getReferrer());
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+            return redirect()->to($this->agent->getReferrer());
+        }
+    }
+
+    /**
+     * Visual Settings
+     */
+    public function visual_settings()
+    {
+
+        $data['active_tab'] = 'visual_settings';
+        $data['title'] = trans("visual_settings");
+        $data['visual_settings'] = get_general_settings();
+
+        return view('admin/settings/visual_settings', $data);
+    }
+
+    /**
+     * Update Settings Post
+     */
+    public function visual_settings_post()
+    {
+
+        $uploadModel = new UploadModel();
+        if ($this->GeneralSettingModel->update_visual_settings()) {
+            $this->session->setFlashData('success', trans("visual_settings") . " " . trans("msg_suc_updated"));
             return redirect()->to($this->agent->getReferrer());
         } else {
             $this->session->setFlashData('error', trans("msg_error"));

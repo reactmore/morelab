@@ -108,4 +108,102 @@ class GeneralSettingModel extends Model
         //update
         return $this->builder()->where('id', 1)->update($data);
     }
+
+    //update settings
+    public function update_visual_settings()
+    {
+        $submit = $this->request->getVar('submit');
+
+        // if ($submit == "pwa_settings") {
+
+        //     $pwa_icons_0 = [
+        //         "src" => $this->input->post('icon_0', true),
+        //         "sizes" => $this->input->post('icon_sizes_0', true),
+        //         "type" => $this->input->post('icon_type_0', true),
+        //     ];
+
+        //     $pwa_icons_1 = [
+        //         "src" => $this->input->post('icon_1', true),
+        //         "sizes" => $this->input->post('icon_sizes_1', true),
+        //         "type" => $this->input->post('icon_type_1', true),
+        //     ];
+        //     $pwa_icons_2 = [
+        //         "src" => $this->input->post('icon_2', true),
+        //         "sizes" => $this->input->post('icon_sizes_2', true),
+        //         "type" => $this->input->post('icon_type_2', true),
+        //     ];
+
+        //     $pwa_setting = [
+        //         "dir" => $this->input->post('dir', true),
+        //         "name" => $this->input->post('name', true),
+        //         "description" => $this->input->post('description', true),
+        //         "short_name" => $this->input->post('short_name', true),
+        //         "icons" => [$pwa_icons_0, $pwa_icons_1, $pwa_icons_2],
+        //         "scope" => $this->input->post('scope', true),
+        //         "start_url" => $this->input->post('start_url', true),
+        //         "display" => $this->input->post('display', true),
+        //         "orientation" => $this->input->post('orientation', true),
+        //         "theme_color" => $this->input->post('theme_color', true),
+        //         "background_color" => $this->input->post('background_color', true),
+        //         "url" => $this->input->post('url', true),
+        //         "lang" => $this->input->post('lang', true),
+        //         "screenshots" => [],
+        //     ];
+
+
+
+        //     $new_manifest = json_encode($pwa_setting);
+        //     file_put_contents('manifest.json', $new_manifest);
+
+        //     $general_settings = array(
+        //         'pwa_status' => $this->input->post('pwa_status', true)
+        //     );
+
+        //     $this->general_settings_model->save($general_settings, 1);
+        // }
+
+        // if ($submit == "auth_settings") {
+
+        //     $_image_id = $this->input->post('newimage_id', true);
+        //     if (!empty($_image_id)) {
+        //         $image = $this->file_model->get_image($_image_id);
+        //         if (!empty($image)) {
+        //             $data["auth_background"] = $image->image_default;
+        //         }
+        //     }
+
+        //     $general_settings = array(
+        //         'registration_system' => $this->input->post('registration_system', true)
+        //     );
+
+        //     $this->general_settings_model->save($general_settings, 1);
+        // }
+
+        if ($submit == "logo") {
+            $uploadModel = new UploadModel();
+            $logo_path = $uploadModel->logo_upload('logo');
+            $logo_footer_path = $uploadModel->logo_upload('logo_dark');
+            $logo_email_path = $uploadModel->logo_upload('logo_email');
+            // $favicon_path = $this->upload_model->favicon_upload('favicon');
+            if (!empty($logo_path)) {
+                $data["logo_light"] = $logo_path;
+            }
+            if (!empty($logo_footer_path)) {
+                $data["logo_dark"] = $logo_footer_path;
+            }
+            if (!empty($logo_email_path)) {
+                $data["logo_email"] = $logo_email_path;
+            }
+            // if (!empty($favicon_path)) {
+            //     $data["favicon"] = $favicon_path;
+            // }
+        }
+
+        if (!empty($data)) {
+            //update
+            return $this->builder()->where('id', 1)->update($data);
+        }
+
+        return true;
+    }
 }
