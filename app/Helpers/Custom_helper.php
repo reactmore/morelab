@@ -664,3 +664,25 @@ if (!function_exists('get_favicon')) {
         }
     }
 }
+
+//delete image from server
+if (!function_exists('delete_image_from_server')) {
+    function delete_image_from_server($path)
+    {
+        $full_path = FCPATH . $path;
+        if (strlen($path) > 15 && file_exists($full_path)) {
+            unlink($full_path);
+        }
+    }
+}
+
+//delete file from server
+if (!function_exists('delete_file_from_server')) {
+    function delete_file_from_server($path)
+    {
+        $full_path = FCPATH . $path;
+        if (strlen($path) > 15 && file_exists($full_path)) {
+            unlink($full_path);
+        }
+    }
+}

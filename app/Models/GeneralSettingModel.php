@@ -162,29 +162,12 @@ class GeneralSettingModel extends Model
         //     $this->general_settings_model->save($general_settings, 1);
         // }
 
-        // if ($submit == "auth_settings") {
-
-        //     $_image_id = $this->input->post('newimage_id', true);
-        //     if (!empty($_image_id)) {
-        //         $image = $this->file_model->get_image($_image_id);
-        //         if (!empty($image)) {
-        //             $data["auth_background"] = $image->image_default;
-        //         }
-        //     }
-
-        //     $general_settings = array(
-        //         'registration_system' => $this->input->post('registration_system', true)
-        //     );
-
-        //     $this->general_settings_model->save($general_settings, 1);
-        // }
-
         if ($submit == "logo") {
             $uploadModel = new UploadModel();
             $logo_path = $uploadModel->logo_upload('logo');
             $logo_footer_path = $uploadModel->logo_upload('logo_dark');
             $logo_email_path = $uploadModel->logo_upload('logo_email');
-            // $favicon_path = $this->upload_model->favicon_upload('favicon');
+            $favicon_path = $uploadModel->favicon_upload('favicon');
             if (!empty($logo_path)) {
                 $data["logo_light"] = $logo_path;
             }
@@ -194,9 +177,9 @@ class GeneralSettingModel extends Model
             if (!empty($logo_email_path)) {
                 $data["logo_email"] = $logo_email_path;
             }
-            // if (!empty($favicon_path)) {
-            //     $data["favicon"] = $favicon_path;
-            // }
+            if (!empty($favicon_path)) {
+                $data["favicon"] = $favicon_path;
+            }
         }
 
         if (!empty($data)) {

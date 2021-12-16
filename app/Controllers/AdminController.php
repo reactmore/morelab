@@ -50,6 +50,8 @@ class AdminController extends BaseController
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        $this->file_count = 60;
+        $this->file_per_page = 60;
         $this->uri = service('uri');
         // Preload any models, libraries, etc, here.
         $this->control_panel_lang = $this->selected_lang;

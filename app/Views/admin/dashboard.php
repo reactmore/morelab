@@ -92,6 +92,12 @@
                 </div>
                 <!-- ./col -->
             </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#file_manager_image" data-bs-image-type="input" data-bs-item-id="#userimg" data-bs-input-id="#newimage_id"><i class="fas fa-image"></i> <?php echo trans('change_avatar'); ?></button>
+                </div>
+            </div>
             <!-- /.row -->
 
         </div><!-- /.container-fluid -->
