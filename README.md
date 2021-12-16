@@ -23,7 +23,7 @@
              - [x] Edit
              - [x] Deleted
     - [x] Permission Management
-    - [ ] File Manager
+    - [x] File Manager
     - [x] Settings
     - [ ] Profile
 - [ ] Website
