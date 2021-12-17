@@ -74,7 +74,7 @@
                       </ul>
                   </li>
 
-                  <?php if (check_user_permission('settings')) : ?>
+                  <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
                       <?php if (is_admin()) : ?>
                           <li class="nav-item ">

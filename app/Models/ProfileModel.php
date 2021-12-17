@@ -33,10 +33,11 @@ class ProfileModel extends Model
         parent::__construct();
 
         $this->bcrypt = new Bcrypt();
+
         $this->session = session();
         $this->db = db_connect();
-
         $this->request = \Config\Services::request();
+        $this->agent = $this->request->getUserAgent();
     }
 
     //update profile
@@ -92,5 +93,44 @@ class ProfileModel extends Model
             }
         }
         return false;
+    }
+
+    //change password input values
+    public function change_password_input_values()
+    {
+        $data = array(
+            'old_password' => $this->request->getVar('old_password'),
+            'password' => $this->request->getVar('password'),
+            'password_confirm' => $this->request->getVar('password_confirm')
+        );
+        return $data;
+    }
+
+    //change password
+    public function change_password($old_password_exists)
+    {
+        $user = user();
+        if (!empty($user)) {
+            $data = $this->change_password_input_values();
+            if ($old_password_exists == 1) {
+                //password does not match stored password.
+
+                if (!$this->bcrypt->check_password($data['old_password'], $user->password)) {
+                    $this->session->setFlashData('errors_form', trans("wrong_password_error"));
+                    return false;
+                }
+            }
+            $data = array(
+                'password' => $this->bcrypt->hash_password($data['password'])
+            );
+
+            if ($this->builder()->where('id', $user->id)->update($data)) {
+                $this->session->set("vr_sess_user_ps", md5($data['password']));
+                return true;
+            }
+        } else {
+
+            return false;
+        }
     }
 }

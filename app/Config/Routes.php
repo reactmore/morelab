@@ -42,7 +42,6 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
 
     $routes->get('', 'Administrator::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
     $routes->get('dashboard', 'Administrator::index', ["filter" => 'check-permissions:admin_panel']);
-
     $routes->get('administrators', 'Administrator::administrators', ["filter" => 'check-admin']);
 
     $routes->group('users', ["filter" => 'check-permissions:users'], function ($routes) {

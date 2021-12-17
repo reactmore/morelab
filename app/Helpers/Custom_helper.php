@@ -226,26 +226,29 @@ if (!function_exists('is_admin')) {
 if (!function_exists('check_user_permission')) {
     function check_user_permission($section)
     {
+
         if (auth_check()) {
             $user_role = user()->role;
+
             if ($user_role == 'admin') {
                 return true;
             }
+
+
             $RolesPermissionsModel = new Roles_permissionsModel();
 
             $role_permission = array_filter($RolesPermissionsModel->get_roles_permissions(), function ($item) use ($user_role) {
                 return $item->role == $user_role;
             });
 
-
-
             foreach ($role_permission as $key => $value) {
                 $role_permission = $value;
                 break;
             }
-            $permisions = $section[0];
 
-            if (!empty($role_permission) && $role_permission->$permisions == 1) {
+            $sections = $section[0];
+
+            if (!empty($role_permission) && $role_permission->$sections == 1) {
                 return true;
             }
         }

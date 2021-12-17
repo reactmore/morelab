@@ -273,7 +273,8 @@ class UserModel extends Model
     //get user by email
     public function get_user_by_email($email)
     {
-        $sql = "SELECT * FROM users WHERE users.email = ?";
+
+        $sql = "SELECT * FROM users WHERE users.email = ? AND users.deleted_at IS NULL";
         $query = $this->db->query($sql, array(clean_str($email)));
         return $query->getRow();
     }
@@ -281,7 +282,7 @@ class UserModel extends Model
     //get user by username
     public function get_user_by_username($username)
     {
-        $sql = "SELECT * FROM users WHERE users.username = ?";
+        $sql = "SELECT * FROM users WHERE users.username = ? ";
         $query = $this->db->query($sql, array(clean_str($username)));
         return $query->getRow();
     }
@@ -532,5 +533,17 @@ class UserModel extends Model
             return $this->builder()->update($data);
         }
         return false;
+    }
+
+    public function logout()
+    {
+        //unset user data
+        $this->session->remove('vr_sess_user_id');
+        $this->session->remove('vr_sess_user_email');
+        $this->session->remove('vr_sess_user_role');
+        $this->session->remove('vr_sess_logged_in');
+        $this->session->remove('vr_sess_app_key');
+        $this->session->remove('vr_sess_user_ps');
+        helper_deletecookie("remember_user_id");
     }
 }

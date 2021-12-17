@@ -95,7 +95,6 @@
 
             <div class="row">
                 <div class="col-12">
-                    <button type="button" class="btn text-center btn-success mb-3" data-toggle="modal" data-target="#file_manager_image" data-bs-image-type="input" data-bs-item-id="#userimg" data-bs-input-id="#newimage_id"><i class="fas fa-image"></i> File Manager Modal</button>
                 </div>
             </div>
             <!-- /.row -->

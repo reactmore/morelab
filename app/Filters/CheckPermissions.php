@@ -13,6 +13,7 @@ class CheckPermissions implements FilterInterface
     {
 
         if (!check_user_permission($arguments)) {
+
             if ($arguments[0] === 'admin_panel') {
                 return redirect()->to(base_url());
             } else {
@@ -24,7 +25,5 @@ class CheckPermissions implements FilterInterface
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
-
     }
 }
