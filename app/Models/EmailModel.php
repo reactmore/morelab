@@ -55,7 +55,7 @@ class EmailModel extends Model
             $data = array(
                 'subject' => trans("confirm_your_email"),
                 'to' => $user->email,
-                'template_path' => "admin/auth/email/email_activation",
+                'template_path' => "email/email_activation",
                 'token' => $token
             );
 

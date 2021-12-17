@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\EmailModel;
 use App\Models\UploadModel;
 use App\Models\UserModel;
+use App\Models\ProfileModel;
 
 use CodeIgniter\I18n\Time;
 
@@ -628,6 +629,100 @@ class Administrator extends AdminController
         } else {
             $this->session->setFlashData('error', trans("msg_error"));
             return redirect()->to($this->agent->getReferrer());
+        }
+    }
+
+    /**
+     * Update Profile
+     */
+    public function profile()
+    {
+
+        $data['title'] = trans("profile");
+        $data["user"] = user();
+
+        $data["active_tab"] = "details";
+
+        return view('admin/profile/profile', $data);
+    }
+
+    public function profile_post()
+    {
+        $user_id = user()->id;
+        $action = clean_str($this->request->getVar('submit'));
+
+        if ($action == "resend_activation_email") {
+            //send activation email
+            $emailModel = new EmailModel();
+            $emailModel->send_email_activation($user_id);
+            $this->session->setFlashData('success', trans("msg_send_confirmation_email"));
+            return redirect()->to($this->agent->getReferrer());
+        }
+
+        $validation =  \Config\Services::validation();
+
+        //validate inputs
+        $rules = [
+            'username' => [
+                'label'  => trans('username'),
+                'rules'  => 'required|min_length[4]|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+
+            'email'    => [
+                'label'  => trans('email'),
+                'rules'  => 'required|max_length[200]|valid_email',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                    'valid_email' => 'Please check the Email field. It does not appear to be valid.',
+                ],
+            ]
+        ];
+
+        if ($this->validate($rules)) {
+            $data = array(
+                'username' => $this->request->getVar('username'),
+                'slug' => $this->request->getVar('slug'),
+                'email' => $this->request->getVar('email')
+            );
+
+            //is email unique
+            if (!$this->userModel->is_unique_username($data["email"], $user_id)) {
+                $this->session->setFlashData('errors_form', trans("message_email_unique_error"));
+                return redirect()->back()->withInput();
+            }
+            //is username unique
+            if (!$this->userModel->is_unique_username($data["username"], $user_id)) {
+                $this->session->setFlashData('errors_form', trans("msg_username_unique_error"));
+                return redirect()->back()->withInput();
+            }
+            //is slug unique
+            if ($this->userModel->check_is_slug_unique($data["slug"], $user_id)) {
+                $this->session->setFlashData('errors_form', trans("msg_slug_used"));
+                return redirect()->back()->withInput();
+            }
+
+            $profileModel = new ProfileModel();
+            if ($profileModel->update_profile($user_id)) {
+                $this->session->setFlashData('success', trans("msg_updated"));
+                //check email changed
+                if ($profileModel->check_email_updated($user_id)) {
+                    $this->session->setFlashData('success', trans("msg_send_confirmation_email"));
+                }
+                return redirect()->to($this->agent->getReferrer());
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+                return redirect()->to($this->agent->getReferrer());
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
         }
     }
 }

@@ -164,6 +164,36 @@ class Common extends BaseController
     }
 
     /**
+     * Confirm Email
+     */
+    public function confirm_email()
+    {
+
+        $data['title'] = trans("confirm_your_email");
+
+        $token = clean_str($this->request->getVar("token"));
+        $data["user"] = $this->userModel->get_user_by_token($token);
+
+        if (empty($data["user"])) {
+            return redirect()->to(base_url());
+        }
+
+        if ($data["user"]->email_status == 1) {
+            return redirect()->to(base_url());
+        }
+
+        if ($this->userModel->verify_email($data["user"])) {
+
+            $data["success"] = trans("msg_confirmed");
+        } else {
+            $data["error"] = trans("msg_error");
+        }
+
+
+        echo view('admin/auth/confirm_email', $data);
+    }
+
+    /**
      * Logout
      */
     public function logout()

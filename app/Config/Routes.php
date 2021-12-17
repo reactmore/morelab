@@ -64,12 +64,20 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
         $routes->get('social', 'Administrator::social_settings', ["filter" => 'check-admin']);
         $routes->get('visual', 'Administrator::visual_settings', ["filter" => 'check-admin']);
     });
+
+    $routes->group('profile', function ($routes) {
+        $routes->get('', 'Administrator::profile');
+        $routes->get('change-password', 'Administrator::change_password');
+        $routes->get('delete-account', 'Administrator::delete_account');
+    });
 });
 
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');
 $routes->get("/$custom_routes->admin/forgot-password", 'Common::forgot_password');
 $routes->get("/$custom_routes->admin/reset-password", 'Common::reset_password');
+
+$routes->get("/confirm", 'Common::confirm_email');
 
 $routes->get("/$custom_routes->logout", 'Common::logout');
 /*

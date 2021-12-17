@@ -356,7 +356,7 @@
                             <td style="text-align: center;">
                                 <div style="height: 70px;width:100%;text-align: center;margin-bottom: 10px;">
                                     <a href="<?php echo base_url(); ?>">
-                                        <img src="<?php echo get_logo_email($this->visual_settings); ?>" alt="" style="max-width: 180px;max-height: 70px;">
+                                        <img src="<?php echo get_logo_email(get_general_settings()); ?>" alt="" style="max-width: 180px;max-height: 70px;">
                                     </a>
                                 </div>
                             </td>
@@ -376,7 +376,7 @@
                                                     <?php echo trans("msg_confirmation_email"); ?><br>
                                                 </p>
                                                 <p style='text-align: center;margin-top: 30px;'>
-                                                    <a href="<?php echo lang_base_url(); ?>confirm?token=<?php echo $token; ?>" style='font-size: 14px;text-decoration: none;padding: 14px 40px;background-color: #1abc9c;color: #ffffff !important; border-radius: 3px;'>
+                                                    <a href="<?php echo base_url(); ?>/confirm?token=<?php echo $token; ?>" style='font-size: 14px;text-decoration: none;padding: 14px 40px;background-color: #1abc9c;color: #ffffff !important; border-radius: 3px;'>
                                                         <?php echo trans("confirm_your_email"); ?>
                                                     </a>
                                                 </p>
@@ -436,8 +436,8 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block powered-by">
-                                    <span class="apple-link"><?php echo html_escape($this->settings->contact_address); ?></span><br>
-                                    <?php echo html_escape($this->settings->copyright); ?>
+                                    <span class="apple-link"><?php echo html_escape(get_general_settings()->contact_address); ?></span><br>
+                                    <?php echo html_escape(get_general_settings()->copyright); ?>
                                 </td>
                             </tr>
                         </table>

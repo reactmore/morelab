@@ -107,13 +107,13 @@
         <li class="nav-item dropdown">
 
             <a data-toggle="dropdown" href="#">
-                <img src="<?php echo base_url(); ?>/public/assets/admin/img/user2-160x160.jpg" class="img-circle elevation-2 user-image mt-1" width="30px" alt="User Image">
+                <img src="<?php echo get_user_avatar(user()->avatar); ?>" class="img-circle elevation-2 user-image mt-1" width="30px" alt="User Image">
             </a>
 
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
 
-                <a href="#" class="dropdown-item">
+                <a href="<?php echo admin_url() ?>profile" class="dropdown-item">
                     <?php echo trans('settings') ?>
                     <span class="float-right text-muted text-sm"><i class="fas fa-cog"></i></span>
                 </a>
