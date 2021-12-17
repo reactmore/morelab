@@ -356,7 +356,7 @@
                             <td style="text-align: center;">
                                 <div style="height: 70px;width:100%;text-align: center;margin-bottom: 10px;">
                                     <a href="<?php echo base_url(); ?>">
-                                        <img src="<?php echo get_logo_email($this->visual_settings); ?>" alt="" style="max-width: 180px;max-height: 70px;">
+                                        <img src="<?php echo get_logo_email(get_general_settings()); ?>" alt="" style="max-width: 180px;max-height: 70px;">
                                     </a>
                                 </div>
                             </td>
@@ -389,38 +389,38 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin-top: 10px;">
                         <tr>
                             <td class="content-block" style="text-align: center;width: 100%;">
-                                <?php if (!empty($this->settings->facebook_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->facebook_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->facebook_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->facebook_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/facebook.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->twitter_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->twitter_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->twitter_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->twitter_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/twitter.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->pinterest_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->pinterest_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->pinterest_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->pinterest_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/pinterest.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->instagram_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->instagram_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->instagram_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->instagram_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/instagram.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->linkedin_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->linkedin_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->linkedin_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->linkedin_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/linkedin.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->vk_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->vk_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->vk_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->vk_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/vk.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
-                                <?php if (!empty($this->settings->youtube_url)) : ?>
-                                    <a href="<?php echo html_escape($this->settings->youtube_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
+                                <?php if (!empty(get_general_settings()->youtube_url)) : ?>
+                                    <a href="<?php echo html_escape(get_general_settings()->youtube_url); ?>" target="_blank" style="color: transparent;margin-right: 5px;">
                                         <img src="<?php echo base_url(); ?>assets/images/social-icons/youtube.png" alt="" style="width: 28px; height: 28px;" />
                                     </a>
                                 <?php endif; ?>
@@ -433,8 +433,8 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block powered-by">
-                                    <span class="apple-link"><?php echo html_escape($this->settings->contact_address); ?></span><br>
-                                    <?php echo html_escape($this->settings->copyright); ?>
+                                    <span class="apple-link"><?php echo html_escape(get_general_settings()->contact_address); ?></span><br>
+                                    <?php echo html_escape(get_general_settings()->copyright); ?>
                                 </td>
                             </tr>
                         </table>

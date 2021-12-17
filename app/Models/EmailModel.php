@@ -101,7 +101,7 @@ class EmailModel extends Model
     }
 
     //send email reset password
-    public function send_email_reset_password($user_id, $sess = 'admin')
+    public function send_email_reset_password($user_id)
     {
         $userModel = new UserModel();
         $user = $userModel->get_user($user_id);
@@ -119,13 +119,11 @@ class EmailModel extends Model
             $data = array(
                 'subject' => trans("reset_password"),
                 'to' => $user->email,
-                'template_path' => "admin/auth/email/email_reset_password",
+                'template_path' => "email/email_reset_password",
                 'token' => $token
             );
 
-            if ($sess == 'user') {
-                $data['template_path'] = 'email/email_reset_password';
-            }
+
 
             $this->send_email($data);
         }
