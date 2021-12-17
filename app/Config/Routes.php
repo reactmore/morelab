@@ -38,7 +38,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
+$routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($routes) {
 
     $routes->get('', 'Administrator::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
     $routes->get('dashboard', 'Administrator::index', ["filter" => 'check-permissions:admin_panel']);
@@ -68,6 +68,10 @@ $routes->group("admin", ["filter" => 'auth-login'], function ($routes) {
         $routes->get('', 'Administrator::profile');
         $routes->get('change-password', 'Administrator::change_password');
         $routes->get('delete-account', 'Administrator::delete_account');
+    });
+
+    $routes->group('language-settings', ["filter" => 'check-admin'], function ($routes) {
+        $routes->get('', 'Administrator::languages');
     });
 });
 

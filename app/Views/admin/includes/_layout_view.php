@@ -24,6 +24,10 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/jquery.dm-uploader.min.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/styles-1.0.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/custom.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- jQuery -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -74,6 +78,19 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-manager/file-manager-1.0.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/jquery.dm-uploader.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/ui.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
@@ -109,7 +126,22 @@
 
     <script>
         $(document).ready(function() {
+            $('#cs_datatable').DataTable({
+                language: {
+                    paginate: {
+                        previous: "<i class='fas fa-angle-left'>",
+                        next: "<i class='fas fa-angle-right'>"
+                    }
+                },
 
+                "aLengthMenu": [
+                    [15, 30, 60, 100],
+                    [15, 30, 60, 100, "All"]
+                ],
+                drawCallback: function() {
+
+                }
+            });
             <?php if (session()->getFlashdata('success')) : ?>
                 custom_alert('success', '<?php echo session()->getFlashdata('success'); ?>', false);
             <?php endif; ?>
@@ -120,6 +152,8 @@
 
         });
     </script>
+
+
 </body>
 
 </html>

@@ -689,3 +689,25 @@ if (!function_exists('delete_file_from_server')) {
         }
     }
 }
+
+
+//delete file from server
+if (!function_exists('site_lang')) {
+    function site_lang()
+    {
+        return get_langguage_id(get_general_settings()->site_lang);
+    }
+}
+
+if (!function_exists('selected_lang')) {
+    function selected_lang()
+    {
+        $site_lang = site_lang();
+
+        if (empty($site_lang)) {
+            return get_langguage_default();
+        }
+
+        return $site_lang;
+    }
+}

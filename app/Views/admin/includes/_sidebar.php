@@ -83,6 +83,12 @@
                                   <p><?php echo trans('roles_permissions') ?></p>
                               </a>
                           </li>
+                          <li class="nav-item ">
+                              <a href="<?php echo admin_url() ?>language-settings" class="nav-link <?php is_admin_nav_active(['language-settings'], 2); ?>">
+                                  <i class="nav-icon fas fa-user-shield"></i>
+                                  <p><?php echo trans('language_settings') ?></p>
+                              </a>
+                          </li>
                       <?php endif; ?>
                       <li class="nav-item ">
                           <a href="<?php echo admin_url() ?>settings" class="nav-link <?php is_admin_nav_active(['general-settings'], 2); ?>">

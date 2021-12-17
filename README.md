@@ -25,7 +25,17 @@
     - [x] Permission Management
     - [x] File Manager
     - [x] Settings
-    - [ ] Profile
+    - [x] Profile
+    - [x] Language Management
+        - [ ] Create
+        - [x] Read
+        - [ ] Update
+        - [ ] Delete
+        - [ ] Translations / Translate
+            - [ ] Read w/ Paginate
+            - [ ] Delete
+            - [ ] Update
+            - [ ] Created
 - [ ] Website
     - [ ] Index
     

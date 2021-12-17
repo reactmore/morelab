@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\EmailModel;
+use App\Models\LanguageModel;
 use App\Models\UploadModel;
 use App\Models\UserModel;
 use App\Models\ProfileModel;
@@ -16,6 +17,7 @@ class Administrator extends AdminController
     public function index()
     {
         $data['title'] = trans('dashboard');
+
 
         return view('admin/dashboard', $data);
     }
@@ -838,5 +840,18 @@ class Administrator extends AdminController
             $this->userModel->lgoout();
             return redirect()->to(base_url());
         }
+    }
+
+    /**
+     * Languages
+     */
+    public function languages()
+    {
+        $data["title"] = trans("language_settings");
+        $data["languages"] = model('LanguageModel')->builder()->get()->getResultObject();
+
+
+
+        return view('admin/language/languages', $data);
     }
 }
