@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php echo $this->extend('admin/includes/_layout_view') ?>
+
+<?php echo $this->section('content') ?>
 <?php $ed_langs = array();
 $ed_langs[] = array("short" => "ar", "name" => "Arabic");
 $ed_langs[] = array("short" => "hy", "name" => "Armenian");
@@ -68,108 +70,136 @@ $ed_langs[] = array("short" => "vi", "name" => "Vietnamese");
 $ed_langs[] = array("short" => "cy", "name" => "Welsh");
 
 ?>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
 
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <!-- Main row -->
-        <div class="row">
-            <div class="col-lg-12 col-xl-12">
-                <div class="card ">
-                    <div class="card-header">
-                        <h5 class="card-title text-uppercase">
-                            <i class="fa fa-language pr-1"></i> <?php echo trans("update_language"); ?>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- form start -->
-                        <?php echo form_open_multipart('language_controller/language_edit_post', ['id' => 'form_language_edit_post', 'class' => 'custom-validation needs-validation']); ?>
-                        <?php $this->load->view('includes/_messages'); ?>
-                        <input type="hidden" name="id" value="<?php echo html_escape($language->id); ?>">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"><?php echo $title ?></h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <?php if ($title === 'Dashboard') : ?>
+                            <li class="breadcrumb-item active"><a href="<?php admin_url() ?>">/</a></li>
+                        <?php else :  ?>
+                            <li class="breadcrumb-item"><a href="<?php admin_url() ?>"><?php echo trans('dashboard') ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo $title ?></li>
+                        <?php endif  ?>
 
-                        <div class="form-group mb-3">
-                            <label><?php echo trans("language_name"); ?></label>
-                            <input type="text" class="form-control" name="name" placeholder="<?php echo trans("language_name"); ?>" value="<?php echo $language->name; ?>" maxlength="200" required>
-                            <small>(Ex: English)</small>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card ">
+                        <div class="card-header">
+                            <h5 class="card-title text-uppercase">
+                                <i class="fa fa-language pr-1"></i> <?php echo trans("update_language"); ?>
+                            </h5>
                         </div>
+                        <div class="card-body">
+                            <!-- form start -->
+                            <?php echo form_open_multipart('admin/languages/language_edit_post', ['id' => 'form_language_edit_post', 'class' => 'custom-validation needs-validation']); ?>
+                            <?php echo view('admin/includes/_messages'); ?>
+                            <input type="hidden" name="id" value="<?php echo html_escape($language->id); ?>">
 
-                        <?php if ($language->short_form == "en") : ?>
                             <div class="form-group mb-3">
-                                <label class="control-label"><?php echo trans("language_shortname"); ?> </label>
-                                <input type="text" class="form-control" name="short_form" placeholder="<?php echo trans("short_form"); ?>" value="<?php echo $language->short_form; ?>" maxlength="200" readonly required>
-                                <small>(Ex: en)</small>
+                                <label><?php echo trans("language_name"); ?></label>
+                                <input type="text" class="form-control" name="name" placeholder="<?php echo trans("language_name"); ?>" value="<?php echo $language->name; ?>" maxlength="200" required>
+                                <small>(Ex: English)</small>
                             </div>
-                        <?php else : ?>
+
+                            <?php if ($language->short_form == "en") : ?>
+                                <div class="form-group mb-3">
+                                    <label class="control-label"><?php echo trans("language_shortname"); ?> </label>
+                                    <input type="text" class="form-control" name="short_form" placeholder="<?php echo trans("short_form"); ?>" value="<?php echo $language->short_form; ?>" maxlength="200" readonly required>
+                                    <small>(Ex: en)</small>
+                                </div>
+                            <?php else : ?>
+                                <div class="form-group mb-3">
+                                    <label class="control-label"><?php echo trans("language_shortname"); ?> </label>
+                                    <input type="text" class="form-control" name="short_form" placeholder="<?php echo trans("short_form"); ?>" value="<?php echo $language->short_form; ?>" maxlength="200" required>
+                                    <small>(Ex: en)</small>
+                                </div>
+                            <?php endif; ?>
+
                             <div class="form-group mb-3">
-                                <label class="control-label"><?php echo trans("language_shortname"); ?> </label>
-                                <input type="text" class="form-control" name="short_form" placeholder="<?php echo trans("short_form"); ?>" value="<?php echo $language->short_form; ?>" maxlength="200" required>
-                                <small>(Ex: en)</small>
+                                <label class="control-label"><?php echo trans("language_code"); ?> </label>
+                                <input type="text" class="form-control" name="language_code" placeholder="<?php echo trans("language_code"); ?>" value="<?php echo $language->language_code; ?>" maxlength="200" required>
+                                <small>(Ex: en_us)</small>
                             </div>
-                        <?php endif; ?>
 
-                        <div class="form-group mb-3">
-                            <label class="control-label"><?php echo trans("language_code"); ?> </label>
-                            <input type="text" class="form-control" name="language_code" placeholder="<?php echo trans("language_code"); ?>" value="<?php echo $language->language_code; ?>" maxlength="200" required>
-                            <small>(Ex: en_us)</small>
-                        </div>
+                            <div class="form-group mb-3">
+                                <label><?php echo trans('language_order'); ?></label>
+                                <input type="number" class="form-control" name="language_order" placeholder="<?php echo trans('order'); ?>" value="<?php echo $language->language_order; ?>" min="1" required>
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label><?php echo trans('language_order'); ?></label>
-                            <input type="number" class="form-control" name="language_order" placeholder="<?php echo trans('order'); ?>" value="<?php echo $language->language_order; ?>" min="1" required>
-                        </div>
+                            <div class="form-group mb-3">
+                                <label><?php echo trans('text_editor_language'); ?></label>
+                                <select name="text_editor_lang" class="form-control" required>
+                                    <?php foreach ($ed_langs as $ed_lang) : ?>
+                                        <option value="<?php echo $ed_lang['short']; ?>" <?php echo ($ed_lang['short'] == $language->text_editor_lang) ? 'selected' : ''; ?>><?php echo $ed_lang['name']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label><?php echo trans('text_editor_language'); ?></label>
-                            <select name="text_editor_lang" class="form-control" required>
-                                <?php foreach ($ed_langs as $ed_lang) : ?>
-                                    <option value="<?php echo $ed_lang['short']; ?>" <?php echo ($ed_lang['short'] == $language->text_editor_lang) ? 'selected' : ''; ?>><?php echo $ed_lang['name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-12">
-                                    <label><?php echo trans('text_direction'); ?></label>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 col-option">
-                                    <input type="radio" id="rb_type_1" name="text_direction" value="ltr" class="square-purple" <?php echo ($language->text_direction == "ltr") ? 'checked' : ''; ?>>
-                                    <label for="rb_type_1" class="cursor-pointer"><?php echo trans("left_to_right"); ?></label>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 col-option">
-                                    <input type="radio" id="rb_type_2" name="text_direction" value="rtl" class="square-purple" <?php echo ($language->text_direction == "rtl") ? 'checked' : ''; ?>>
-                                    <label for="rb_type_2" class="cursor-pointer"><?php echo trans("right_to_left"); ?></label>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
+                                        <label><?php echo trans('text_direction'); ?></label>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12 col-option">
+                                        <input type="radio" id="rb_type_1" name="text_direction" value="ltr" class="square-purple" <?php echo ($language->text_direction == "ltr") ? 'checked' : ''; ?>>
+                                        <label for="rb_type_1" class="cursor-pointer"><?php echo trans("left_to_right"); ?></label>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12 col-option">
+                                        <input type="radio" id="rb_type_2" name="text_direction" value="rtl" class="square-purple" <?php echo ($language->text_direction == "rtl") ? 'checked' : ''; ?>>
+                                        <label for="rb_type_2" class="cursor-pointer"><?php echo trans("right_to_left"); ?></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-12">
-                                    <label><?php echo trans('status'); ?></label>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 col-option">
-                                    <input type="radio" name="status" value="1" id="status1" class="square-purple" <?php echo ($language->status == "1") ? 'checked' : ''; ?>>&nbsp;&nbsp;
-                                    <label for="status1" class="option-label"><?php echo trans('active'); ?></label>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 col-option">
-                                    <input type="radio" name="status" value="0" id="status2" class="square-purple" <?php echo ($language->status != "1") ? 'checked' : ''; ?>>&nbsp;&nbsp;
-                                    <label for="status2" class="option-label"><?php echo trans('inactive'); ?></label>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
+                                        <label><?php echo trans('status'); ?></label>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12 col-option">
+                                        <input type="radio" name="status" value="1" id="status1" class="square-purple" <?php echo ($language->status == "1") ? 'checked' : ''; ?>>&nbsp;&nbsp;
+                                        <label for="status1" class="option-label"><?php echo trans('active'); ?></label>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12 col-option">
+                                        <input type="radio" name="status" value="0" id="status2" class="square-purple" <?php echo ($language->status != "1") ? 'checked' : ''; ?>>&nbsp;&nbsp;
+                                        <label for="status2" class="option-label"><?php echo trans('inactive'); ?></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary float-right"><?php echo trans('save_changes'); ?></button>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary float-right"><?php echo trans('save_changes'); ?></button>
+                            </div>
+                            <?php echo form_close(); ?>
                         </div>
-                        <?php echo form_close(); ?>
+                        <!-- end card-body -->
                     </div>
-                    <!-- end card-body -->
-                </div>
-            </div> <!-- end col -->
+                </div> <!-- end col -->
 
-        </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<?php echo $this->endSection() ?>

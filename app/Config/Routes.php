@@ -74,6 +74,7 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
 
     $routes->group('language-settings', ["filter" => 'check-admin'], function ($routes) {
         $routes->get('', 'Admin/Languages::index');
+        $routes->get('edit-language/(:num)', 'Admin\Languages::edit_language/$1');
     });
 });
 
