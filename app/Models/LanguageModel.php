@@ -22,6 +22,7 @@ class LanguageModel extends Model
 
         $this->session = session();
         $this->request = \Config\Services::request();
+        $this->languageTranslationsModel = new LanguageTranslationsModel();
     }
 
     //input values
@@ -44,10 +45,10 @@ class LanguageModel extends Model
     {
         $data = $this->input_values();
 
-        $save_id = $this->builder()->insert($data);
+        $save_id = $this->protect(false)->insert($data);
 
         if ($save_id) {
-            $translations = model('languageTranslationsModel')->builder()->where('lang_id', 1)->get()->getResult();
+            $translations =  $this->languageTranslationsModel->builder()->where('lang_id', 1)->get()->getResult();
             if (!empty($translations)) {
                 foreach ($translations as $translation) {
                     $data_translation = array(
@@ -56,7 +57,7 @@ class LanguageModel extends Model
                         'translation' => $translation->translation
                     );
 
-                    model('languageTranslationsModel')->builder()->insert('language_translations', $data_translation);
+                    $this->languageTranslationsModel->builder()->insert($data_translation);
                 }
             }
 
@@ -87,18 +88,16 @@ class LanguageModel extends Model
     {
         $language = $this->asObject()->find($id);
         if (!empty($language->id)) {
-            $translations = model('languageTranslationsModel')->builder()->where('lang_id', clean_number($language->id))->get()->getResult();
+            $translations =   $this->languageTranslationsModel->builder()->where('lang_id', clean_number($language->id))->get()->getResult();
 
             if (!empty($translations)) {
                 foreach ($translations as $translation) {
                     //delete translations
-                    model('languageTranslationsModel')->delete($translation->id);
+                    $this->languageTranslationsModel->delete($translation->id);
                 }
             }
             //delete settings
-
-
-            if ($this->builder()->delete($language->id)) {
+            if ($this->delete($language->id)) {
                 return true;
             }
         }
@@ -108,6 +107,8 @@ class LanguageModel extends Model
     //set language
     public function set_language()
     {
+        $generalSettingsModel = new GeneralSettingModel();
+
         $data = array(
             'site_lang' => $this->request->getVar('site_lang'),
         );
@@ -115,7 +116,7 @@ class LanguageModel extends Model
         $lang = $this->asObject()->find($data['site_lang']);
 
         if (!empty($lang->id)) {
-            return model('GeneralSettingsModel')->where('id', 1)->update($data);
+            return $generalSettingsModel->builder()->where('id', 1)->update($data);
         }
 
         return false;

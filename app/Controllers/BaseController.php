@@ -65,9 +65,7 @@ class BaseController extends Controller
 
 
         //set timezone
-
         if (!empty($this->general_settings->timezone)) {
-
             date_default_timezone_set($this->general_settings->timezone);
         }
 
@@ -137,25 +135,6 @@ class BaseController extends Controller
             foreach ($translations as $translation) {
                 $array[$translation->label] = $translation->translation;
             }
-        }
-        $validation =  \Config\Services::validation();
-
-        //set custom error messages
-        if (isset($array["form_validation_required"])) {
-
-            $validation->setRules(['required' => $array["form_validation_required"]]);
-        }
-        if (isset($array["form_validation_min_length"])) {
-            $validation->setRules(['required' => '$array["form_validation_min_length"]']);
-        }
-        if (isset($array["form_validation_max_length"])) {
-            $validation->setRules(['required' => '$array["form_validation_max_length"]']);
-        }
-        if (isset($array["form_validation_matches"])) {
-            $validation->setRules(['required' => '$array["form_validation_matches"]']);
-        }
-        if (isset($array["form_validation_is_unique"])) {
-            $validation->setRules(['required' => '$array["form_validation_is_unique"]']);
         }
         return $array;
     }

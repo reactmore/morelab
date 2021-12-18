@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
-
+use App\Controllers\BaseController as Base;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
@@ -20,7 +20,7 @@ use App\Libraries\Bcrypt;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-class AdminController extends BaseController
+class BaseController extends Base
 {
     /**
      * Instance of the main Request object.

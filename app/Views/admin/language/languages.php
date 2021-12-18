@@ -108,7 +108,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 							</h5>
 						</div>
 						<div class="card-body">
-							<?php echo form_open('administrator/set_language_post'); ?>
+							<?php echo form_open('admin/languages/set_language_post'); ?>
 							<!-- include message block -->
 							<?php if (!empty(session()->getFlashdata('mes_set_language'))) :
 								echo view('admin/includes/_messages');
@@ -137,7 +137,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 						<div class="card-body">
 
 							<!-- form start -->
-							<?php echo form_open_multipart('administrator/add_language_post', ['id' => 'form_add_language_post', 'class' => 'custom-validation needs-validation']); ?>
+							<?php echo form_open_multipart('admin/languages/add_language_post', ['id' => 'form_add_language_post', 'class' => 'custom-validation needs-validation']); ?>
 
 							<?php if (empty(session()->getFlashdata('mes_set_language'))) :
 								echo view('admin/includes/_messages');
@@ -268,9 +268,9 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 															<i class="mdi mdi-circle-edit-outline mr-2"></i><?php echo trans('select_an_option'); ?>
 														</button>
 														<div class="dropdown-menu dropdown-menu-animated">
-															<a class="dropdown-item" href="<?php echo admin_url(); ?>edit-language/<?php echo html_escape($item->id); ?>"><?php echo trans('edit'); ?></a>
+															<a class="dropdown-item" href="<?php echo admin_url(); ?>language-settings/edit-language/<?php echo html_escape($item->id); ?>"><?php echo trans('edit'); ?></a>
 															<div class="dropdown-divider"></div>
-															<a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('language_controller/delete_language_post','<?php echo $item->id; ?>','<?php echo trans('confirm_language'); ?>');"><?php echo trans('delete'); ?></a>
+															<a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/languages/delete_language_post','<?php echo $item->id; ?>','<?php echo trans('confirm_language'); ?>');"><?php echo trans('delete'); ?></a>
 														</div>
 													</div>
 

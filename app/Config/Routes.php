@@ -34,46 +34,51 @@ $routes->setAutoRoute(true);
  * --------------------------------------------------------------------
  */
 
+$routes->resource('api/rest');
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
 $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($routes) {
+    $routes->get('', 'Admin/Dashboard::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
+    $routes->get('dashboard', 'Admin/Dashboard::index', ["filter" => 'check-permissions:admin_panel']);
 
-    $routes->get('', 'Administrator::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
-    $routes->get('dashboard', 'Administrator::index', ["filter" => 'check-permissions:admin_panel']);
-    $routes->get('administrators', 'Administrator::administrators', ["filter" => 'check-admin']);
+    $routes->get('administrators', 'Admin/UserManagement::administrators', ["filter" => 'check-admin']);
 
     $routes->group('users', ["filter" => 'check-permissions:users'], function ($routes) {
-        $routes->get('list-users', 'Administrator::users');
-        $routes->get('add-user', 'Administrator::add_user', ["filter" => 'check-permissions:admin_panel']);
-        $routes->get('edit-user/(:num)', 'Administrator::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('list-users', 'Admin/UserManagement::users');
+        $routes->get('add-user', 'Admin/UserManagement::add_user', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('edit-user/(:num)', 'Admin\UserManagement::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
     });
 
     $routes->group('roles-permissions', ["filter" => 'check-admin'], function ($routes) {
-        $routes->get('', 'Administrator::roles_permissions');
-        $routes->get('add-role', 'Administrator::add_role', ["filter" => 'check-admin']);
-        $routes->get('edit-role/(:num)', 'Administrator::edit_role/$1', ["filter" => 'check-admin']);
+        $routes->get('', 'Admin/RoleManagement::index');
+        $routes->get('add-role', 'Admin/RoleManagement::add_role', ["filter" => 'check-admin']);
+        $routes->get('edit-role/(:num)', 'Admin\RoleManagement::edit_role/$1', ["filter" => 'check-admin']);
     });
 
     $routes->group('settings', ["filter" => 'check-permissions:settings'], function ($routes) {
-        $routes->get('', 'Administrator::general_settings');
-        $routes->get('general', 'Administrator::general_settings');
-        $routes->get('email', 'Administrator::email_settings', ["filter" => 'check-admin']);
-        $routes->get('social', 'Administrator::social_settings', ["filter" => 'check-admin']);
-        $routes->get('visual', 'Administrator::visual_settings', ["filter" => 'check-admin']);
+        $routes->get('', 'Admin/GeneralSettings::index');
+        $routes->get('general', 'Admin/GeneralSettings::index');
+        $routes->get('email', 'Admin/GeneralSettings::email_settings', ["filter" => 'check-admin']);
+        $routes->get('social', 'Admin/GeneralSettings::social_settings', ["filter" => 'check-admin']);
+        $routes->get('visual', 'Admin/GeneralSettings::visual_settings', ["filter" => 'check-admin']);
     });
 
     $routes->group('profile', function ($routes) {
-        $routes->get('', 'Administrator::profile');
-        $routes->get('change-password', 'Administrator::change_password');
-        $routes->get('delete-account', 'Administrator::delete_account');
+        $routes->get('', 'Admin/Profile::index');
+        $routes->get('change-password', 'Admin/Profile::change_password');
+        $routes->get('delete-account', 'Admin/Profile::delete_account');
     });
 
     $routes->group('language-settings', ["filter" => 'check-admin'], function ($routes) {
-        $routes->get('', 'Administrator::languages');
+        $routes->get('', 'Admin/Languages::index');
+        $routes->get('edit-language/(:num)', 'Admin\Languages::edit_language/$1');
     });
 });
+
+
 
 
 $routes->get("/$custom_routes->admin/login", 'Common::index');

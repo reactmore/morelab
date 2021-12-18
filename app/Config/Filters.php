@@ -25,6 +25,7 @@ class Filters extends BaseConfig
         'auth-login' => Auth::class,
         'check-admin' => CheckAdmin::class,
         'check-permissions' => CheckPermissions::class,
+        'cors'     => \App\Filters\Cors::class,
     ];
 
     /**
@@ -36,7 +37,8 @@ class Filters extends BaseConfig
     public $globals = [
         'before' => [
             // 'honeypot',
-            'csrf',
+            'csrf' => ['except' => ['rest', 'api/rest']],
+            'cors'
         ],
         'after' => [
             'toolbar',
