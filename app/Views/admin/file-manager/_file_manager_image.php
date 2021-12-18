@@ -87,7 +87,7 @@
     var txt_processing = "<?php echo "processing"; ?>";
     $(function() {
         $('#drag-and-drop-zone-image').dmUploader({
-            url: '<?php echo base_url(); ?>/file/upload_image_file',
+            url: '<?php echo base_url(); ?>/admin/file/upload_image_file',
             queue: true,
             allowedTypes: 'image/*',
             extFilter: ["jpg", "jpeg", "png", "gif", "svg"],

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
+use App\Controllers\Admin\BaseController;
 use App\Models\ImagesModel;
 
-class File extends AdminController
+class File extends BaseController
 {
 
     /**

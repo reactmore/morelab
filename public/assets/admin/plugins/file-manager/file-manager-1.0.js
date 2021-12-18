@@ -41,7 +41,7 @@ function refresh_images() {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/File/get_images",
+        url: baseUrl + "/admin/file/get_images",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -63,7 +63,7 @@ $(document).on('click', '#file_manager_image #btn_img_delete', function () {
 
     $.ajax({
         type: "POST",
-        url: baseUrl + "/file/delete_image_file",
+        url: baseUrl + "/admin/file/delete_image_file",
         data: data,
         success: function (response) {
             $('#btn_img_delete').hide();
@@ -132,7 +132,7 @@ jQuery(function ($) {
                 data[csrfName] = $.cookie(csrfCookie);
                 $.ajax({
                     type: "POST",
-                    url: baseUrl + "/file/load_more_images",
+                    url: baseUrl + "/admin/file/load_more_images",
                     data: data,
                     success: function (response) {
                         setTimeout(function () {
@@ -157,7 +157,7 @@ $(document).on('input', '#input_search_image', function () {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "file/search_image_file",
+        url: baseUrl + "/admin/file/search_image_file",
         data: data,
         success: function (response) {
             if (search.length > 1) {
