@@ -58,6 +58,8 @@ writable/session/*
 !writable/session/index.html
 
 writable/uploads/*
+!writable/uploads/tmp
+!writable/uploads/index.html
 !writable/uploads/index.html
 
 writable/debugbar/*
