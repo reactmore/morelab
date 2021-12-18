@@ -16,13 +16,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/public/assets/eterna/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- plugin CSS Files -->
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/animate.css/animate.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/public/assets/eterna/plugin/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
     <link href="<?php echo base_url(); ?>/public/assets/eterna/css/style.css" rel="stylesheet">
@@ -374,14 +374,14 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/purecounter/purecounter.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/waypoints/noframework.waypoints.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/eterna/vendor/php-email-form/validate.js"></script>
+    <!-- plugin JS Files -->
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/purecounter/purecounter.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/glightbox/js/glightbox.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/swiper/swiper-bundle.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/waypoints/noframework.waypoints.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/eterna/plugin/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
     <script src="<?php echo base_url(); ?>/public/assets/eterna/js/main.js"></script>

@@ -7,11 +7,14 @@
 - [x] Auth
     - [x] Login
     - [ ] Register
-    - [ ] Forgot Password
-    - [ ] Confirmation
+    - [x] Forgot Password
+    - [x] Confirmation
     - [ ] Google
     - [ ] Facebook
 - [x] Admin Panel
+    - [x] Security
+        - [x] CRSF
+        - [x] Multi Validations
     - [x] Dashboard
     - [x] CRUD User Management
         - [x] User Paginate
@@ -27,10 +30,10 @@
     - [x] Settings
     - [x] Profile
     - [x] Language Management
-        - [ ] Create
+        - [x] Create
         - [x] Read
-        - [ ] Update
-        - [ ] Delete
+        - [x] Update
+        - [x] Delete
         - [ ] Translations / Translate
             - [ ] Read w/ Paginate
             - [ ] Delete
