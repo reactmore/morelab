@@ -51,6 +51,40 @@ class UserModel extends Model
         return $data;
     }
 
+    //register
+    public function register()
+    {
+
+
+        $data = $this->input_values();
+        $data['first_name'] = $this->request->getVar('first_name');
+        $data['last_name'] = $this->request->getVar('last_name');
+        //secure password
+        $data['password'] = $this->bcrypt->hash_password($data['password']);
+        $data['user_type'] = "registered";
+        $data["slug"] = $this->generate_uniqe_slug($data["username"]);
+        $data['status'] = 1;
+        $data['token'] = generate_unique_id();
+        $data['role'] = 'user';
+        $data['last_seen'] = date('Y-m-d H:i:s');
+
+        $save_id = $this->protect(false)->insert($data);
+
+        if ($save_id) {
+            if (get_general_settings()->email_verification == 1) {
+                $data['email_status'] = 0;
+                $emailModel = new EmailModel();
+                $emailModel->send_email_activation($save_id);
+            } else {
+                $data['email_status'] = 1;
+            }
+
+            return $this->get_user($save_id);
+        } else {
+            return false;
+        }
+    }
+
     //add user
     public function add_user()
     {

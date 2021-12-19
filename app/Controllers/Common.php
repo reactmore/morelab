@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Recaptcha;
 use App\Models\EmailModel;
 use App\Models\UserModel;
 use CodeIgniter\I18n\Time;
@@ -161,6 +162,125 @@ class Common extends BaseController
             $this->session->setFlashData('errors_form', $validation->listErrors());
             return redirect()->back()->withInput()->with('error', $validation->getErrors());
         }
+    }
+
+
+
+    /**
+     * Register
+     */
+    public function register()
+    {
+        $this->is_registration_active();
+        //check if logged in
+        if (auth_check()) {
+            return redirect()->to(lang_base_url());
+        }
+        $data['title'] = trans("register");
+        $data['description'] = trans("register") . " - " . $this->general_settings->application_name;
+        $data['keywords'] = trans("register") . "," . $this->general_settings->application_name;
+
+        return view('admin/auth/register', $data);
+    }
+
+
+
+    /**
+     * Register Post
+     */
+    public function admin_register_post()
+    {
+
+        $this->reset_flash_data();
+        $userModel = new UserModel();
+        $validation =  \Config\Services::validation();
+
+        $rules = [
+            'username'         => 'required|min_length[4]|max_length[100]',
+            'email'            => 'required|max_length[200]|valid_email',
+            'password'         => 'required|min_length[4]|max_length[200]',
+            'confirm_password' => 'required|min_length[4]|max_length[100]|matches[password]',
+        ];
+
+        if ($this->validate($rules)) {
+
+            if (!$this->recaptcha_verify_request()) {
+                $this->session->setFlashData('error', trans("msg_recaptcha"));
+                return redirect()->to($this->agent->getReferrer());
+            }
+
+            $email = $this->request->getVar('email');
+            $username = $this->request->getVar('username');
+
+            //is username unique
+            if (!$this->userModel->is_unique_username($username)) {
+                $this->session->setFlashData('form_data', $this->userModel->input_values());
+                $this->session->setFlashData('error', trans("msg_username_unique_error"));
+                return redirect()->back()->withInput();
+            }
+            //is email unique
+            if (!$this->userModel->is_unique_email($email)) {
+                $this->session->setFlashData('form_data', $this->userModel->input_values());
+                $this->session->setFlashData('error', trans("message_email_unique_error"));
+                return redirect()->back()->withInput();
+            }
+
+            //register
+            $user = $userModel->register();
+            if ($user) {
+                if (get_general_settings()->email_verification == 1) {
+                    $this->session->setFlashData('success_form', trans("msg_send_confirmation_email"));
+                } else {
+                    $this->session->setFlashData('success_form', trans("msg_register_success"));
+                }
+                if ($userModel->is_logged_in()) {
+                    return redirect()->to(admin_url());
+                }
+
+                return redirect()->to($this->agent->getReferrer());
+            } else {
+                //error
+                $this->session->setFlashData('errors_form', trans("message_register_error"));
+                return redirect()->back()->withInput();
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+        }
+    }
+
+    public function recaptcha_verify_request()
+    {
+        if (!recaptcha_status()) {
+            return true;
+        }
+
+        $recaptchaLib = new Recaptcha();
+
+        $recaptcha = $this->request->getVar('g-recaptcha-response');
+        if (!empty($recaptcha)) {
+            $response = $recaptchaLib->verifyResponse($recaptcha);
+            if (isset($response['success']) && $response['success'] === true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //check if membership system active
+    private function is_registration_active()
+    {
+        if (get_general_settings()->registration_system != 1) {
+            return redirect()->to(lang_base_url());
+        }
+    }
+
+    //reset flash data
+    private function reset_flash_data()
+    {
+        $this->session->setFlashData('errors', "");
+        $this->session->setFlashData('error', "");
+        $this->session->setFlashData('success', "");
     }
 
     /**

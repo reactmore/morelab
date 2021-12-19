@@ -33,41 +33,80 @@
             <div class="card-body">
 
                 <?php echo $this->include('admin/includes/_messages') ?>
-                <form id="form_safe" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
+                <form id="form_safe" action="<?php echo base_url(); ?>/common/admin_register_post" method="post">
                     <input type="hidden" id="crsf">
-                    <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="<?php echo trans('email') ?>" value="<?php echo old('email') ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="firstname" class="form-label"><?php echo trans('firstname') ?></label>
+                                <input class="form-control" type="text" id="firstname" name="first_name" placeholder="<?php echo trans('firstname') ?>" value="<?php echo old('first_name') ?>" required>
                             </div>
                         </div>
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lastname" class="form-label"><?php echo trans('lastname') ?></label>
+                                <input class="form-control" type="text" id="lastname" name="last_name" placeholder="<?php echo trans('lastname') ?>" value="<?php echo old('last_name') ?>" required>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="form-label"><?php echo trans('form_username') ?></label>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="<?php echo trans('form_username') ?>" value="<?php echo old('username') ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label"><?php echo trans('form_email') ?></label>
+                        <input class="form-control" type="email" id="email" name="email" placeholder="<?php echo trans('form_email') ?>" value="<?php echo old('email') ?>" required>
                     </div>
 
 
-                    <div class="input-group ">
-                        <input type="password" name="password" class="form-control" placeholder="<?php echo trans('form_password') ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="password" class="form-label"><?php echo  trans('form_password') ?></label>
+                                <input class="form-control" type="password" id="password" name="password" placeholder="<?php echo trans('form_password') ?>" required>
                             </div>
                         </div>
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="confirm_password"><?php echo trans("form_confirm_password"); ?></label>
+                                <input type="password" name="confirm_password" class="form-control" placeholder="<?php echo trans("form_confirm_password"); ?>" data-parsley-equalto="#password" required>
+                            </div>
+                        </div>
+                        <!-- /.col -->
                     </div>
-                    <small><a href="<?php echo admin_url() ?>forgot-password"><?php echo trans('forgot_password') ?></a></small>
 
-                    <div class="row mt-4">
+
+
+
+
+                    <?php if (recaptcha_status()) : ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="recaptcha-cnt">
+                                    <?php generate_recaptcha(); ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" name="remember_me" id="remember" value="1">
-                                <label for="remember">
-                                    <?php echo trans("remember_me"); ?>
+                                <input type="checkbox" name="terms" id="checkbox-signup" value="1" required>
+                                <label for="checkbox-signup">
+                                    Agree to the <a href="#" class="text-primary">Terms of Use</a>
                                 </label>
                             </div>
                         </div>
-
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block"><?php echo trans("login"); ?></button>
+                            <button type="submit" class="btn btn-primary btn-block"><?php echo trans("register"); ?></button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -89,7 +128,7 @@
 
                     </div>
                 <?php endif; ?>
-                <p class="mb-0 mt-3 text-muted">Don't have an account? <a href="<?php echo admin_url(); ?>register" class="text-muted ms-1"><b><?php echo trans("register"); ?></b></a></p>
+                <p class="mb-0 mt-3 text-muted">Already have an account ? <a href="<?php echo admin_url(); ?>login" class="font-weight-medium text-primary"> <?php echo trans('login') ?> </a> </p>
 
             </div>
             <!-- /.card-body -->
