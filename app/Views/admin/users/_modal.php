@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?php echo form_open('administrator/change_user_role_post'); ?>
+            <?php echo form_open('admin/usermanagement/change_user_role_post'); ?>
 
             <div class="modal-body">
                 <div class="form-group mb-3">

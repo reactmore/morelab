@@ -85,7 +85,8 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/
+# vendor/
+# app/ThirdParty/vendor/*
 
 #-------------------------
 # IDE / Development Files
@@ -127,3 +128,4 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+vendor/*

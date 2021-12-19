@@ -39,7 +39,7 @@
                             <h5 class="card-title text-uppercase"><?php echo trans("role_name"); ?> : <?php echo html_escape($role->role_name); ?></h5>
                         </div>
                         <div class="card-body">
-                            <?php echo form_open('administrator/edit_role_post', ['id' => 'form_edit_role_post', 'class' => 'mt-4 custom-validation needs-validation']); ?>
+                            <?php echo form_open('admin/rolemanagement/edit_role_post', ['id' => 'form_edit_role_post', 'class' => 'mt-4 custom-validation needs-validation']); ?>
 
                             <input type="hidden" name="id" value="<?php echo html_escape($role->id); ?>">
                             <input type="hidden" name="role_name" value="<?php echo html_escape($role->role_name); ?>">

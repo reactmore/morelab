@@ -1,4 +1,4 @@
-<?php echo form_open_multipart('administrator/change_password_post', ['id' => 'form_safe', 'class' => 'custom-validation needs-validation']); ?>
+<?php echo form_open_multipart('admin/profile/change_password_post', ['id' => 'form_safe', 'class' => 'custom-validation needs-validation']); ?>
 <input type="hidden" name="id" value="<?php echo html_escape($user->id); ?>">
 <input id="newimage_id" type="hidden" class="form-control mb-3" name="newimage_id" value="">
 <input type="hidden" id="crsf">

@@ -63,7 +63,7 @@
                                                 <?php if ($role->role != "admin") : ?>
                                                     <a href="<?php echo admin_url(); ?>roles-permissions/edit-role/<?php echo $role->id; ?>" class="btn btn btn-sm btn-primary  waves-effect waves-light"><i class="fa fa-edit"></i>&nbsp;&nbsp;<?php echo trans("edit"); ?></a>
 
-                                                    <a href="javascript:void(0)" onclick="delete_item('/administrator/delete_role_post','<?php echo $role->id; ?>','<?php echo trans('confirm_delete'); ?>')" class="btn btn btn-sm btn-danger  waves-effect waves-light"><i class="fa fa-trash"></i>&nbsp;&nbsp;<?php echo trans("delete"); ?></a>
+                                                    <a href="javascript:void(0)" onclick="delete_item('/admin/rolemanagement/delete_role_post','<?php echo $role->id; ?>','<?php echo trans('confirm_delete'); ?>')" class="btn btn btn-sm btn-danger  waves-effect waves-light"><i class="fa fa-trash"></i>&nbsp;&nbsp;<?php echo trans("delete"); ?></a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

@@ -83,6 +83,7 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
 
 
 
+$routes->get("/$custom_routes->admin/register", 'Common::register');
 $routes->get("/$custom_routes->admin/login", 'Common::index');
 $routes->get("/$custom_routes->admin/forgot-password", 'Common::forgot_password');
 $routes->get("/$custom_routes->admin/reset-password", 'Common::reset_password');

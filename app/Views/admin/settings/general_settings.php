@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="mt-3">
-                                <?php echo form_open_multipart('administrator/settings_post'); ?>
+                                <?php echo form_open_multipart('admin/generalsettings/settings_post'); ?>
 
                                 <?php if (!empty(session()->getFlashdata("mes_settings"))) :
                                     echo $this->include('admin/includes/_messages');

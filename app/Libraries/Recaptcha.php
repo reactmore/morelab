@@ -1,4 +1,6 @@
-<?php (!defined('BASEPATH')) and exit('No direct script access allowed');
+<?php
+
+namespace App\Libraries;
 
 /**
  * CodeIgniter Recaptcha library
@@ -13,7 +15,7 @@ class Recaptcha
 	 * ci instance object
 	 *
 	 */
-	private $_ci;
+	private $ipAddress;
 
 	/**
 	 * reCAPTCHA site up, verify and api url.
@@ -30,12 +32,12 @@ class Recaptcha
 	 */
 	public function __construct()
 	{
-		$this->_ci = &get_instance();
 
 		$settings = get_general_settings();
 		$this->_siteKey = $settings->recaptcha_site_key;
 		$this->_secretKey = $settings->recaptcha_secret_key;
 		$this->_language = $settings->recaptcha_lang;
+		$this->ipAddress = \Config\Services::request()->getIPAddress();
 	}
 
 	/**language
@@ -67,7 +69,8 @@ class Recaptcha
 	 */
 	public function verifyResponse($response, $remoteIp = null)
 	{
-		$remoteIp = (!empty($remoteIp)) ? $remoteIp : $this->_ci->input->ip_address();
+
+		$remoteIp = (!empty($remoteIp)) ? $remoteIp : $this->ipAddress;
 
 		// Discard empty solution submissions
 		if (empty($response)) {
@@ -123,8 +126,11 @@ class Recaptcha
 
 		$result = array_merge($default, $parameters);
 
-		$scripts = sprintf('<script type="text/javascript" src="%s?%s" async defer></script>',
-			self::api_url, http_build_query($result));
+		$scripts = sprintf(
+			'<script type="text/javascript" src="%s?%s" async defer></script>',
+			self::api_url,
+			http_build_query($result)
+		);
 
 		return $scripts;
 	}

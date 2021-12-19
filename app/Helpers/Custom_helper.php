@@ -2,6 +2,7 @@
 
 use App\Models\UserModel;
 use App\Models\Roles_permissionsModel;
+use App\Libraries\Recaptcha;
 
 $CI4 = new \App\Controllers\BaseController;
 
@@ -709,5 +710,33 @@ if (!function_exists('selected_lang')) {
         }
 
         return $site_lang;
+    }
+}
+
+//get recaptcha
+if (!function_exists('recaptcha_status')) {
+    function recaptcha_status()
+    {
+
+        if (empty(get_general_settings()->recaptcha_site_key) || empty(get_general_settings()->recaptcha_secret_key)) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+//get recaptcha
+if (!function_exists('generate_recaptcha')) {
+    function generate_recaptcha()
+    {
+        $recaptchaLib = new Recaptcha();
+
+        if (recaptcha_status()) {
+            echo '<div class="form-group">';
+            echo $recaptchaLib->getWidget();
+            echo $recaptchaLib->getScriptTag();
+            echo ' </div>';
+        }
     }
 }

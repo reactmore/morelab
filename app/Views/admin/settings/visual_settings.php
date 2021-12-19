@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="mt-0">
-                                <?php echo form_open_multipart('administrator/visual_settings_post'); ?>
+                                <?php echo form_open_multipart('admin/generalsettings/visual_settings_post'); ?>
                                 <?php echo view('admin/includes/_messages'); ?>
 
                                 <div class="form-group mb-3">

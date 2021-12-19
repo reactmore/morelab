@@ -72,6 +72,25 @@
                         <!-- /.col -->
                     </div>
                 </form>
+
+                <?php if (!empty(get_general_settings()->facebook_app_id) || !empty(get_general_settings()->google_client_id)) : ?>
+                    <div class="social-auth-links text-center mt-2 mb-3">
+                        <p class="text-muted font-16"><?php echo trans("or_login_with"); ?></p>
+                        <?php if (!empty(get_general_settings()->facebook_app_id)) : ?>
+                            <a href="<?php echo base_url('connect-with-facebook') ?>" class="btn btn-block btn-primary">
+                                <i class="fab fa-facebook mr-2"></i> Facebook
+                            </a>
+                        <?php endif; ?>
+                        <?php if (!empty(get_general_settings()->google_client_id)) : ?>
+                            <a href="<?php echo base_url('connect-with-facebook') ?>" class="btn btn-block btn-danger">
+                                <i class="fab fa-google-plus mr-2"></i> Google
+                            </a>
+                        <?php endif; ?>
+
+                    </div>
+                <?php endif; ?>
+                <p class="mb-0 mt-3 text-muted">Don't have an account? <a href="<?php echo admin_url(); ?>register" class="text-muted ms-1"><b><?php echo trans("register"); ?></b></a></p>
+
             </div>
             <!-- /.card-body -->
         </div>
