@@ -73,7 +73,7 @@
 
                                 <div class="tab-content">
                                     <div class="tab-pane show active" id="settings">
-                                        <?php echo form_open('administrator/email_settings_post'); ?>
+                                        <?php echo form_open('admin/generalsettings/email_settings_post'); ?>
                                         <?php
                                         $message = session()->getFlashdata('message_type');
                                         if (!empty($message) && $message == "email") {
@@ -149,7 +149,7 @@
                                     </div>
 
                                     <div class="tab-pane" id="email_verification">
-                                        <?php echo form_open('administrator/email_verification_settings_post'); ?>
+                                        <?php echo form_open('admin/generalsettings/email_verification_settings_post'); ?>
                                         <?php
                                         if (!empty($message) && $message == "verification") {
                                             echo $this->include('admin/includes/_messages');
@@ -180,7 +180,7 @@
 
                                     <div class="tab-pane" id="send_test_email">
 
-                                        <?php echo form_open('administrator/send_test_email_post'); ?>
+                                        <?php echo form_open('admin/generalsettings/send_test_email_post'); ?>
                                         <!-- include message block -->
                                         <?php
                                         if (!empty($message) && $message == "send_email") {

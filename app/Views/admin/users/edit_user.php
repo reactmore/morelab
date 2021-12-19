@@ -30,7 +30,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
-            <?php echo form_open_multipart('administrator/edit_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
+            <?php echo form_open_multipart('admin/usermanagement/edit_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
             <?php echo $this->include('admin/includes/_messages') ?>
 
             <div class="row">

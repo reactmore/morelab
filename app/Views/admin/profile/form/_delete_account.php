@@ -1,4 +1,4 @@
-<?php echo form_open_multipart('administrator/delete_account_post', ['id' => 'form_safe', 'class' => 'custom-validation needs-validation']); ?>
+<?php echo form_open_multipart('admin/profile/delete_account_post', ['id' => 'form_safe', 'class' => 'custom-validation needs-validation']); ?>
 <?php echo $this->include('admin/includes/_messages') ?>
 <input type="hidden" name="id" value="<?php echo html_escape($user->id); ?>">
 <input id="newimage_id" type="hidden" class="form-control mb-3" name="newimage_id" value="">

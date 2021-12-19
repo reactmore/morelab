@@ -53,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> <?php echo trans('facebook') ?></h5>
-                                        <?php echo form_open('administrator/social_login_facebook_post'); ?>
+                                        <?php echo form_open('admin/generalsettings/social_login_facebook_post'); ?>
                                         <!-- include message block -->
                                         <?php if (!empty(session()->getFlashdata('msg_social_facebook'))) :
                                             echo view('admin/includes/_messages');
@@ -85,7 +85,7 @@
 
                                     <div class="col-12">
                                         <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> <?php echo trans('google') ?></h5>
-                                        <?php echo form_open('administrator/social_login_google_post'); ?>
+                                        <?php echo form_open('admin/generalsettings/social_login_google_post'); ?>
                                         <!-- include message block -->
                                         <?php if (!empty(session()->getFlashdata('msg_social_google'))) :
                                             echo view('admin/includes/_messages');

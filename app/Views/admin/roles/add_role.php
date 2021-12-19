@@ -39,7 +39,7 @@
                             <h5 class="card-title text-uppercase"><?php echo trans("add"); ?> </h5>
                         </div>
                         <div class="card-body">
-                            <?php echo form_open('administrator/add_role_post', ['id' => 'form_edit_role_post', 'class' => 'mt-4 custom-validation needs-validation']); ?>
+                            <?php echo form_open('admin/rolemanagement/add_role_post', ['id' => 'form_edit_role_post', 'class' => 'mt-4 custom-validation needs-validation']); ?>
                             <div class="form-group mb-3">
                                 <label><?php echo trans("role"); ?></label>
                                 <input type="text" name="role" class="form-control auth-form-input" placeholder="<?php echo trans("role"); ?>" value="<?php echo old("role"); ?>" required>

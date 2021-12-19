@@ -83,7 +83,7 @@ function confirm_user_email(id) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: `${baseUrl}/administrator/confirm_user_email`,
+        url: `${baseUrl}/admin/usermanagement/confirm_user_email`,
         data: data,
         success: function (response) {
             location.reload();
@@ -147,7 +147,7 @@ function ban_user(id, message, option) {
             data[csrfName] = newLocal;
             $.ajax({
                 type: "POST",
-                url: `${baseUrl}/administrator/ban_user_post`,
+                url: `${baseUrl}/admin/usermanagement/ban_user_post`,
                 data: data,
                 beforeSend: function () {
                     $("#wait").show();
