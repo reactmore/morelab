@@ -9,6 +9,7 @@ class LanguageTranslationsModel extends Model
     protected $DBGroup          = 'default';
     protected $table            = 'language_translations';
     protected $primaryKey       = 'id';
+    protected $allowedFields = ['lang_id', 'label', 'translation'];
 
     // Custom 
 
@@ -34,66 +35,88 @@ class LanguageTranslationsModel extends Model
         return $data;
     }
 
-    // public function get_paginated_translations($lang_id, $per_page, $offset)
-    // {
-    //     $where = [
-    //         "lang_id" => clean_number($lang_id)
-    //     ];
+    public function TranslatePaginate($lang_id)
+    {
+        $request = service('request');
 
-    //     $this->_translations_filter();
-    //     return parent::get_all_where($where, $per_page, $offset, 'id')->result();
-    // }
+        $show = 50;
+        if ($request->getGet('show')) {
+            $show = $request->getGet('show');
+        }
 
-    // public function get_translation_count($lang_id)
-    // {
-    //     $where = [
-    //         "lang_id" => clean_number($lang_id)
-    //     ];
+        $paginateData = $this->select('language_translations.*')
+            ->where('language_translations.lang_id', clean_number($lang_id));
 
-    //     $this->_translations_filter();
-    //     return parent::get_all_where($where)->num_rows();
-    // }
+        $search = trim($request->getGet('q'));
+        if (!empty($search)) {
+            $this->builder()->groupStart()
+                ->like('language_translations.label', clean_str($search))
+                ->orLike('language_translations.translation', clean_str($search))
+                ->groupEnd();
+        }
 
-    // protected function _translations_filter()
-    // {
-    //     $q = trim($this->input->get('q'));
 
-    //     if (!empty($q)) {
-    //         $this->db->group_start();
-    //         $this->db->like('label', clean_str($q));
-    //         $this->db->or_like('translation', clean_str($q));
-    //         $this->db->group_end();
-    //     }
-    // }
 
-    // //add language
-    // public function add_translations()
-    // {
+        $result = $paginateData->asObject()->paginate($show, 'default');
 
-    //     foreach ($this->language_model->get_all_where(array('deleted' => 0))->result() as $item) {
+        return [
+            'translations'  =>  $result,
+            'pager'     => $this->pager,
+        ];
+    }
 
-    //         $data_translation = array(
-    //             'lang_id' => $item->id,
-    //             'label' => strtolower($this->input->post('label')),
-    //             'translation' => $this->input->post('translation'),
-    //         );
+    public function get_translations_by_label($label)
+    {
 
-    //         $insert = parent::save($data_translation);
-    //     }
+        $sql = "SELECT * FROM language_translations WHERE language_translations.label = ?";
+        $query = $this->db->query($sql, array(clean_str($label)));
+        return $query->getRow();
+    }
 
-    //     if ($insert) {
-    //         return true;
-    //     }
+    public function is_unique_translations($value, $update_id = 0)
+    {
+        $data = $this->asObject()->where('label', $value)->find();
 
-    //     return false;
-    // }
+        //if id doesnt exists
+        if ($update_id == 0) {
+            if (empty($data)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-    // //update translation
-    // public function update_translation($id, $translation)
-    // {
+        if ($update_id != 0) {
+            if (!empty($data->id) && $data->id != $update_id) {
+                //username taken
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 
-    //     $data = array('translation' => $translation);
 
-    //     parent::save($data, $id);
-    // }
+    //add language
+    public function add_translations()
+    {
+        $languageModel = new LanguageModel();
+        foreach ($languageModel->asObject()->where('deleted', 0)
+            ->findAll() as $item) {
+
+            $data_translation = array(
+                'lang_id' => $item->id,
+                'label' => strtolower($this->request->getVar('label')),
+                'translation' => $this->request->getVar('translation'),
+            );
+
+            $insert = $this->save($data_translation);
+        }
+
+        if ($insert) {
+            return true;
+        }
+
+        return false;
+    }
 }
