@@ -129,3 +129,4 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 vendor/*
+app/Telegram/Logs/*
