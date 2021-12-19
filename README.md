@@ -19,7 +19,6 @@
 - [ ] Google Auth
 - [ ] Facebook Auth
 - [ ] Telegram Intergation (Auth & Bot)
-  
     
 ## System Usage
 - Windows 10 
