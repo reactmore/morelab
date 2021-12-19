@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo selected_lang()->short_form ?>">
 
 <head>
 	<meta charset="UTF-8">

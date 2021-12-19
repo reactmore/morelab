@@ -5,16 +5,19 @@ namespace App\Controllers\Admin;
 use App\Controllers\Admin\BaseController;
 use App\Models\EmailModel;
 use App\Models\LanguageModel;
+use App\Models\LanguageTranslationsModel;
 use App\Models\ProfileModel;
 
 class Languages extends BaseController
 {
 
     protected $languageModel;
+    protected $LanguageTranslationsModel;
 
     public function __construct()
     {
         $this->languageModel = new LanguageModel();
+        $this->LanguageTranslationsModel = new LanguageTranslationsModel();
     }
 
     public function index()
@@ -23,6 +26,11 @@ class Languages extends BaseController
         $data["languages"] = model('LanguageModel')->builder()->get()->getResultObject();
 
         return view('admin/language/languages', $data);
+
+        foreach ($this->languageModel->asObject()->where('deleted', 0)
+            ->findAll() as $item) {
+            var_dump($item->id);
+        }
     }
 
     /**
@@ -133,6 +141,77 @@ class Languages extends BaseController
             $this->session->setFlashData('success', trans("language") . " " . trans("msg_suc_deleted"));
         } else {
             $this->session->setFlashData('error', trans("msg_error"));
+        }
+    }
+
+    /**
+     * Translations
+     */
+    public function translations($id)
+    {
+        $data['title'] = trans('edit_translations');
+        $data['language'] = $this->languageModel->asObject()->find($id);
+
+        if (empty($data['language']->id)) {
+            return redirect()->to($this->agent->getReferrer());
+        }
+
+        //get paginated translations
+        $data['paginate'] = $this->LanguageTranslationsModel->TranslatePaginate($data['language']->id);
+        $data['pager'] =  $data['paginate']['pager'];
+
+        return view('admin/language/translations', $data);
+    }
+
+    /**
+     * Add Language Post
+     */
+    public function add_translations_post()
+    {
+        $validation =  \Config\Services::validation();
+
+        //validate inputs
+        $rules = [
+            'lang_id'      => 'required',
+            'label'      => 'required|max_length[200]',
+            'translation'      => 'required|max_length[200]',
+        ];
+
+        if ($this->validate($rules)) {
+
+            $label = $this->request->getVar('label');
+            if (!$this->LanguageTranslationsModel->is_unique_translations($label)) {
+                $this->session->setFlashData('error', trans("msg_label_unique_error"));
+                return redirect()->to($this->agent->getReferrer());
+            }
+
+            $language_translations = $this->LanguageTranslationsModel->add_translations();
+            if (!empty($language_translations)) {
+                $this->session->setFlashData('success', trans("translation") . " " . trans("msg_suc_added"));
+                return redirect()->to($this->agent->getReferrer());
+            } else {
+                $this->session->setFlashData('error_form', trans("msg_error"));
+                return redirect()->to($this->agent->getReferrer());
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+        }
+    }
+
+    /**
+     * Update Translations Post
+     */
+    public function update_translation_post()
+    {
+        $data = array(
+            "translation" => $this->request->getVar('translation')
+        );
+
+        if ($this->LanguageTranslationsModel->update($this->request->getVar('id'), $data)) {
+            $this->session->setFlashData('success', trans("msg_updated"));
+        } else {
+            echo json_encode('0');
         }
     }
 }

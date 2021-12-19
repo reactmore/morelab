@@ -251,7 +251,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 												<td><?php echo html_escape($item->id); ?></td>
 												<td><?php echo html_escape($item->name); ?></td>
 												<td>
-													<a href="<?php echo admin_url(); ?>translations/<?php echo $item->id; ?>?show=50" class="btn btn-sm btn-success ">
+													<a href="<?php echo admin_url(); ?>language-settings/translations/<?php echo $item->id; ?>?show=50" class="btn btn-sm btn-success ">
 														<i class="ti-bookmark"></i>&nbsp;&nbsp;<?php echo trans('edit_translations'); ?>
 													</a>
 												</td>

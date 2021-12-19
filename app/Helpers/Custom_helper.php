@@ -281,7 +281,7 @@ if (!function_exists('check_admin')) {
 if (!function_exists('admin_url')) {
     function admin_url()
     {
-        global $CI4;
+
         return base_url() . '/' . get_routes()->admin . '/';
     }
 }

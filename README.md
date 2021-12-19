@@ -35,10 +35,10 @@
         - [x] Update
         - [x] Delete
         - [ ] Translations / Translate
-            - [ ] Read w/ Paginate
-            - [ ] Delete
-            - [ ] Update
-            - [ ] Created
+            - [x] Read w/ Paginate
+            - [x] Delete
+            - [x] Update
+            - [x] Created
 - [ ] Website
     - [ ] Index
     
