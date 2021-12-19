@@ -81,7 +81,7 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
 });
 
 
-
+$routes->post('telegram-webhook', 'Api/Manager::index');
 
 $routes->get("/$custom_routes->admin/register", 'Common::register');
 $routes->get("/$custom_routes->admin/login", 'Common::index');
