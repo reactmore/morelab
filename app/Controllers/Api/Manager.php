@@ -7,7 +7,10 @@ use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
 use Longman\TelegramBot\DB;
+use Longman\TelegramBot\Exception\TelegramException;
+use Longman\TelegramBot\Exception\TelegramLogException;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
 use TelegramBot\TelegramBotManager\BotManager;
 use Reactmore\Bot\BotDevelopmentHelper;
@@ -17,6 +20,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\NullLogger;
 use Throwable;
+
 
 class Manager extends BaseController
 {
@@ -129,5 +133,25 @@ class Manager extends BaseController
         ]);
 
         $config && Request::setClient(new Client($config));
+    }
+
+
+    public function sendChat()
+    {
+        try {
+            $telegram = new Telegram(getenv('TG_API_KEY'), getenv('TG_BOT_USERNAME'));
+            $chat_id = 958587442;
+
+            Request::sendMessage([
+                'chat_id'    => $chat_id,
+                'text' => 'test',
+            ]);
+        } catch (TelegramException $e) {
+            // Log telegram errors
+            TelegramLog::error($e);
+        } catch (TelegramLogException $e) {
+            // Uncomment this to output log initialisation errors (ONLY FOR DEVELOPMENT!)
+            TelegramLog::error($e);
+        }
     }
 }

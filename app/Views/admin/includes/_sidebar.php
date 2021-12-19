@@ -74,6 +74,8 @@
                       </ul>
                   </li>
 
+                  <li class="nav-header"><?php echo trans('telegram') ?> Management</li>
+
                   <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
                       <?php if (is_admin()) : ?>
