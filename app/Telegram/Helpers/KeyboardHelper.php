@@ -40,7 +40,7 @@ class KeyboardHelper
 	 *
 	 * @return Keyboard
 	 */
-	public static function getBackKeyboard()
+	public static function getBackKeyboardInline()
 	{
 		$keyboard = new InlineKeyboard([
 			['text' => 'Back', 'callback_data' => 'command=react&action=back']
@@ -89,6 +89,57 @@ class KeyboardHelper
 			['Transaksi', 'Isi Saldo', 'Profile'],
 			['Kupon', 'Extra', 'Bantuan'],
 			['Undian', 'Rekber', 'Refferal']
+		);
+
+		$keyboard->setResizeKeyboard(true);
+
+		return $keyboard;
+	}
+
+	/**
+	 * Return "Main menu" keyboard
+	 *
+	 * @return Keyboard
+	 */
+	public static function getProductMenuKeyboard()
+	{
+		$keyboard = new Keyboard(
+			['Crypto'],
+			['Batalkan']
+		);
+
+		$keyboard->setResizeKeyboard(true);
+
+		return $keyboard;
+	}
+
+	/**
+	 * Return "Main menu" keyboard
+	 *
+	 * @return Keyboard
+	 */
+	public static function getDepositMenuKeyboard()
+	{
+		$keyboard = new Keyboard(
+			['Voucher Indodax', 'Bank'],
+			['Virtual Account'],
+			['Batalkan']
+		);
+
+		$keyboard->setResizeKeyboard(true);
+
+		return $keyboard;
+	}
+
+	/**
+	 * Return "Main menu" keyboard
+	 *
+	 * @return Keyboard
+	 */
+	public static function getBackKeyboard()
+	{
+		$keyboard = new Keyboard(
+			['Batalkan'],
 		);
 
 		$keyboard->setResizeKeyboard(true);

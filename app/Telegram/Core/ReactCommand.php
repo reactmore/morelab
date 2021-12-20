@@ -15,10 +15,12 @@ use Longman\TelegramBot\Exception\TelegramException;
 
 abstract class ReactCommand extends UserCommand
 {
-    public function config($env)
+    public function config($object)
     {
-        $result = getenv($env);
-        return $result;
+        $model = new TelegramModel();
+        $config = $model->asObject()->find(1);
+
+        return $config->$object;
     }
 
     /**
@@ -31,6 +33,7 @@ abstract class ReactCommand extends UserCommand
     {
         $message = $this->getMessage() ?: $this->getCallbackQuery()->getMessage();
         $telegramModel = new TelegramModel();
+        $getModelSettings = $telegramModel->asObject()->find(1);
 
 
         if ($this->need_mysql && !($this->telegram->isDbEnabled() && DB::isDbConnected())) {
@@ -49,12 +52,12 @@ abstract class ReactCommand extends UserCommand
             return Request::emptyResponse();
         }
 
-        if ($telegramModel->bot_auth) {
+        if ($telegramModel->asObject()->find(1)->bot_auth) {
             $text = "Sebelum Menggunakan Bot Ini Baiknya Kamu Gabung Channel/Group dulu ya \n\n";
             if (getenv('TG_CHANNEL_USERNAME')) {
-                $auth_channel = CommunityHelper::checkUserIsMemberOfChat($message->getFrom()->getId(), '@' .  $telegramModel->cahnnel_username);
+                $auth_channel = CommunityHelper::checkUserIsMemberOfChat($message->getFrom()->getId(), '@' .  $telegramModel->asObject()->find(1)->cahnnel_username);
                 if (!$auth_channel) {
-                    $text .= "@" . $telegramModel->cahnnel_username . "\n";
+                    $text .= "@" . $telegramModel->asObject()->find(1)->cahnnel_username . "\n";
                     return Request::sendMessage([
                         'chat_id'    =>  $message->getFrom()->getId(),
                         'parse_mode' => 'Markdown',
@@ -76,6 +79,7 @@ abstract class ReactCommand extends UserCommand
                 ]);
             }
         }
+
 
         return $this->execute();
     }

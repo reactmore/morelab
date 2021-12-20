@@ -2,6 +2,7 @@
 
 namespace Longman\TelegramBot\Commands\UserCommands;
 
+use App\Models\Telegram\UserModel;
 use App\Telegram\Core\ReactCommand;
 use App\Telegram\Helpers\KeyboardHelper;
 use App\Telegram\Helpers\TextHelper;
@@ -15,16 +16,17 @@ use LitEmoji\LitEmoji;
 use App\Telegram\Helpers\GroupHelper;
 use App\Telegram\Helpers\BotDevelopmentHelper;
 
-class StartCommand extends ReactCommand
+class RefferalCommand extends ReactCommand
 {
 
-    protected $name = 'start';
 
-    protected $description = 'Show Start Command';
+    protected $name = 'refferal';
+
+    protected $description = 'Show Refferal User';
 
     protected $version = '0.1.0';
 
-    protected $usage = '/start';
+    protected $usage = '/refferal';
 
     protected $private_only = true;
 
@@ -36,9 +38,12 @@ class StartCommand extends ReactCommand
     public function execute(): ServerResponse
     {
 
+        $userModel = new UserModel();
         $message = $this->getMessage() ?: $this->getCallbackQuery()->getMessage();
         $chat_id = $message->getChat()->getId();
         $user_id = $message->getFrom()->getId();
+        $user =  $userModel->asObject()->find($user_id);
+        $refferal_user = $userModel->countAllRefferal($user_id);
 
         $text = trim($message->getText(true));
 
@@ -46,9 +51,11 @@ class StartCommand extends ReactCommand
             'chat_id' => $chat_id,
             'action' => ChatAction::TYPING,
         ]);
+        $out_text = "*Total Refferal* : {$refferal_user} Pengguna\n\n";
+        $out_text .= "*Link Refferal* : `http://t.me/{$this->config('bot_username')}?start={$user_id}` \n";
 
-        $out_text = "Hello " . TextHelper::greeting() . " {$message->getChat()->tryMention(true)} \n\n";
-        $out_text .= "### 🔎 INFORMASI 🔍 ###\nKami menjual BSC, LTC, BTT, TRX, USDT, XLM dan BUSD dengan sistem otomatis silahkan klik tombol Isi Saldo untuk mengisi saldo, Harap cek ketersediaan Coin terlebih dahulu dengan mengetik rate. \n\nSistem Cashback Poin bisa didapat ketika kamu membeli BSC, LTC, BTT, TRX, USDT, XLM dan BUSD sebesar 0.4 % dari nominal transaksi, 1 Poin (1 IDR) bisa ditukar dengan minimum penukaran 5000 Poin.\n\n";
+
+
 
 
         return Request::sendMessage([

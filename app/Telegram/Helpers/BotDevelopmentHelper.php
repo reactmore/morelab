@@ -25,7 +25,7 @@ class BotDevelopmentHelper
         $dump = var_export($data, true);
 
 
-        if ($chat_id !== null || (property_exists(self::class, 'dump_chat_id') && $chat_id = self::$dump_chat_id)) {
+        if (!empty($chat_id)) {
             $result = Request::sendMessage([
                 'chat_id'                  => $chat_id,
                 'text'                     => $dump,

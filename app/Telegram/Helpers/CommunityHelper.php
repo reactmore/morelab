@@ -7,7 +7,7 @@ use App\Models\UserTelegramModel;
 use Longman\TelegramBot\Entities\ChatMember;
 use Longman\TelegramBot\Request;
 use App\Models\Telegram\UserModel;
-
+use App\Telegram\Helpers\BotDevelopmentHelper;
 
 
 class CommunityHelper
@@ -84,10 +84,10 @@ class CommunityHelper
 
 		$user = $UserTelegramModel->asObject()->find($user_id);
 
-		if ($user->status == 0) {
-			return false;
+		if ($user->status == 1) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }
