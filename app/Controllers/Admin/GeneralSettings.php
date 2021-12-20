@@ -43,6 +43,39 @@ class GeneralSettings extends BaseController
         }
     }
 
+    /**
+     * Recaptcha Settings Post
+     */
+    public function recaptcha_settings_post()
+    {
+
+        if ($this->GeneralSettingModel->update_recaptcha_settings()) {
+            $this->session->setFlashData('success', trans("google_recaptcha") . " " . trans("msg_suc_updated"));
+            $this->session->setFlashData("mes_recaptcha", 1);
+            return redirect()->to($this->agent->getReferrer());
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+            $this->session->setFlashData("mes_recaptcha", 1);
+            return redirect()->to($this->agent->getReferrer());
+        }
+    }
+
+    /**
+     * Maintenance Mode Post
+     */
+    public function maintenance_mode_post()
+    {
+        if ($this->GeneralSettingModel->update_maintenance_mode_settings()) {
+            $this->session->setFlashData('success', trans("maintenance") . " " . trans("msg_suc_updated"));
+            $this->session->setFlashData("mes_maintenance", 1);
+            return redirect()->to($this->agent->getReferrer());
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+            $this->session->setFlashData("mes_maintenance", 1);
+            return redirect()->to($this->agent->getReferrer());
+        }
+    }
+
     public function email_settings()
     {
 
