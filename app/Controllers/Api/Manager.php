@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\BaseController;
+use App\Models\Telegram\TelegramModel;
 use Dotenv\Dotenv;
 use Exception;
 use GuzzleHttp\Client;
@@ -24,33 +25,25 @@ use Throwable;
 
 class Manager extends BaseController
 {
+    public function __construct()
+    {
+        $this->telegramModel = new TelegramModel();
+    }
+
     public function index()
     {
         try {
+            $config = $this->telegramModel->asObject()->find(1);
+            $AdminintegerIDs = array_map('intval', explode(',', $config->bot_admin));
             // Vitals!
             $params = [
-                'api_key' => getenv('TG_API_KEY'),
+                'api_key' =>  $config->bot_api_key,
+                'bot_username' => $config->bot_username,
+                'secret' => getenv('TG_SECRET'),
+                'admins' =>  $AdminintegerIDs,
             ];
-            foreach (['bot_username', 'secret'] as $extra) {
-                if ($param = getenv('TG_' . strtoupper($extra))) {
-                    $params[$extra] = $param;
-                }
-            }
 
-            // Database connection.
-            if (getenv('TG_DB_HOST')) {
-                $params['mysql'] = [
-                    'host'     => getenv('TG_DB_HOST'),
-                    'port'     => getenv('TG_DB_PORT'),
-                    'user'     => getenv('TG_DB_USER'),
-                    'password' => getenv('TG_DB_PASSWORD'),
-                    'database' => getenv('TG_DB_DATABASE'),
-                ];
-            }
-
-            // Optional extras.
             $extras = [
-                'admins',
                 'commands',
                 'paths',
             ];
@@ -61,14 +54,25 @@ class Manager extends BaseController
                 }
             }
 
-            if (getenv('TG_MODE_WEBHOOK')) {
-                $params['webhook'] = [
-                    'url' => getenv('TG_WEBHOOK_URL'),
-                    // 'certificate' => FCPATH . 'laragon.crt',
-                    'max_connections' => 20,
-                    'allowed_updates' => [],
-                ];
-            }
+            // Database connection.
+
+            $params['mysql'] = [
+                'host'     => getenv('database.telegram.hostname'),
+                'port'     => getenv('database.telegram.port'),
+                'user'     => getenv('database.telegram.username'),
+                'password' => getenv('database.telegram.password'),
+                'database' => getenv('database.telegram.database'),
+            ];
+
+
+
+            $params['webhook'] = [
+                'url' => $config->webhook_url,
+                // 'certificate' => FCPATH . 'laragon.crt',
+                'max_connections' => 10,
+                'allowed_updates' => [],
+            ];
+
 
 
 
@@ -85,8 +89,6 @@ class Manager extends BaseController
                 ];
                 $this->initRequestClient();
             }
-
-
 
             $this->initLogging();
 
@@ -139,7 +141,8 @@ class Manager extends BaseController
     public function sendChat()
     {
         try {
-            $telegram = new Telegram(getenv('TG_API_KEY'), getenv('TG_BOT_USERNAME'));
+            $config = $this->telegramModel->asObject()->find(1);
+            $telegram = new Telegram($config->bot_api_key, $config->bot_username);
             $chat_id = 958587442;
 
             Request::sendMessage([

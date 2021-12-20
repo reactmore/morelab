@@ -265,3 +265,39 @@ function update_product_map() {
         }
     });
 }
+
+function telegram_bot_set(id, message, option) {
+    Swal.fire({
+        text: message,
+        icon: "warning",
+        showCancelButton: 1,
+        confirmButtonColor: "#34c38f",
+        cancelButtonColor: "#f46a6a",
+        confirmButtonText: sweetalert_ok,
+        cancelButtonText: sweetalert_cancel,
+
+    }).then(function (willDelete) {
+        if (willDelete.value) {
+            var data = {
+                'id': id,
+                'option': option
+            };
+            data[csrfName] = $.cookie(csrfCookie);
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "/admin/telegramsettings/webhook_setup_posts",
+                data: data,
+                beforeSend: function () {
+                    $("#preloader").show();
+                },
+                complete: function () {
+                    $("#preloader").hide();
+
+                },
+                success: function (response) {
+                    custom_alert('success', response, true)
+                }
+            });
+        }
+    });
+};

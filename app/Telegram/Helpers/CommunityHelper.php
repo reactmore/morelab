@@ -6,6 +6,9 @@ namespace App\Telegram\Helpers;
 use App\Models\UserTelegramModel;
 use Longman\TelegramBot\Entities\ChatMember;
 use Longman\TelegramBot\Request;
+use App\Models\Telegram\UserModel;
+
+
 
 class CommunityHelper
 {
@@ -77,13 +80,14 @@ class CommunityHelper
 
 	public static function checkKYC($user_id)
 	{
-		// $userModel = new UserTelegramModel();
-		// $user = $userModel->asObject()->find($user_id);
+		$UserTelegramModel = new UserModel();
 
-		// if ($user->status == 0) {
-		// 	return false;
-		// }
+		$user = $UserTelegramModel->asObject()->find($user_id);
 
-		// return true;
+		if ($user->status == 0) {
+			return false;
+		}
+
+		return true;
 	}
 }

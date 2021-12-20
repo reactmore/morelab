@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/jquery.dm-uploader.min.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/styles-1.0.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -50,9 +51,9 @@
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        <!-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="<?php echo base_url(); ?>/public/assets/admin/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-        </div>
+        </div> -->
 
         <?php echo $this->include('admin/includes/_header') ?>
 
@@ -78,6 +79,8 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-manager/file-manager-1.0.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/jquery.dm-uploader.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/ui.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.js"></script>
+
     <!-- DataTables  & Plugins -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

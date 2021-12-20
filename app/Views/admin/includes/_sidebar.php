@@ -76,6 +76,13 @@
 
                   <li class="nav-header"><?php echo trans('telegram') ?> Management</li>
 
+                  <li class="nav-item">
+                      <a href="<?php echo admin_url() ?>telegram" class="nav-link <?php is_admin_nav_active(['telegram'], 2); ?>">
+                          <i class="nav-icon fas fa-tachometer-alt"></i>
+                          <p><?php echo trans('telegram') ?> </p>
+                      </a>
+                  </li>
+
                   <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
                       <?php if (is_admin()) : ?>

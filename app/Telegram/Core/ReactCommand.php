@@ -2,6 +2,8 @@
 
 namespace App\Telegram\Core;
 
+use App\Models\Telegram\TelegramModel;
+
 use Longman\TelegramBot\DB;
 use Longman\TelegramBot\Commands\UserCommand;
 use App\Telegram\Helpers\CommunityHelper;
@@ -28,6 +30,8 @@ abstract class ReactCommand extends UserCommand
     public function preExecute(): ServerResponse
     {
         $message = $this->getMessage() ?: $this->getCallbackQuery()->getMessage();
+        $telegramModel = new TelegramModel();
+
 
         if ($this->need_mysql && !($this->telegram->isDbEnabled() && DB::isDbConnected())) {
             return $this->executeNoDb();
@@ -45,17 +49,12 @@ abstract class ReactCommand extends UserCommand
             return Request::emptyResponse();
         }
 
-        if (getenv('TG_AUTH')) {
+        if ($telegramModel->bot_auth) {
             $text = "Sebelum Menggunakan Bot Ini Baiknya Kamu Gabung Channel/Group dulu ya \n\n";
             if (getenv('TG_CHANNEL_USERNAME')) {
-                $auth_channel = CommunityHelper::checkUserIsMemberOfChat($message->getFrom()->getId(), '@' . getenv('TG_CHANNEL_USERNAME'));
+                $auth_channel = CommunityHelper::checkUserIsMemberOfChat($message->getFrom()->getId(), '@' .  $telegramModel->cahnnel_username);
                 if (!$auth_channel) {
-                    foreach (['GROUP', 'CHANNEL'] as $extra) {
-                        if (getenv('TG_' . strtoupper($extra) . '_USERNAME')) {
-                            $text .= "@" . getenv('TG_' . strtoupper($extra) . '_USERNAME') . "\n";
-                        }
-                    }
-
+                    $text .= "@" . $telegramModel->cahnnel_username . "\n";
                     return Request::sendMessage([
                         'chat_id'    =>  $message->getFrom()->getId(),
                         'parse_mode' => 'Markdown',
@@ -67,15 +66,15 @@ abstract class ReactCommand extends UserCommand
             }
 
             $checkStatus = CommunityHelper::checkKYC($message->getFrom()->getId());
-            // if (!$checkStatus) {
-            //     return Request::sendMessage([
-            //         'chat_id'    =>  $message->getFrom()->getId(),
-            //         'parse_mode' => 'Markdown',
-            //         'disable_web_page_preview' => true,
-            //         'reply_markup' => KeyboardHelper::getCheckMeKeyboard(),
-            //         'text'       => 'User Ini Belum Verifikasi!'
-            //     ]);
-            // }
+            if (!$checkStatus) {
+                return Request::sendMessage([
+                    'chat_id'    =>  $message->getFrom()->getId(),
+                    'parse_mode' => 'Markdown',
+                    'disable_web_page_preview' => true,
+                    'reply_markup' => KeyboardHelper::getCheckMeKeyboard(),
+                    'text'       => 'User Ini Belum Verifikasi!'
+                ]);
+            }
         }
 
         return $this->execute();

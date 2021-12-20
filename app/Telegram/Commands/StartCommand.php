@@ -32,56 +32,6 @@ class StartCommand extends ReactCommand
 
     public static function handleCallbackQuery(CallbackQuery $callback_query, array $callback_data): ?ServerResponse
     {
-
-        if ('explain' === $callback_data['action'] ?? null) {
-            $message         = $callback_query->getMessage();
-            $chat_id         = $message->getChat()->getId();
-            $clicked_user_id = $callback_query->getFrom()->getId();
-
-            $text = "Cara Penggunaan : \n\n";
-            $text .= "1. Joinkan bot melalui Tombol (Add Me) agar informasi group tercatat di Database \n";
-            $text .= "2. Gunakan Command /setwelcome untuk mengatur welcome  \n";
-            $text .= " 2a. /setwelcome on/off (Mengaktifkan Welcome pada group)  \n";
-            $text .= " 2b. /setwelcome message (Custom Welcome Text dan bisa menggunakan Variable {news_users}, {group_name}, {id}, {time_stamp} dan Emotions Code)  \n\n";
-            $text .= "Fitur Akan di Update berkala \n\n";
-
-            Request::editMessageText([
-                'text' => $text,
-                'chat_id'      => $chat_id,
-                'message_id'   => $message->getMessageId(),
-                'reply_markup' => KeyboardHelper::getBackKeyboard(),
-            ]);
-
-            return $callback_query->answer();
-        }
-        if ('donate' === $callback_data['action'] ?? null) {
-            $message         = $callback_query->getMessage();
-            $chat_id         = $message->getChat()->getId();
-            $clicked_user_id = $callback_query->getFrom()->getId();
-            $amount = "Rp ." . number_format(self::DonateSum());
-
-            $text = "Terima Kasih telah melakukan Donasi, donasi ini digunakan membayar biaya server yang digunakan \n\n";
-            $text .= "Donasi Terkumpul : {$amount} \n";
-
-            $keyboard = new InlineKeyboard([
-                ['text' => 'Gopay', 'callback_data' => 'command=react&action=donate'],
-                ['text' => 'Paypal', 'url' => 'https://t.me/fvckinD/'],
-            ], [
-                ['text' => 'Back', 'callback_data' => 'command=react&action=back'],
-            ]);
-
-            $keyboard->setResizeKeyboard(true);
-
-            Request::editMessageText([
-                'text' => $text,
-                'chat_id'      => $chat_id,
-                'message_id'   => $message->getMessageId(),
-                'reply_markup' =>  $keyboard,
-            ]);
-
-            return $callback_query->answer();
-        }
-
         return $callback_query->answer();
     }
 
@@ -91,6 +41,7 @@ class StartCommand extends ReactCommand
         $message = $this->getMessage() ?: $this->getCallbackQuery()->getMessage();
         $chat_id = $message->getChat()->getId();
         $user_id = $message->getFrom()->getId();
+
         $text = trim($message->getText(true));
 
         Request::sendChatAction([

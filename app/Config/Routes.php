@@ -86,6 +86,12 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
         $routes->get('translations/(:num)', 'Admin\Languages::translations/$1');
         $routes->get('search-phrases/(:num)', 'Admin\Languages::search_phrases1');
     });
+
+    $routes->group('telegram', function ($routes) {
+        $routes->get('', 'Admin/TelegramSettings::index');
+        $routes->get('add-user', 'Admin/UserManagement::add_user', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('edit-user/(:num)', 'Admin\UserManagement::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+    });
 });
 
 
