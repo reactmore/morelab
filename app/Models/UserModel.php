@@ -51,6 +51,55 @@ class UserModel extends Model
         return $data;
     }
 
+    //login with google
+    public function login_with_google($g_user)
+    {
+        if (!empty($g_user)) {
+            $user = $this->get_user_by_email($g_user->email);
+            //check if user registered
+            if (empty($user)) {
+                if (empty($g_user->name)) {
+                    $g_user->name = "user-" . uniqid();
+                }
+                $username = $this->generate_uniqe_username($g_user->name);
+                $slug = $this->generate_uniqe_slug($username);
+                //add user to database
+                $data = array(
+                    'google_id' => $g_user->id,
+                    'email' => $g_user->email,
+                    'email_status' => 1,
+                    'token' => generate_unique_id(),
+                    'username' => $username,
+                    'slug' => $slug,
+                    'avatar' => "",
+                    'user_type' => "google",
+                    'last_seen' => date('Y-m-d H:i:s'),
+                    'created_at' => date('Y-m-d H:i:s')
+                );
+                //download avatar
+                $avatar = $g_user->avatar;
+                if (!empty($avatar)) {
+                    $uploadModel = new UploadModel();
+                    $save_to = WRITEPATH . "uploads/tmp/avatar-" . uniqid() . ".jpg";
+                    @copy($avatar, $save_to);
+                    if (!empty($save_to) && file_exists($save_to)) {
+                        $data["avatar"] = $uploadModel->avatar_upload(0, $save_to);
+                    }
+                    @unlink($save_to);
+                }
+                if (!empty($data['email'])) {
+                    $this->protect(false)->insert($data);
+                    $user = $this->get_user_by_email($g_user->email);
+                    $this->login_direct($user);
+                }
+            } else {
+                //login
+                $this->login_direct($user);
+            }
+        }
+    }
+
+
     //register
     public function register()
     {

@@ -36,6 +36,14 @@ $routes->setAutoRoute(true);
 
 $routes->resource('api/rest');
 
+$routes->get('connect-with-facebook', 'Common::connect_with_facebook');
+$routes->get('facebook-callback', 'Common::facebook_callback');
+$routes->get('connect-with-google', 'Common::connect_with_google');
+
+$route['connect-with-facebook'] = 'auth_controller/connect_with_facebook';
+$route['facebook-callback'] = 'auth_controller/facebook_callback';
+$route['connect-with-google'] = 'auth_controller/connect_with_google';
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
