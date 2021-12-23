@@ -117,36 +117,36 @@ class GeneralSettingModel extends Model
         // if ($submit == "pwa_settings") {
 
         //     $pwa_icons_0 = [
-        //         "src" => $this->input->post('icon_0', true),
-        //         "sizes" => $this->input->post('icon_sizes_0', true),
-        //         "type" => $this->input->post('icon_type_0', true),
+        //         "src" => $this->request->getVar('icon_0'),
+        //         "sizes" => $this->request->getVar('icon_sizes_0'),
+        //         "type" => $this->request->getVar('icon_type_0'),
         //     ];
 
         //     $pwa_icons_1 = [
-        //         "src" => $this->input->post('icon_1', true),
-        //         "sizes" => $this->input->post('icon_sizes_1', true),
-        //         "type" => $this->input->post('icon_type_1', true),
+        //         "src" => $this->request->getVar('icon_1'),
+        //         "sizes" => $this->request->getVar('icon_sizes_1'),
+        //         "type" => $this->request->getVar('icon_type_1'),
         //     ];
         //     $pwa_icons_2 = [
-        //         "src" => $this->input->post('icon_2', true),
-        //         "sizes" => $this->input->post('icon_sizes_2', true),
-        //         "type" => $this->input->post('icon_type_2', true),
+        //         "src" => $this->request->getVar('icon_2'),
+        //         "sizes" => $this->request->getVar('icon_sizes_2'),
+        //         "type" => $this->request->getVar('icon_type_2'),
         //     ];
 
         //     $pwa_setting = [
-        //         "dir" => $this->input->post('dir', true),
-        //         "name" => $this->input->post('name', true),
-        //         "description" => $this->input->post('description', true),
-        //         "short_name" => $this->input->post('short_name', true),
+        //         "dir" => $this->request->getVar('dir'),
+        //         "name" => $this->request->getVar('name'),
+        //         "description" => $this->request->getVar('description'),
+        //         "short_name" => $this->request->getVar('short_name'),
         //         "icons" => [$pwa_icons_0, $pwa_icons_1, $pwa_icons_2],
-        //         "scope" => $this->input->post('scope', true),
-        //         "start_url" => $this->input->post('start_url', true),
-        //         "display" => $this->input->post('display', true),
-        //         "orientation" => $this->input->post('orientation', true),
-        //         "theme_color" => $this->input->post('theme_color', true),
-        //         "background_color" => $this->input->post('background_color', true),
-        //         "url" => $this->input->post('url', true),
-        //         "lang" => $this->input->post('lang', true),
+        //         "scope" => $this->request->getVar('scope'),
+        //         "start_url" => $this->request->getVar('start_url'),
+        //         "display" => $this->request->getVar('display'),
+        //         "orientation" => $this->request->getVar('orientation'),
+        //         "theme_color" => $this->request->getVar('theme_color'),
+        //         "background_color" => $this->request->getVar('background_color'),
+        //         "url" => $this->request->getVar('url'),
+        //         "lang" => $this->request->getVar('lang'),
         //         "screenshots" => [],
         //     ];
 
@@ -156,7 +156,7 @@ class GeneralSettingModel extends Model
         //     file_put_contents('manifest.json', $new_manifest);
 
         //     $general_settings = array(
-        //         'pwa_status' => $this->input->post('pwa_status', true)
+        //         'pwa_status' => $this->request->getVar('pwa_status')
         //     );
 
         //     $this->general_settings_model->save($general_settings, 1);
@@ -188,5 +188,41 @@ class GeneralSettingModel extends Model
         }
 
         return true;
+    }
+
+    //update maintenance mode settings
+    public function update_maintenance_mode_settings()
+    {
+        $data = array(
+            'maintenance_mode_title' => $this->request->getVar('maintenance_mode_title'),
+            'maintenance_mode_description' => $this->request->getVar('maintenance_mode_description'),
+            'maintenance_mode_status' => $this->request->getVar('maintenance_mode_status'),
+        );
+
+        if (empty($data["maintenance_mode_status"])) {
+            $data["maintenance_mode_status"] = 0;
+        }
+
+        //update
+        return $this->builder()->where('id', 1)->update($data);
+    }
+
+    //update recaptcha settings
+    public function update_recaptcha_settings()
+    {
+        $data = array(
+            'recaptcha_site_key' => $this->request->getVar('recaptcha_site_key'),
+            'recaptcha_secret_key' => $this->request->getVar('recaptcha_secret_key'),
+            'recaptcha_lang' => $this->request->getVar('recaptcha_lang'),
+        );
+
+        //update
+        return $this->builder()->where('id', 1)->update($data);
+    }
+
+    //delete old sessions
+    function delete_old_sessions()
+    {
+        return $this->db->query("DELETE FROM ci_sessions WHERE timestamp < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 DAY))");
     }
 }

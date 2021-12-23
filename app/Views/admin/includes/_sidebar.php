@@ -74,11 +74,15 @@
                       </ul>
                   </li>
 
-                  <li class="nav-header"><?php echo trans('telegram') ?> Management</li>
-
                   <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
                       <?php if (is_admin()) : ?>
+                          <li class="nav-item ">
+                              <a href="<?php echo admin_url() ?>locations/country" class="nav-link <?php is_admin_nav_active(['locations'], 2); ?>">
+                                  <i class="nav-icon fas fa-map-marker"></i>
+                                  <p><?php echo trans('locations') ?></p>
+                              </a>
+                          </li>
                           <li class="nav-item ">
                               <a href="<?php echo admin_url() ?>roles-permissions" class="nav-link <?php is_admin_nav_active(['roles-permissions'], 2); ?>">
                                   <i class="nav-icon fas fa-user-shield"></i>

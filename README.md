@@ -1,6 +1,6 @@
 # Reactmore Admin Panel With Codeigniter 4 
 
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/reactmore/morelab) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Freactmore%2Fmorelab&count_bg=%231DC297&title_bg=%23555555&icon=nucleo.svg&icon_color=%23E7E7E7&title=Hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/reactmore/morelab) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Freactmore%2Fmorelab&count_bg=%231DC297&title_bg=%23555555&icon=nucleo.svg&icon_color=%23E7E7E7&title=Hits&edge_flat=false)](https://hits.seeyoufarm.com) <a href="https://trakteer.id/react-more" target="_blank"><img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-red-6.png" height="40" style="border:0px;height:20px;" alt="Trakteer Saya"></a>
 
 ## Feature 
 1. Auth (Login/Register/Forgot password/ Recaptha)
@@ -16,9 +16,9 @@
 11. Filter, Secure CRSF, Validation
 
 ## TO DO
-- [ ] Google Auth
+- [x] Google Auth
 - [ ] Facebook Auth
-- [ ] Telegram Intergation (Auth & Bot)
+
     
 ## System Usage
 - Windows 10 

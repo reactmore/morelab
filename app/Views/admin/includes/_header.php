@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="main-header navbar navbar-expand <?php echo check_dark_mode_enabled() ? 'navbar-dark' : 'navbar-white' ?> navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -113,6 +113,26 @@
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
 
+                <a href="<?php echo admin_url() ?>profile" class="dropdown-item">
+                    <?php echo trans('settings') ?>
+
+                    <span class="float-right text-muted text-sm"><i class="fas fa-cog"></i></span>
+                </a>
+                <?php echo form_open('vr-switch-mode', ['id' => 'swith_dark_mode']); ?>
+                <?php if (check_dark_mode_enabled() == 1) : ?>
+                    <input type="hidden" name="dark_mode" value="0" />
+                    <a href="javascript: void(0);" class="dropdown-item" onclick="document.getElementById('swith_dark_mode').submit();">
+                        Swith Light Mode
+                        <span class="float-right text-muted text-sm"><i class="fa fa-sun"></i></span>
+                    </a>
+                <?php else : ?>
+                    <input type="hidden" name="dark_mode" value="1" />
+                    <a href="javascript: void(0);" class="dropdown-item" onclick="document.getElementById('swith_dark_mode').submit();">
+                        Swith Dark Mode
+                        <span class="float-right text-muted text-sm"><i class="fa fa-moon"></i></span>
+                    </a>
+                <?php endif; ?>
+                <?php echo form_close(); ?>
                 <a href="<?php echo admin_url() ?>profile" class="dropdown-item">
                     <?php echo trans('settings') ?>
                     <span class="float-right text-muted text-sm"><i class="fas fa-cog"></i></span>

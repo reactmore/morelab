@@ -36,6 +36,10 @@ $routes->setAutoRoute(true);
 
 $routes->resource('api/rest');
 
+$routes->get('connect-with-facebook', 'Common::connect_with_facebook');
+$routes->get('facebook-callback', 'Common::facebook_callback');
+$routes->get('connect-with-google', 'Common::connect_with_google');
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
@@ -78,10 +82,16 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
         $routes->get('translations/(:num)', 'Admin\Languages::translations/$1');
         $routes->get('search-phrases/(:num)', 'Admin\Languages::search_phrases1');
     });
+
+    $routes->group('locations', ["filter" => 'check-admin'], function ($routes) {
+        $routes->get('country', 'Admin/Locations/Country::index');
+        $routes->get('state', 'Admin/Locations/State::index');
+        $routes->get('city', 'Admin/Locations/City::index');
+    });
 });
 
 
-$routes->post('telegram-webhook', 'Api/Manager::index');
+
 
 $routes->get("/$custom_routes->admin/register", 'Common::register');
 $routes->get("/$custom_routes->admin/login", 'Common::index');
@@ -91,6 +101,8 @@ $routes->get("/$custom_routes->admin/reset-password", 'Common::reset_password');
 $routes->get("/confirm", 'Common::confirm_email');
 
 $routes->get("/$custom_routes->logout", 'Common::logout');
+$routes->post("/vr-run-internal-cron", 'AjaxController::run_internal_cron');
+$routes->post("/vr-switch-mode", 'AjaxController::switch_visual_mode');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

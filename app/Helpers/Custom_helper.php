@@ -336,7 +336,7 @@ if (!function_exists('generate_url')) {
 if (!function_exists('helper_setcookie')) {
     function helper_setcookie($name, $value)
     {
-        set_cookie([
+        return set_cookie([
             'name' => config('cookie')->prefix . '_' . $name,
             'value' => $value,
             'expire' => time() + (86400 * 30),
@@ -738,5 +738,80 @@ if (!function_exists('generate_recaptcha')) {
             echo $recaptchaLib->getScriptTag();
             echo ' </div>';
         }
+    }
+}
+
+//date diff
+if (!function_exists('date_difference')) {
+    function date_difference($date1, $date2, $format = '%a')
+    {
+        $datetime_1 = date_create($date1);
+        $datetime_2 = date_create($date2);
+        $diff = date_diff($datetime_1, $datetime_2);
+        return $diff->format($format);
+    }
+}
+
+//date difference in hours
+if (!function_exists('date_difference_in_hours')) {
+    function date_difference_in_hours($date1, $date2)
+    {
+        $datetime_1 = date_create($date1);
+        $datetime_2 = date_create($date2);
+        $diff = date_diff($datetime_1, $datetime_2);
+        $days = $diff->format('%a');
+        $hours = $diff->format('%h');
+        return $hours + ($days * 24);
+    }
+}
+
+//date difference in hours
+if (!function_exists('date_difference_in_minutes')) {
+    function date_difference_in_minutes($date1, $date2)
+    {
+        $datetime_1 = new DateTime($date1);
+        $datetime_2 = new DateTime($date2);
+        $diff =  ($datetime_1->getTimestamp() - $datetime_2->getTimestamp()) / 60;
+
+        return $diff;
+    }
+}
+//check cron time
+if (!function_exists('check_cron_time')) {
+    function check_cron_time($hour)
+    {
+
+        if (empty(get_general_settings()->last_cron_update) || date_difference_in_hours(date('Y-m-d H:i:s'), get_general_settings()->last_cron_update) >= $hour) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//check cron time
+if (!function_exists('check_cron_time_minutes')) {
+    function check_cron_time_minutes($minutes)
+    {
+
+        if (empty(get_general_settings()->last_cron_update) || date_difference_in_minutes(date('Y-m-d H:i:s'), get_general_settings()->last_cron_update) >= $minutes) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//check if dark mode enabled
+if (!function_exists('check_dark_mode_enabled')) {
+    function check_dark_mode_enabled()
+    {
+
+        $dark_mode = get_general_settings()->dark_mode;
+        $ck_name = config('cookie')->prefix . '_vr_dark_mode';
+        if (isset($_COOKIE[$ck_name])) {
+            if ($_COOKIE[$ck_name] == 1 || $_COOKIE[$ck_name] == 0) {
+                $dark_mode = $_COOKIE[$ck_name];
+            }
+        }
+        return $dark_mode;
     }
 }

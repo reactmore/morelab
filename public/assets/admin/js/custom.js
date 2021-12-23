@@ -13,6 +13,14 @@ $(document).ready(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
 
+    $('.btnNext').click(function () {
+        $('.nav-tabs .active').parent().next('li').find('a').trigger('click');
+    });
+
+    $('.btnPrevious').click(function () {
+        $('.nav-tabs .active').parent().prev('li').find('a').trigger('click');
+    });
+
     document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
         el.addEventListener("click", function (e) {
             e.preventDefault();
@@ -168,7 +176,7 @@ function get_states_by_country(val) {
     var data = {
         "country_id": val
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_states_by_country",
@@ -191,7 +199,7 @@ function get_states(val, map) {
         "country_id": val,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_states",
@@ -217,7 +225,7 @@ function get_cities(val, map) {
         "state_id": val,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_cities",
@@ -255,7 +263,7 @@ function update_product_map() {
         "zip_code": zip_code,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/show_address_on_map",
@@ -265,3 +273,19 @@ function update_product_map() {
         }
     });
 }
+
+//activate inactivate countries
+function activate_inactivate_countries(action) {
+    var data = {
+        "action": action
+    };
+    data[csrfName] = $.cookie(csrfCookie);
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "/AjaxController/activate_inactivate_countries",
+        data: data,
+        success: function (response) {
+            location.reload();
+        }
+    });
+};

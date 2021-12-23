@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/jquery.dm-uploader.min.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/styles-1.0.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -46,13 +47,14 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed layout-navbar-fixed">
+<body class="hold-transition sidebar-mini <?php echo check_dark_mode_enabled() ? 'dark-mode' : '' ?> layout-fixed layout-footer-fixed layout-navbar-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="<?php echo base_url(); ?>/public/assets/admin/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
         </div>
+        <div id="wait" class="loading"></div>
 
         <?php echo $this->include('admin/includes/_header') ?>
 
@@ -78,6 +80,8 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-manager/file-manager-1.0.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/jquery.dm-uploader.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/ui.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.js"></script>
+
     <!-- DataTables  & Plugins -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -98,6 +102,13 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/adminlte.js"></script>
 
     <script>
+        <?php if (check_cron_time_minutes(1)) : ?>
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "/vr-run-internal-cron"
+            });
+        <?php endif; ?>
+
         function display_ct7() {
             var x = new Date()
 
