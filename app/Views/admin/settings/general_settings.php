@@ -17,6 +17,7 @@
                             <li class="breadcrumb-item active"><a href="<?php admin_url() ?>">/</a></li>
                         <?php else :  ?>
                             <li class="breadcrumb-item"><a href="<?php admin_url() ?>"><?php echo trans('dashboard') ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo admin_url() ?>settings/general"><?php echo trans('settings') ?></a></li>
                             <li class="breadcrumb-item active"><?php echo $title ?></li>
                         <?php endif  ?>
 
