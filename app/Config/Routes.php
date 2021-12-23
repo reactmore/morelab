@@ -99,6 +99,8 @@ $routes->get("/$custom_routes->admin/reset-password", 'Common::reset_password');
 $routes->get("/confirm", 'Common::confirm_email');
 
 $routes->get("/$custom_routes->logout", 'Common::logout');
+$routes->post("/vr-run-internal-cron", 'AjaxController::run_internal_cron');
+$routes->post("/vr-switch-mode", 'AjaxController::switch_visual_mode');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

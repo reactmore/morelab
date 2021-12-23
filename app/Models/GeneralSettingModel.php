@@ -219,4 +219,10 @@ class GeneralSettingModel extends Model
         //update
         return $this->builder()->where('id', 1)->update($data);
     }
+
+    //delete old sessions
+    function delete_old_sessions()
+    {
+        return $this->db->query("DELETE FROM ci_sessions WHERE timestamp < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+    }
 }

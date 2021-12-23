@@ -47,7 +47,7 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed layout-navbar-fixed">
+<body class="hold-transition sidebar-mini <?php echo check_dark_mode_enabled() ? 'dark-mode' : '' ?> layout-fixed layout-footer-fixed layout-navbar-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -101,6 +101,13 @@
     <script src="<?php echo base_url(); ?>/public/assets/admin/js/adminlte.js"></script>
 
     <script>
+        <?php if (check_cron_time_minutes(1)) : ?>
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "/vr-run-internal-cron"
+            });
+        <?php endif; ?>
+
         function display_ct7() {
             var x = new Date()
 

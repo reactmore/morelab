@@ -37,7 +37,7 @@ class Filters extends BaseConfig
     public $globals = [
         'before' => [
             // 'honeypot',
-            'csrf' => ['except' => ['rest', 'api/rest']],
+            'csrf' => ['except' => ['rest', 'api/rest', 'vr-run-internal-cron']],
             'cors'
         ],
         'after' => [
