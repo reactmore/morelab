@@ -56,13 +56,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("username"); ?></label>
+                                                <label><?php echo trans("username"); ?><span class="required"> *</span></label>
                                                 <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo html_escape($user->username); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("slug"); ?></label>
+                                                <label><?php echo trans("slug"); ?><span class="required"> *</span></label>
                                                 <input type="text" name="slug" class="form-control auth-form-input" placeholder="<?php echo trans("slug"); ?>" value="<?php echo html_escape($user->slug); ?>" required>
                                             </div>
                                         </div>
@@ -71,13 +71,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("firstname"); ?></label>
+                                                <label><?php echo trans("firstname"); ?><span class="required"> *</span></label>
                                                 <input type="text" name="first_name" class="form-control auth-form-input" placeholder="<?php echo trans("firstname"); ?>" value="<?php echo html_escape($user->first_name); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("lastname"); ?></label>
+                                                <label><?php echo trans("lastname"); ?><span class="required"> *</span></label>
                                                 <input type="text" name="last_name" class="form-control auth-form-input" placeholder="<?php echo trans("lastname"); ?>" value="<?php echo html_escape($user->last_name); ?>" required>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("email"); ?></label>
+                                                <label><?php echo trans("email"); ?><span class="required"> *</span></label>
                                                 <input type="email" name="email" class="form-control auth-form-input" placeholder="<?php echo trans("email"); ?>" value="<?php echo html_escape($user->email); ?>" parsley-type="email" required>
                                             </div>
                                         </div>
@@ -114,13 +114,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("form_password"); ?></label>
+                                                <label><?php echo trans("form_password"); ?><span class="required"> *</span></label>
                                                 <input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("form_password"); ?>">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("role"); ?></label>
+                                                <label><?php echo trans("role"); ?><span class="required"> *</span></label>
                                                 <select id="role" name="role" class="form-control select2" required>
                                                     <option value=""><?php echo trans("select"); ?> </option>
                                                     <?php foreach ($roles as $role) : ?>
@@ -140,6 +140,7 @@
                             </div>
                         </div>
                         <div class="card-footer clearfix">
+                            <small><strong><span class="required"> *</span> Must be filled</strong></small>
                         </div>
                         <!-- /.card -->
                     </div>
