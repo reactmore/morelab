@@ -85,4 +85,10 @@ class CityModel extends Model
 
         return $this->update($id, $data);
     }
+
+    //get cities by state
+    public function get_cities_by_state($state_id)
+    {
+        return $this->asObject()->where('state_id', clean_number($state_id))->findAll();
+    }
 }

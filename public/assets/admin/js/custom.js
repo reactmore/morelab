@@ -179,7 +179,7 @@ function get_states_by_country(val) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "ajax_controller/get_states_by_country",
+        url: baseUrl + "/AjaxController/get_states_by_country",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -202,7 +202,7 @@ function get_states(val, map) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "ajax_controller/get_states",
+        url: baseUrl + "/AjaxController/get_states",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -228,7 +228,7 @@ function get_cities(val, map) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "ajax_controller/get_cities",
+        url: baseUrl + "/AjaxController/get_cities",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -266,7 +266,7 @@ function update_product_map() {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "ajax_controller/show_address_on_map",
+        url: baseUrl + "/AjaxController/show_address_on_map",
         data: data,
         success: function (response) {
             document.getElementById("map-result").innerHTML = response;

@@ -3,9 +3,23 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\Admin\BaseController;
+use App\Models\Locations\CityModel;
+use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
 
 class UserManagement extends BaseController
 {
+
+    protected $cityModel;
+    protected $stateModel;
+    protected $countryModel;
+
+    public function __construct()
+    {
+        $this->cityModel = new CityModel();
+        $this->stateModel = new StateModel();
+        $this->countryModel = new CountryModel();
+    }
 
     public function administrators()
     {
@@ -32,6 +46,8 @@ class UserManagement extends BaseController
     {
         $data['title'] = trans("add_user");
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
+        $data['countries'] = $this->countryModel->asObject()->findAll();
+        $data['states'] = $this->stateModel->asObject()->findAll();
 
         return view('admin/users/add_users', $data);
     }
