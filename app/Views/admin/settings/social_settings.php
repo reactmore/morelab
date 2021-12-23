@@ -42,7 +42,7 @@
                                 <div class="app-search">
 
                                     <div class="mb-2 position-relative">
-                                        <h5 class="mb-4 text-uppercase"><i class="fa fa-cog pr-2"></i><?php echo trans('social_login_configuration') ?></h5>
+                                        <h5 class="mb-4 text-uppercase"><i class="fa fa-cog pr-2"></i><?php echo trans('facebook') ?></h5>
 
                                     </div>
                                 </div>
@@ -52,7 +52,6 @@
                             <div class="mt-0">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> <?php echo trans('facebook') ?></h5>
                                         <?php echo form_open('admin/generalsettings/social_login_facebook_post'); ?>
                                         <!-- include message block -->
                                         <?php if (!empty(session()->getFlashdata('msg_social_facebook'))) :
@@ -83,8 +82,30 @@
                                         <?php echo form_close(); ?>
                                     </div>
 
+
+                                </div>
+                            </div>
+
+
+                        </div> <!-- end card body -->
+                    </div> <!-- end card -->
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="app-search">
+
+                                    <div class="mb-2 position-relative">
+                                        <h5 class="mb-4 text-uppercase"><i class="fa fa-cog pr-2"></i><?php echo trans('google') ?></h5>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-0">
+                                <div class="row">
                                     <div class="col-12">
-                                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> <?php echo trans('google') ?></h5>
                                         <?php echo form_open('admin/generalsettings/social_login_google_post'); ?>
                                         <!-- include message block -->
                                         <?php if (!empty(session()->getFlashdata('msg_social_google'))) :
