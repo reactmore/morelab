@@ -13,6 +13,14 @@ $(document).ready(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
 
+    $('.btnNext').click(function () {
+        $('.nav-tabs .active').parent().next('li').find('a').trigger('click');
+    });
+
+    $('.btnPrevious').click(function () {
+        $('.nav-tabs .active').parent().prev('li').find('a').trigger('click');
+    });
+
     document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
         el.addEventListener("click", function (e) {
             e.preventDefault();

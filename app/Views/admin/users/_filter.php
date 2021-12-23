@@ -3,7 +3,8 @@
         <?php $uri = service('uri'); ?>
         <?php $RolesPermissionsModel = model('Roles_permissionsModel'); ?>
         <?php $request = \Config\Services::request(); ?>
-        <?php echo form_open(admin_url() . $uri->getSegment(2), ['method' => 'GET']); ?>
+        <?php $url = !empty($uri->getSegment(3)) ? $uri->getSegment(2) . '/' . $uri->getSegment(3) : $uri->getSegment(2) ?>
+        <?php echo form_open(admin_url() . $url, ['method' => 'GET']); ?>
 
 
         <div class="item-table-filter" style="width: 80px; min-width: 80px;">

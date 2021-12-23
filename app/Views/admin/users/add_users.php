@@ -47,6 +47,7 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-four-tabContent">
+
                                 <div class="tab-pane fade show active" id="custom-tabs-basic" role="tabpanel" aria-labelledby="custom-tabs-basic-tab">
 
                                     <div class="form-group mb-3">
@@ -84,7 +85,12 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group mb-3 float-right">
+                                        <a href="javascript: void(0);" class="btn btn-primary  btnNext"><?php echo 'Next'; ?></a>
+                                    </div>
+
                                 </div>
+
                                 <div class="tab-pane fade" id="custom-tabs-role" role="tabpanel" aria-labelledby="custom-tabs-role-tab">
                                     <div class="row">
                                         <div class="col-6">
@@ -105,12 +111,16 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group mb-3 float-right">
+                                        <a href="javascript: void(0);" class="btn btn-primary  btnPrevious"><?php echo 'Previous'; ?></a>
+                                        <button type="submit" id="single_submit" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
                         <div class="card-footer clearfix">
-                            <button type="submit" id="single_submit" class="btn btn-primary float-right"><?php echo trans('add_user'); ?></button>
                         </div>
                         <!-- /.card -->
                     </div>

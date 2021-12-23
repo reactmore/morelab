@@ -4,10 +4,6 @@ namespace App\Controllers;
 
 class AjaxController extends BaseController
 {
-
-
-
-
     public function __construct()
     {
     }

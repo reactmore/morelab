@@ -22,8 +22,14 @@ class Rest extends ResourceController
     {
         $model = new ProductModel();
         $data = $model->getWhere(['product_id' => $id])->getResult();
+        $response = [
+            'status'   => 201,
+            'error'    => null,
+            'messages' => $data
+        ];
+
         if ($data) {
-            return $this->respond($data);
+            return $this->respond($response);
         } else {
             return $this->failNotFound('No Data Found with id ' . $id);
         }
@@ -39,8 +45,8 @@ class Rest extends ResourceController
         ];
         $data = json_decode(file_get_contents("php://input"));
         // $data = $this->request->getPost();
-        var_dump($data);
-        // $model->insert($data);
+
+        $model->insert($data);
         $response = [
             'status'   => 201,
             'error'    => null,
