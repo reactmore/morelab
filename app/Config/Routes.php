@@ -82,6 +82,12 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
         $routes->get('translations/(:num)', 'Admin\Languages::translations/$1');
         $routes->get('search-phrases/(:num)', 'Admin\Languages::search_phrases1');
     });
+
+    // $routes->group('locations', ["filter" => 'check-admin'], function ($routes) {
+    //     $routes->get('country', 'Admin/Locations/Country::index');
+    //     $routes->get('state', 'Admin/Locations/State::index');
+    //     $routes->get('city', 'Admin/Locations/City::index');
+    // });
 });
 
 

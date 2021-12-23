@@ -176,7 +176,7 @@ function get_states_by_country(val) {
     var data = {
         "country_id": val
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_states_by_country",
@@ -199,7 +199,7 @@ function get_states(val, map) {
         "country_id": val,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_states",
@@ -225,7 +225,7 @@ function get_cities(val, map) {
         "state_id": val,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/get_cities",
@@ -263,7 +263,7 @@ function update_product_map() {
         "zip_code": zip_code,
         "sys_lang_id": sys_lang_id
     };
-    data[csfr_token_name] = $.cookie(csfr_cookie_name);
+    data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax_controller/show_address_on_map",
@@ -274,38 +274,18 @@ function update_product_map() {
     });
 }
 
-function telegram_bot_set(id, message, option) {
-    Swal.fire({
-        text: message,
-        icon: "warning",
-        showCancelButton: 1,
-        confirmButtonColor: "#34c38f",
-        cancelButtonColor: "#f46a6a",
-        confirmButtonText: sweetalert_ok,
-        cancelButtonText: sweetalert_cancel,
-
-    }).then(function (willDelete) {
-        if (willDelete.value) {
-            var data = {
-                'id': id,
-                'option': option
-            };
-            data[csrfName] = $.cookie(csrfCookie);
-            $.ajax({
-                type: "POST",
-                url: baseUrl + "/admin/telegramsettings/webhook_setup_posts",
-                data: data,
-                beforeSend: function () {
-                    $("#preloader").show();
-                },
-                complete: function () {
-                    $("#preloader").hide();
-
-                },
-                success: function (response) {
-                    custom_alert('success', response, true)
-                }
-            });
+//activate inactivate countries
+function activate_inactivate_countries(action) {
+    var data = {
+        "action": action
+    };
+    data[csrfName] = $.cookie(csrfCookie);
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "/AjaxController/activate_inactivate_countries",
+        data: data,
+        success: function (response) {
+            location.reload();
         }
     });
 };

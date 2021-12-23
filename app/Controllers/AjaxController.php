@@ -2,10 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Models\Locations\CountryModel;
+
 class AjaxController extends BaseController
 {
+    protected $countryModel;
+
     public function __construct()
     {
+        $this->countryModel = new CountryModel();
     }
 
     /**
@@ -47,5 +52,21 @@ class AjaxController extends BaseController
 
         return redirect()->to($this->agent->getReferrer())->withCookies();
         exit();
+    }
+
+    //activate inactivate countries
+    public function activate_inactivate_countries()
+    {
+        $action = $this->request->getVar('action');
+
+        $status = 1;
+        if ($action == "inactivate") {
+            $status = 0;
+        }
+        $data = array(
+            'status' => $status
+        );
+
+        $this->countryModel->builder()->update($data);
     }
 }
