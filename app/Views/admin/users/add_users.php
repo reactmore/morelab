@@ -53,6 +53,21 @@
 
                                 <div class="tab-pane fade show active" id="custom-tabs-basic" role="tabpanel" aria-labelledby="custom-tabs-basic-tab">
 
+                                    <div class="form-group mb-3 text-center">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-profile">
+                                                <center><img id="userimg" src="<?php echo get_user_avatar(''); ?>" alt="" class="img-fluid rounded-circle avatar-lg img-thumbnail"> </center>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-sm-12 col-profile">
+                                                <button type="button" class="btn btn-sm btn-success " data-toggle="modal" data-target="#file_manager_image" data-bs-image-type="input" data-bs-item-id="#userimg" data-bs-input-id="#newimage_id"><i class="fa fa-image"></i><?php echo trans('change_avatar'); ?></button>
+                                                <input id="newimage_id" type="hidden" class="form-control mb-3" name="newimage_id" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mb-3">
                                         <label><?php echo trans("username"); ?><span class="required"> *</span></label>
                                         <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo old("username"); ?>" required>
@@ -71,6 +86,11 @@
                                                 <input type="text" name="last_name" class="form-control auth-form-input" placeholder="<?php echo trans("lastname"); ?>" value="<?php echo old("last_name"); ?>" required>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label class="control-label"><?php echo trans('about_me'); ?></label>
+                                        <textarea class="form-control text-area" name="about_me" placeholder="<?php echo trans('about_me'); ?>"></textarea>
                                     </div>
 
 
@@ -114,33 +134,16 @@
                                                 </select>
                                             </div>
 
-                                            <div id="get_states_container" class="col-12 col-sm-3 m-b-15 <?php echo (!empty($state_id)) ? '' : 'display-none'; ?>">
+                                            <div id="get_states_container" class="col-12 col-sm-3 m-b-15 display-none">
                                                 <select id="select_states" name="state_id" class="select2 form-control" onchange="get_cities(this.value, 'false');">
                                                     <option value=""><?php echo trans('state'); ?></option>
-                                                    <?php if (!empty($states)) :
-                                                        foreach ($states as $item) :
-                                                            if (!empty($state_id)) : ?>
-                                                                <option value="<?php echo $item->id; ?>" <?php echo ($item->id == $state_id) ? 'selected' : ''; ?>><?php echo html_escape($item->name); ?></option>
-                                                            <?php else : ?>
-                                                                <option value="<?php echo $item->id; ?>"><?php echo html_escape($item->name); ?></option>
-                                                    <?php endif;
-                                                        endforeach;
-                                                    endif; ?>
                                                 </select>
                                             </div>
 
-                                            <div id="get_cities_container" class="col-12 col-sm-3 m-b-15 <?php echo (!empty($cities)) ? '' : 'display-none'; ?>">
+                                            <div id="get_cities_container" class="col-12 col-sm-3 m-b-15 display-none">
                                                 <select id="select_cities" name="city_id" class="select2 form-control" <?php echo (!empty($map)) ? 'onchange="update_product_map();"' : ''; ?>>
                                                     <option value=""><?php echo trans('city'); ?></option>
-                                                    <?php if (!empty($cities)) :
-                                                        foreach ($cities as $item) :
-                                                            if (!empty($city_id)) : ?>
-                                                                <option value="<?php echo $item->id; ?>" <?php echo ($item->id == $city_id) ? 'selected' : ''; ?>><?php echo html_escape($item->name); ?></option>
-                                                            <?php else : ?>
-                                                                <option value="<?php echo $item->id; ?>"><?php echo html_escape($item->name); ?></option>
-                                                    <?php endif;
-                                                        endforeach;
-                                                    endif; ?>
+
                                                 </select>
                                             </div>
 

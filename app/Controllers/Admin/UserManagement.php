@@ -46,8 +46,7 @@ class UserManagement extends BaseController
     {
         $data['title'] = trans("add_user");
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
-        $data['countries'] = $this->countryModel->asObject()->findAll();
-        $data['states'] = $this->stateModel->asObject()->findAll();
+        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
 
         return view('admin/users/add_users', $data);
     }
@@ -300,8 +299,6 @@ class UserManagement extends BaseController
                 return redirect()->back();
                 exit();
             }
-
-
 
             if ($this->userModel->change_user_role($id, $role)) {
                 $this->session->setFlashData('success', trans("msg_role_changed"));
