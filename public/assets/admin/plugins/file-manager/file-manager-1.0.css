@@ -28,12 +28,13 @@
 }
 
 .file-manager-left {
-    width: 250px;
+    width: 75%;
     display: table-cell;
     border-right: 1px solid #eee;
     vertical-align: top;
     padding: 15px;
 }
+
 
 .file-manager-left .file-manager-sidebar {
     width: 100%;
@@ -42,6 +43,8 @@
     position: relative;
     overflow-y: auto;
 }
+
+
 
 .file-manager-right {
     display: table-cell;
@@ -227,7 +230,7 @@
     }
 
     .file-manager-right {
-        display: block !important;
+        display: none !important;
         width: 100% !important;
         float: left;
     }

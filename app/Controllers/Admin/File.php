@@ -77,12 +77,12 @@ class File extends BaseController
                 $img_base_url = base_url();
 
                 $data['content'] .= '<div class="col-file-manager" id="img_col_id_' . $image->id . '">';
-                $data['content'] .= '<div class="file-box" data-file-id="' . $image->id . '" data-mid-file-path="' . $image->image_mid . '" data-default-file-path="' . $image->image_default . '" data-slider-file-path="' . $image->image_slider . '" data-big-file-path="' . $image->image_big . '" data-file-storage="' . $image->storage . '" data-file-base-url="' . $img_base_url . '">';
+                $data['content'] .= '<div class="file-box" data-file-id="' . $image->id . '" data-file-alt="' . $image->alt . '" data-file-name="' . $image->file_name . '" data-file-captions="' . $image->captions . '" data-file-desc="' . $image->descriptions . '" data-mid-file-path="' . $image->image_mid . '" data-default-file-path="' . $image->image_default . '" data-slider-file-path="' . $image->image_slider . '" data-big-file-path="' . $image->image_big . '" data-file-storage="' . $image->storage . '" data-file-base-url="' . $img_base_url . '">';
                 $data['content'] .= '<div class="image-container">';
                 $data['content'] .= '<img src="' . $img_base_url . $image->image_slider . '" alt="" class="img-responsive">';
                 $data['content'] .= '</div>';
                 if (!empty($image->file_name)) :
-                    $data['content'] .= '<span class="file-name">' . html_escape($image->file_name) . '</span>';
+                // $data['content'] .= '<span class="file-name">' . html_escape($image->file_name) . '</span>';
                 endif;
                 $data['content'] .= '</div> </div>';
             endforeach;
@@ -99,5 +99,12 @@ class File extends BaseController
         $imagesModel = new ImagesModel();
         $file_id = $this->request->getVar('file_id');
         $imagesModel->delete_image($file_id);
+    }
+
+    public function edit_image_file()
+    {
+        $imagesModel = new ImagesModel();
+        $file_id = $this->request->getVar('file_id');
+        $imagesModel->update_image($file_id);
     }
 }

@@ -8,9 +8,9 @@ var data_item_id = '';
 var data_input_id = '';
 
 //update images
-$('#file_manager_image').on('show.bs.modal', function (e) {
+$('#file_manager_image').on('shown.bs.modal', function (e) {
     image_type = $(e.relatedTarget).attr('data-bs-image-type');
-
+    $('#form_image_sidebar').hide();
     if (image_type == 'input') {
         data_item_id = $(e.relatedTarget).attr('data-bs-item-id');
         data_input_field = $(e.relatedTarget).attr('data-bs-field');
@@ -31,9 +31,58 @@ $(document).on('click', '#file_manager_image .file-box', function () {
     $('#selected_img_big_file_path').val($(this).attr('data-big-file-path'));
     $('#selected_img_storage').val($(this).attr('data-file-storage'));
     $('#selected_img_base_url').val($(this).attr('data-file-base-url'));
+    // Editor 
+    $('#images-alt').val($(this).attr('data-file-alt'));
+    $('#images-title').val($(this).attr('data-file-name'));
+    $('#images-captions').val($(this).attr('data-file-captions'));
+    $('#images-desc').val($(this).attr('data-file-des'));
+    $('#images-url').val($(this).attr('data-file-base-url') + $(this).attr('data-default-file-path'));
     $('#btn_img_delete').show();
     $('#btn_img_select').show();
+    $('#form_image_sidebar').show();
 });
+
+
+document.querySelectorAll('[data-toggle="images_form"]').forEach(function (el) {
+    el.addEventListener("change", function () {
+        var file_id = $('#selected_img_file_id').val();
+        var input = el.dataset.input;
+
+
+        document.querySelector(input).focus();
+        console.log(document.querySelector(input).value);
+
+        var data = {
+            "file_id": file_id,
+            "alt_name": $('#images-alt').val(),
+            "file_name": $('#images-title').val(),
+            "file_caption": $('#images-captions').val(),
+            "file_desc": $('#images-desc').val(),
+        };
+
+        data[csrfName] = $.cookie(csrfCookie);
+
+        $.ajax({
+            type: "POST",
+            url: baseUrl + '/admin/file/edit_image_file',
+            data: data,
+            beforeSend: function () {
+                document.querySelector(input).classList.add('more-loader');
+            },
+            complete: function () {
+                document.querySelector(input).classList.remove('more-loader');
+            },
+            success: function (response) {
+
+            }
+
+        });
+
+
+
+    });
+});
+
 
 //refresh images
 function refresh_images() {
