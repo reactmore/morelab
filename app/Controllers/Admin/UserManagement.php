@@ -100,6 +100,7 @@ class UserManagement extends BaseController
             //add user
             $id =  $this->userModel->add_user();
             if ($id) {
+                reset_cache_data_on_change();
                 $this->session->setFlashData('success', trans("msg_user_added"));
                 return redirect()->back();
             } else {
@@ -201,6 +202,7 @@ class UserManagement extends BaseController
             }
 
             if ($this->userModel->edit_user($data["id"])) {
+                reset_cache_data_on_change();
                 $this->session->setFlashData('success', trans("msg_updated"));
                 return redirect()->back();
             } else {
@@ -233,6 +235,7 @@ class UserManagement extends BaseController
 
 
         if ($this->userModel->delete_user($id)) {
+            reset_cache_data_on_change();
             $this->session->setFlashData('success', trans("user") . " " . trans("msg_suc_deleted"));
         } else {
             $this->session->setFlashData('error', trans("msg_error"));
