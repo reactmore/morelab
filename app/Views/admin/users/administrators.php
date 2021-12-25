@@ -56,7 +56,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($paginate['users'] as $user) : ?>
+                                                <?php foreach ($users as $user) : ?>
                                                     <tr>
                                                         <td><?php echo clean_number($user['id']); ?></td>
                                                         <td style="width: 75px;">
@@ -119,13 +119,13 @@
                                                 <?php endforeach; ?>
                                             </tbody>
                                         </table>
-                                        <?php if (empty($paginate['users'])) : ?>
+                                        <?php if (empty($users)) : ?>
                                             <p class="text-center text-muted"><?= trans("no_records_found"); ?></p>
                                         <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 float-right">
-                                    <?php echo $pager->Links('default', 'custom_pager') ?>
+                                    <?php echo $paginations ?>
                                 </div>
                             </div>
                         </div> <!-- end card-body -->

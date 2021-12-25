@@ -19,6 +19,7 @@ class Dashboard extends BaseController
     {
         $data['title'] = trans('dashboard');
 
+
         return view('admin/dashboard', $data);
     }
 }

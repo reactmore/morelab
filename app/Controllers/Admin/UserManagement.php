@@ -24,9 +24,20 @@ class UserManagement extends BaseController
     public function administrators()
     {
         $data['title'] = trans("administrators");
-        //paginate
-        $data['paginate'] = $this->userModel->administratorsPaginate();
-        $data['pager'] =  $data['paginate']['pager'];
+
+
+        $pagination = $this->paginate($this->userModel->get_paginated_admin_count());
+
+        $data['users'] = get_cached_data('administrator_page_' . $pagination['current_page']);
+
+        if (empty($data['users'])) {
+            $data['users'] =   $data['users'] = $this->userModel->get_paginated_admin($pagination['per_page'], $pagination['offset']);
+            set_cache_data('administrator_page_' . $pagination['current_page'], $data['users']);
+        }
+
+        $data['paginations'] = $pagination['pagination'];
+
+
 
         return view('admin/users/administrators', $data);
     }
