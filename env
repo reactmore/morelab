@@ -1,35 +1,22 @@
 #--------------------------------------------------------------------
-# Example Environment Configuration file
-#
-# This file can be used as a starting point for your own
-# custom .env files, and contains most of the possible settings
-# available in a default install.
-#
-# By default, all of the settings are commented out. If you want
-# to override the setting, you must un-comment it by removing the '#'
-# at the beginning of the line.
-#--------------------------------------------------------------------
-
-#--------------------------------------------------------------------
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
 CI_ENVIRONMENT = development
-MORE_TEST = 'TEST'
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'http://ems.test/'
+app.baseURL = 'https://ems.test/'
 # app.forceGlobalSecureRequests = false
 app.appTimezone = 'Asia/Jakarta'
 app.sessionDriver = 'CodeIgniter\Session\Handlers\DatabaseHandler'
 app.sessionCookieName = 'ci_session'
 app.sessionExpiration = 172800
 app.sessionSavePath = 'ci_sessions'
-# app.sessionMatchIP = false
-# app.sessionTimeToUpdate = 300
-# app.sessionRegenerateDestroy = false
+app.sessionMatchIP = false
+app.sessionTimeToUpdate = 300
+app.sessionRegenerateDestroy = true
 
 # app.CSPEnabled = false
 
@@ -130,3 +117,6 @@ security.redirect = true
 #--------------------------------------------------------------------
 
 # curlrequest.shareOptions = true
+
+
+TOKEN_SECRET = cskhfuwt48wbfjn3i4utnjf38754hf3yfbjc93758thrjsnf83hcwn8437
