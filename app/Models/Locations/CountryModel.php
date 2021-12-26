@@ -52,6 +52,7 @@ class CountryModel extends Model
         return [
             'country'  =>  $result,
             'pager'     => $this->pager,
+            'current_page' => $this->pager->getCurrentPage('default'),
         ];
     }
 

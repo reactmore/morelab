@@ -58,6 +58,7 @@ class CityModel extends Model
         return [
             'city'  =>  $result,
             'pager'     => $this->pager,
+            'current_page' => $this->pager->getCurrentPage('default'),
         ];
     }
 

@@ -52,6 +52,7 @@ class StateModel extends Model
         return [
             'state'  =>  $result,
             'pager'     => $this->pager,
+            'current_page' => $this->pager->getCurrentPage('default'),
         ];
     }
 

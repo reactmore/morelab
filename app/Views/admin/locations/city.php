@@ -111,7 +111,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($paginate['city'] as $item) : ?>
+                                                <?php foreach ($city as $item) : ?>
                                                     <tr>
                                                         <td><?php echo html_escape($item->id); ?></td>
                                                         <td><?php echo html_escape($item->name); ?></td>
@@ -135,7 +135,7 @@
                                                 <?php endforeach; ?>
                                             </tbody>
                                         </table>
-                                        <?php if (empty($paginate['city'])) : ?>
+                                        <?php if (empty($city)) : ?>
                                             <p class="text-center text-muted"><?= trans("no_records_found"); ?></p>
                                         <?php endif; ?>
 
@@ -144,7 +144,9 @@
                             </div>
                         </div>
                         <div class="card-footer clearfix">
-
+                            <div class="col-sm-12 float-right">
+                                <?php echo $paginations ?>
+                            </div>
                         </div>
                         <!-- /.card -->
                     </div>

@@ -20,8 +20,14 @@ class Country extends BaseController
         $data["active_tab"] = 'country';
 
         // Paginations
-        $data['paginate'] = $this->countryModel->DataPaginations();
-        $data['pager'] =  $data['paginate']['pager'];
+        $paginate = $this->countryModel->DataPaginations();
+
+        $data['country'] =  get_cached_data('country_page_' . $paginate['current_page']);
+        if (empty($data['country'])) {
+            $data['country'] =   $paginate['country'];
+            set_cache_data('country_page_' . $paginate['current_page'], $data['country']);
+        }
+        $data['paginations'] =  $paginate['pager']->Links('default', 'custom_pager');
 
 
         return view('admin/locations/country', $data);

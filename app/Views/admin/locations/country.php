@@ -81,7 +81,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($paginate['country'] as $item) : ?>
+                                                <?php foreach ($country as $item) : ?>
                                                     <tr>
                                                         <td><?php echo html_escape($item->id); ?></td>
                                                         <td><?php echo html_escape($item->name); ?></td>
@@ -115,7 +115,7 @@
                                                 <?php endforeach; ?>
                                             </tbody>
                                         </table>
-                                        <?php if (empty($paginate['country'])) : ?>
+                                        <?php if (empty($country)) : ?>
                                             <p class="text-center text-muted"><?= trans("no_records_found"); ?></p>
                                         <?php endif; ?>
 
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col-sm-6 float-right">
 
-                                    <?php echo $pager->Links('default', 'custom_pager') ?>
+                                    <?php echo $paginations ?>
                                 </div>
                             </div>
 

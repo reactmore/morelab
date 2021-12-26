@@ -26,8 +26,15 @@ class City extends BaseController
         $data["active_tab"] = 'city';
 
         // Paginations
-        $data['paginate'] = $this->cityModel->DataPaginations();
-        $data['pager'] =  $data['paginate']['pager'];
+        $paginate = $this->cityModel->DataPaginations();
+
+        $data['city'] =  get_cached_data('city_page_' . $paginate['current_page']);
+        if (empty($data['city'])) {
+            $data['city'] =   $paginate['city'];
+            set_cache_data('city_page_' . $paginate['current_page'], $data['city']);
+        }
+        $data['paginations'] =  $paginate['pager']->Links('default', 'custom_pager');
+
 
         $data['countries'] = $this->countryModel->asObject()->findAll();
         $data['states'] = $this->stateModel->asObject()->findAll();

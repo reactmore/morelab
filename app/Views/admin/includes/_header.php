@@ -133,10 +133,7 @@
                     </a>
                 <?php endif; ?>
                 <?php echo form_close(); ?>
-                <a href="<?php echo admin_url() ?>profile" class="dropdown-item">
-                    <?php echo trans('settings') ?>
-                    <span class="float-right text-muted text-sm"><i class="fas fa-cog"></i></span>
-                </a>
+
 
                 <div class="dropdown-divider"></div>
 
