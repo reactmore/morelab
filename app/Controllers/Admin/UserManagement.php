@@ -68,7 +68,6 @@ class UserManagement extends BaseController
     public function add_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
 
         $validation =  \Config\Services::validation();
@@ -136,7 +135,6 @@ class UserManagement extends BaseController
     public function edit_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
 
         $validation =  \Config\Services::validation();
@@ -221,7 +219,6 @@ class UserManagement extends BaseController
     public function delete_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
         $id = $this->request->getVar('id');
         $user = $this->userModel->asObject()->find($id);
@@ -230,7 +227,6 @@ class UserManagement extends BaseController
 
         if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
-            exit();
         }
 
 
@@ -248,7 +244,6 @@ class UserManagement extends BaseController
     public function ban_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
         $option = $this->request->getVar('option');
         $id = $this->request->getVar('id');
@@ -256,7 +251,6 @@ class UserManagement extends BaseController
         $user = $this->userModel->asObject()->find($id);
         if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
-            exit();
         }
 
         //if option ban
@@ -311,7 +305,6 @@ class UserManagement extends BaseController
             if ($user->id == 1 || $user->id == user()->id) {
                 $this->session->setFlashData('error', trans("msg_error"));
                 return redirect()->back();
-                exit();
             }
 
             if ($this->userModel->change_user_role($id, $role)) {

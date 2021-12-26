@@ -207,7 +207,6 @@ if (!function_exists('user')) {
         if (empty($user)) {
             $user_model->logout();
             return redirect()->back();
-            exit();
         } else {
             return $user;
         }
