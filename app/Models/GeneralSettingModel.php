@@ -220,6 +220,18 @@ class GeneralSettingModel extends Model
         return $this->builder()->where('id', 1)->update($data);
     }
 
+    //update cache system
+    public function update_cache_system()
+    {
+        $data = array(
+            'cache_system' => $this->request->getVar('cache_system'),
+            'refresh_cache_database_changes' => $this->request->getVar('refresh_cache_database_changes'),
+            'cache_refresh_time' => $this->request->getVar('cache_refresh_time') * 60
+        );
+
+        return $this->builder()->where('id', 1)->update($data);
+    }
+
     //delete old sessions
     function delete_old_sessions()
     {
