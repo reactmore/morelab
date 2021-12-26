@@ -52,6 +52,7 @@ class CountryModel extends Model
         return [
             'country'  =>  $result,
             'pager'     => $this->pager,
+            'current_page' => $this->pager->getCurrentPage('default'),
         ];
     }
 
@@ -78,5 +79,12 @@ class CountryModel extends Model
 
 
         return $this->update($id, $data);
+    }
+
+    //get countries by continent
+    public function get_countries_by_continent($continent_code)
+    {
+        return $this->asObject()->where('continent_code', clean_str($continent_code))->findAll();
+        // return $this->db->where('continent_code', clean_str($continent_code))->order_by('name')->get('location_countries')->result();
     }
 }

@@ -122,6 +122,23 @@ class ImagesModel extends Model
 
 
     //delete image
+    public function update_image($id)
+    {
+        $image = $this->get_image($id);
+        if (!empty($image)) {
+
+            $data = [
+                "alt" => $this->request->getVar('alt_name'),
+                "file_name" => $this->request->getVar('file_name'),
+                "captions" => $this->request->getVar('file_caption'),
+                "descriptions" => $this->request->getVar('file_desc'),
+            ];
+
+            return $this->builder()->where('id', $id)->update($data);
+        }
+    }
+
+    //delete image
     public function delete_image($id)
     {
         $image = $this->get_image($id);

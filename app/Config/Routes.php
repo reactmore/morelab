@@ -68,6 +68,7 @@ $routes->group("$custom_routes->admin", ["filter" => 'auth-login'], function ($r
         $routes->get('email', 'Admin/GeneralSettings::email_settings', ["filter" => 'check-admin']);
         $routes->get('social', 'Admin/GeneralSettings::social_settings', ["filter" => 'check-admin']);
         $routes->get('visual', 'Admin/GeneralSettings::visual_settings', ["filter" => 'check-admin']);
+        $routes->get('cache-system', 'Admin/GeneralSettings::cache_system_settings', ["filter" => 'check-admin']);
     });
 
     $routes->group('profile', function ($routes) {

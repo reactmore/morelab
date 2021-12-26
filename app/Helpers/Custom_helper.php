@@ -815,3 +815,83 @@ if (!function_exists('check_dark_mode_enabled')) {
         return $dark_mode;
     }
 }
+
+
+//set cached data
+if (!function_exists('set_cache_data')) {
+    function set_cache_data($key, $data)
+    {
+
+        $key = $key . "_lang" . selected_lang()->id;
+        if (get_general_settings()->cache_system == 1) {
+            $cache = \Config\Services::cache();
+
+            $cache->save($key, $data, get_general_settings()->cache_refresh_time);
+        }
+    }
+}
+
+//set cached data by lang
+if (!function_exists('set_cache_data_by_lang')) {
+    function set_cache_data_by_lang($key, $data, $lang_id)
+    {
+
+        $key = $key . "_lang" . $lang_id;
+        if (get_general_settings()->cache_system == 1) {
+            $cache = \Config\Services::cache();
+            $cache->save($key, $data, get_general_settings()->cache_refresh_time);
+        }
+    }
+}
+
+
+//get cached data
+if (!function_exists('get_cached_data')) {
+    function get_cached_data($key)
+    {
+
+        $key = $key . "_lang" . selected_lang()->id;
+        if (get_general_settings()->cache_system == 1) {
+            $cache = \Config\Services::cache();
+            if ($data = $cache->get($key)) {
+                return $data;
+            }
+        }
+        return false;
+    }
+}
+
+//get cached data by lang
+if (!function_exists('get_cached_data_by_lang')) {
+    function get_cached_data_by_lang($key, $lang_id)
+    {
+
+        $key = $key . "_lang" . $lang_id;
+        if (get_general_settings()->cache_system == 1) {
+            $cache = \Config\Services::cache();
+            if ($data = $cache->get($key)) {
+                return $data;
+            }
+        }
+        return false;
+    }
+}
+
+//reset cache data
+if (!function_exists('reset_cache_data')) {
+    function reset_cache_data()
+    {
+        $cache = \Config\Services::cache();
+        return $cache->clean();
+    }
+}
+
+//reset cache data on change
+if (!function_exists('reset_cache_data_on_change')) {
+    function reset_cache_data_on_change()
+    {
+        if (get_general_settings()->refresh_cache_database_changes == 1) {
+            return reset_cache_data();
+        }
+    }
+}

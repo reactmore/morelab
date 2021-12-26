@@ -149,7 +149,23 @@
 }
 
 
-  
+.form-control.more-loader {
+    padding-right: 2.25rem;
+    background-image: url('../img/spinning-circles.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-control.more-success {
+    padding-right: 2.25rem;
+    background-image: url('../img/success.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+
 
 
   

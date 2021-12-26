@@ -629,4 +629,55 @@ class UserModel extends Model
         $this->session->remove('vr_sess_user_ps');
         helper_deletecookie("remember_user_id");
     }
+
+
+    //get paginated users
+    public function get_paginated_admin($per_page, $offset)
+    {
+        $this->builder()->select('users.*, roles_permissions.role_name as role')
+            ->join('roles_permissions', 'users.role = roles_permissions.role')
+            ->where('users.role', 'admin')
+            ->where('users.deleted_at', null)
+            ->orderBy('users.id', 'ASC');
+        $this->filter_admin();
+
+        $query = $this->builder()->get($per_page, $offset);
+
+        return $query->getResultArray();
+    }
+
+    //get paginated users count
+    public function get_paginated_admin_count()
+    {
+        $this->builder->selectCount('id');
+        $this->builder->where('role', 'admin');
+        $this->builder->where('deleted_at', NULL);
+        $this->filter_admin();
+        $query = $this->builder->get();
+        return $query->getRow()->id;
+    }
+
+    public function filter_admin()
+    {
+        $request = service('request');
+        $search = trim($request->getGet('search'));
+        if (!empty($search)) {
+            $this->builder()->groupStart()
+                ->like('users.username', clean_str($search))
+                ->orLike('users.first_name', clean_str($search))
+                ->orLike('users.last_name', clean_str($search))
+                ->orLike('users.email', clean_str($search))
+                ->groupEnd();
+        }
+
+        $status = trim($request->getGet('status'));
+        if ($status != null && ($status == 1 || $status == 0)) {
+            $this->builder()->where('users.status', clean_number($status));
+        }
+
+        $email_status = trim($request->getGet('email_status'));
+        if ($email_status != null && ($email_status == 1 || $email_status == 0)) {
+            $this->builder()->where('users.email_status', clean_number($email_status));
+        }
+    }
 }

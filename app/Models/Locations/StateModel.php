@@ -52,6 +52,7 @@ class StateModel extends Model
         return [
             'state'  =>  $result,
             'pager'     => $this->pager,
+            'current_page' => $this->pager->getCurrentPage('default'),
         ];
     }
 
@@ -75,5 +76,11 @@ class StateModel extends Model
 
 
         return $this->update($id, $data);
+    }
+
+    //get states by country
+    public function get_states_by_country($country_id)
+    {
+        return $this->asObject()->where('country_id', clean_number($country_id))->findAll();
     }
 }

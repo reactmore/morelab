@@ -3,16 +3,41 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\Admin\BaseController;
+use App\Models\Locations\CityModel;
+use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
 
 class UserManagement extends BaseController
 {
 
+    protected $cityModel;
+    protected $stateModel;
+    protected $countryModel;
+
+    public function __construct()
+    {
+        $this->cityModel = new CityModel();
+        $this->stateModel = new StateModel();
+        $this->countryModel = new CountryModel();
+    }
+
     public function administrators()
     {
         $data['title'] = trans("administrators");
-        //paginate
-        $data['paginate'] = $this->userModel->administratorsPaginate();
-        $data['pager'] =  $data['paginate']['pager'];
+
+
+        $pagination = $this->paginate($this->userModel->get_paginated_admin_count());
+
+        $data['users'] = get_cached_data('administrator_page_' . $pagination['current_page']);
+
+        if (empty($data['users'])) {
+            $data['users'] =   $data['users'] = $this->userModel->get_paginated_admin($pagination['per_page'], $pagination['offset']);
+            set_cache_data('administrator_page_' . $pagination['current_page'], $data['users']);
+        }
+
+        $data['paginations'] = $pagination['pagination'];
+
+
 
         return view('admin/users/administrators', $data);
     }
@@ -32,6 +57,7 @@ class UserManagement extends BaseController
     {
         $data['title'] = trans("add_user");
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
+        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
 
         return view('admin/users/add_users', $data);
     }
@@ -74,6 +100,7 @@ class UserManagement extends BaseController
             //add user
             $id =  $this->userModel->add_user();
             if ($id) {
+                reset_cache_data_on_change();
                 $this->session->setFlashData('success', trans("msg_user_added"));
                 return redirect()->back();
             } else {
@@ -175,6 +202,7 @@ class UserManagement extends BaseController
             }
 
             if ($this->userModel->edit_user($data["id"])) {
+                reset_cache_data_on_change();
                 $this->session->setFlashData('success', trans("msg_updated"));
                 return redirect()->back();
             } else {
@@ -207,6 +235,7 @@ class UserManagement extends BaseController
 
 
         if ($this->userModel->delete_user($id)) {
+            reset_cache_data_on_change();
             $this->session->setFlashData('success', trans("user") . " " . trans("msg_suc_deleted"));
         } else {
             $this->session->setFlashData('error', trans("msg_error"));
@@ -284,8 +313,6 @@ class UserManagement extends BaseController
                 return redirect()->back();
                 exit();
             }
-
-
 
             if ($this->userModel->change_user_role($id, $role)) {
                 $this->session->setFlashData('success', trans("msg_role_changed"));

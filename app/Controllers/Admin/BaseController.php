@@ -62,4 +62,28 @@ class BaseController extends Base
             $this->language_translations = $this->get_translation_array($this->control_panel_lang->id);
         }
     }
+
+    public function paginate($total_rows)
+    {
+        $per_page = 15;
+        $pager = service('pager');
+        //initialize pagination
+        $page = $this->request->getGet('page');
+        $page = clean_number($page);
+
+
+        $page = $page >= 1 ? $page : $pager->getCurrentPage('default');
+        $offset      = ($pager->getCurrentPage('default') - 1) * $per_page;
+
+        $data = array(
+            'per_page' => $per_page,
+            'offset' =>  $offset,
+            'current_page' => $pager->getCurrentPage('default'),
+            'total' => $total_rows
+        );
+
+        $data['pagination'] = $pager->makeLinks($page, $per_page, $data['total'], 'custom_pager');
+
+        return $data;
+    }
 }

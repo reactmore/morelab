@@ -224,4 +224,36 @@ class GeneralSettings extends BaseController
             return redirect()->to($this->agent->getReferrer());
         }
     }
+
+    /**
+     * Visual Settings
+     */
+    public function cache_system_settings()
+    {
+
+        $data['active_tab'] = 'cache_system';
+        $data['title'] = trans("cache_system");
+
+        $data['settings'] = get_general_settings();
+
+        return view('admin/settings/cache_system', $data);
+    }
+
+    public function cache_system_post()
+    {
+
+        if ($this->request->getVar('action') == "reset") {
+            reset_cache_data();
+            $this->session->setFlashData('success', trans("msg_reset_cache"));
+        } else {
+
+            if ($this->GeneralSettingModel->update_cache_system()) {
+
+                $this->session->setFlashData('success', trans("msg_updated"));
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+            }
+        }
+        return redirect()->to($this->agent->getReferrer());
+    }
 }

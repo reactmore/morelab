@@ -23,9 +23,17 @@ class State extends BaseController
         $data["active_tab"] = 'state';
 
         // Paginations
-        $data['paginate'] = $this->stateModel->DataPaginations();
-        $data['pager'] =  $data['paginate']['pager'];
+        $paginate = $this->stateModel->DataPaginations();
 
+        $data['state'] =  get_cached_data('state_page_' . $paginate['current_page']);
+
+        if (empty($data['state'])) {
+
+            $data['state'] =   $paginate['state'];
+            set_cache_data('state_page_' . $paginate['current_page'], $data['state']);
+        }
+
+        $data['paginations'] =  $paginate['pager']->Links('default', 'custom_pager');
         $data['countries'] = $this->countryModel->asObject()->findAll();
 
         return view('admin/locations/state', $data);

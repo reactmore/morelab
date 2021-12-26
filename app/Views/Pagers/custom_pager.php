@@ -1,4 +1,4 @@
-<?php $pager->setSurroundCount(2); ?>
+<?php $pager->setSurroundCount(3); ?>
 <nav class="float-right">
     <ul class="pagination">
         <?php if ($pager->hasPrevious()) { ?>
