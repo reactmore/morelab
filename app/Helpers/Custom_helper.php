@@ -898,6 +898,7 @@ if (!function_exists('reset_cache_data_on_change')) {
     }
 }
 
+
 //get location
 if (!function_exists('get_location')) {
     function get_location($object)
@@ -945,5 +946,62 @@ if (!function_exists('get_location')) {
             }
         }
         return $location;
+    }
+}
+
+//checkTextContainRegexp
+if (!function_exists('checkTextContainRegexp')) {
+    function checkTextContainRegexp(string $text, string $regexp)
+    {
+        $matches = [];
+        preg_match_all($regexp, $text, $matches);
+
+
+        if (!empty($matches[0])) {
+            $data = [
+                'success' => !empty($matches[0]),
+                'data' => $matches[0][0]
+            ];
+        } else {
+            $data = [
+                'success' => !empty($matches[0]),
+                'data' => null
+            ];
+        }
+
+        return $data;
+    }
+}
+
+//checkTextContainRegexp
+if (!function_exists('isAnyNotedFound')) {
+    function isAnyNotedFound(string $text, string $source)
+    {
+        return checkTextContainRegexp($source, '/' .  $text . '/');
+    }
+}
+
+//validateArrayValue
+if (!function_exists('validatePaymentBank')) {
+    function validatePaymentBank(mixed $desc, mixed $amount,  array $data)
+    {
+        foreach ($data as $val) {
+            $matches = [];
+            preg_match_all('/' .  $desc . '/', $val['description'], $matches);
+            if ($val['amount'] === $amount && !empty($matches[0])) {
+                return [
+                    'success' => 1,
+                    'data' => [
+                        "amount" => $val['amount'],
+                        "description" =>  $matches[0][0]
+                    ]
+                ];
+            } else {
+                return [
+                    'success' => 0,
+                    'data' => 'No Match Found!'
+                ];
+            }
+        }
     }
 }
