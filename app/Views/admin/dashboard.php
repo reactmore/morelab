@@ -94,12 +94,91 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
-                </div>
-            </div>
-            <!-- /.row -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title"><?php echo 'Account Mutations' ?></h5>
 
-        </div><!-- /.container-fluid -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-wrench"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <a href="javascript:void(0)" onclick="syncMutations('#cs_datatable')" class="dropdown-item">Update Data</a>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+
+                                        <table id="cs_datatable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th width="20"><?php echo trans('id'); ?></th>
+                                                    <th><?php echo 'Nominal'; ?></th>
+                                                    <th><?php echo 'type'; ?></th>
+                                                    <th><?php echo 'deskripsi'; ?></th>
+                                                    <th><?php echo 'Tanggal Transaksi'; ?></th>
+
+                                                    <th class="max-width-120"><?php echo trans('options'); ?></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($mutation as $item) : ?>
+
+                                                    <tr>
+                                                        <td><?php echo $item->id ?></td>
+                                                        <td><?php echo $item->amount ?></td>
+                                                        <td>
+                                                            <?php if ($item->type === 'DB') : ?>
+                                                                <span class="badge badge-success"><?php echo $item->type ?></span>
+                                                            <?php else : ?>
+                                                                <span class="badge badge-danger"><?php echo $item->type ?></span>
+
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td><?php echo $item->description ?></td>
+                                                        <td>
+                                                            <?php if ($item->transactions_at === '0000-00-00') : ?>
+                                                                <span class="badge badge-danger">PEND</span>
+                                                            <?php else : ?>
+                                                                <span class="badge badge-success"><?php echo $item->transactions_at ?></span>
+
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- ./card-body -->
+                        <div class="card-footer">
+
+
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+
+                </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
