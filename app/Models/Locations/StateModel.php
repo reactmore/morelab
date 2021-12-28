@@ -89,7 +89,7 @@ class StateModel extends Model
     {
         $id = clean_number($id);
         $state = $this->asObject()->find($id);
-        if (!empty($country)) {
+        if (!empty($state)) {
             return $this->delete($state->id);
         }
         return false;
