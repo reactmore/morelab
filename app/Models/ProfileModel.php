@@ -60,7 +60,7 @@ class ProfileModel extends Model
             $image =  $imageModel->get_image($_image_id);
             if (!empty($image)) {
                 $uploadModel = new UploadModel();
-                $data["avatar"] = $uploadModel->avatar_upload(user()->id, base_url() . $image->image_default);
+                $data["avatar"] = $uploadModel->avatar_upload(user()->id, FCPATH . $image->image_default);
                 //delete old
                 delete_file_from_server(user()->avatar);
                 // $data["avatar"] = $image->image_default;

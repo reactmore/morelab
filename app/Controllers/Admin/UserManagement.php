@@ -121,6 +121,9 @@ class UserManagement extends BaseController
         $data['title'] = trans("update_profile");
         $data['user'] = $this->userModel->get_user($id);
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
+        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
+        $data["states"] = $this->stateModel->asObject()->where('country_id', $data['user']->country_id)->findAll();
+        $data["cities"] = $this->cityModel->asObject()->where('state_id', $data['user']->state_id)->findAll();
 
         if (empty($data['user']->id)) {
             return redirect()->back();
