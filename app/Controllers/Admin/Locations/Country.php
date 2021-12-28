@@ -4,6 +4,7 @@ namespace App\Controllers\Admin\Locations;
 
 use App\Controllers\Admin\BaseController;
 use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
 
 class Country extends BaseController
 {
@@ -11,7 +12,8 @@ class Country extends BaseController
 
     public function __construct()
     {
-        $this->countryModel = new CountryModel;
+        $this->countryModel = new CountryModel();
+        $this->stateModel = new StateModel();
     }
 
     public function index()
@@ -33,35 +35,57 @@ class Country extends BaseController
         return view('admin/locations/country', $data);
     }
 
-    // public function saved_country_post()
-    // {
-    //     //validate inputs
-    //     $this->form_validation->set_rules('name', trans("name"), 'required|xss_clean|max_length[200]');
+    public function saved_country_post()
+    {
 
-    //     if ($this->form_validation->run() === false) {
-    //         $this->session->set_flashdata('errors', validation_errors());
-    //         redirect($this->agent->referrer());
-    //     } else {
-    //         $id = $this->input->post('id', true);
-    //         if (!empty($id)) {
-    //             if ($this->location_model->update_country($id)) {
-    //                 reset_cache_data($this, "st");
-    //                 $this->session->set_flashdata('success', trans("msg_updated"));
-    //                 redirect($this->agent->referrer());
-    //             } else {
-    //                 $this->session->set_flashdata('error', trans("msg_error"));
-    //                 redirect($this->agent->referrer());
-    //             }
-    //         } else {
-    //             if ($this->location_model->add_country()) {
-    //                 reset_cache_data($this, "st");
-    //                 $this->session->set_flashdata('success', trans("msg_added"));
-    //                 redirect($this->agent->referrer());
-    //             } else {
-    //                 $this->session->set_flashdata('error', trans("msg_error"));
-    //                 redirect($this->agent->referrer());
-    //             }
-    //         }
-    //     }
-    // }
+        $validation =  \Config\Services::validation();
+
+        //validate inputs
+        $rules = [
+            'name'              => 'required|max_length[200]',
+            'continent_code'    => 'required|max_length[200]',
+        ];
+
+        if ($this->validate($rules)) {
+            $id = $this->request->getVar('id');
+            if (!empty($id)) {
+                if ($this->countryModel->update_country($id)) {
+                    reset_cache_data_on_change();
+                    $this->session->setFlashData('success', trans("msg_updated"));
+                    return redirect()->to($this->agent->getReferrer());
+                } else {
+                    $this->session->setFlashData('error', trans("msg_error"));
+                    return redirect()->to($this->agent->getReferrer());
+                }
+            } else {
+                if ($this->countryModel->add_country()) {
+                    reset_cache_data_on_change();
+                    $this->session->setFlashData('success', trans("msg_suc_added"));
+                    return redirect()->to($this->agent->getReferrer());
+                } else {
+                    $this->session->setFlashData('error', trans("msg_error"));
+                    return redirect()->to($this->agent->getReferrer());
+                }
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+        }
+    }
+
+    public function delete_country_post()
+    {
+        $id = $this->request->getVar('id');
+
+        if (count($this->stateModel->get_states_by_country($id)) > 0) {
+            $this->session->setFlashData('error', trans("msg_error_row"));
+        } else {
+            if ($this->countryModel->delete_country($id)) {
+                reset_cache_data_on_change();
+                $this->session->setFlashData('success', trans("msg_suc_deleted"));
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+            }
+        }
+    }
 }
