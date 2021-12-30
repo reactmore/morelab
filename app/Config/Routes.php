@@ -35,6 +35,15 @@ $routes->setAutoRoute(true);
  */
 
 $routes->resource('api/rest');
+$routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes) {
+    $routes->group("user", function ($routes) {
+        $routes->get(" ", "User::index");
+        $routes->get("(:num)", "User::show/$1");
+        $routes->post("create", "User::create");
+        $routes->put("update/(:num)", "User::update/$1");
+        $routes->delete("delete/(:num)", "User::delete/$1");
+    });
+});
 
 $routes->get('connect-with-facebook', 'Common::connect_with_facebook');
 $routes->get('facebook-callback', 'Common::facebook_callback');
