@@ -83,4 +83,15 @@ class StateModel extends Model
     {
         return $this->asObject()->where('country_id', clean_number($country_id))->findAll();
     }
+
+    //delete country
+    public function delete_state($id)
+    {
+        $id = clean_number($id);
+        $state = $this->asObject()->find($id);
+        if (!empty($state)) {
+            return $this->delete($state->id);
+        }
+        return false;
+    }
 }

@@ -147,12 +147,20 @@ class UserModel extends Model
         $data['mobile_no'] =  $this->request->getVar('mobile_no');
         $data['user_type'] = "registered";
         $data["slug"] = $this->generate_uniqe_slug($data["username"]);
+        $data["about_me"] = $this->request->getVar('about_me');
+        $data["country_id"] = $this->request->getVar('country_id');
+        $data["state_id"] = $this->request->getVar('state_id');
+        $data["city_id"] = $this->request->getVar('city_id');
+        $data["address"] = $this->request->getVar('address');
+        $data["zip_code"] = $this->request->getVar('zip_code');
         $data['role'] = $this->request->getVar('role');
         $data['status'] = 1;
         $data['email_status'] = 1;
         $data['token'] = generate_unique_id();
         $data['last_seen'] = date('Y-m-d H:i:s');
         $data['created_at'] = date('Y-m-d H:i:s');
+
+
 
         return $this->protect(false)->insert($data);
     }
@@ -172,7 +180,24 @@ class UserModel extends Model
                 'about_me' => $this->request->getVar('about_me'),
                 'mobile_no' => $this->request->getVar('mobile_no'),
                 'role' => $this->request->getVar('role'),
+                'country_id' => $this->request->getVar('country_id'),
+                'state_id' => $this->request->getVar('state_id'),
+                'city_id' => $this->request->getVar('city_id'),
+                'address' => $this->request->getVar('address'),
+                'zip_code' => $this->request->getVar('zip_code')
             );
+
+            $_image_id = $this->request->getVar('newimage_id');
+            if (!empty($_image_id)) {
+                $imageModel = new ImagesModel();
+                $image =  $imageModel->get_image($_image_id);
+                if (!empty($image)) {
+                    $uploadModel = new UploadModel();
+                    $data["avatar"] = $uploadModel->avatar_upload($user->id, FCPATH . $image->image_default);
+                    //delete old
+                    delete_file_from_server($user->avatar);
+                }
+            }
 
             return $this->protect(false)->update($user->id, $data);
         }

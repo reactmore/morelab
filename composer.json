@@ -17,7 +17,8 @@
         "phpmailer/phpmailer": "^6.5",
         "intervention/image": "2.5",
         "league/oauth2-google": "^4.0",
-        "firebase/php-jwt": "^5.5"
+        "firebase/php-jwt": "^5.5",
+        "daycry/cronjob": "^1.0"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.1",

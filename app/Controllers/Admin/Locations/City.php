@@ -41,4 +41,56 @@ class City extends BaseController
 
         return view('admin/locations/city', $data);
     }
+
+    public function saved_city_post()
+    {
+
+        $validation =  \Config\Services::validation();
+
+        //validate inputs
+        $rules = [
+            'name'              => 'required|max_length[200]',
+            'country_id'    => 'required',
+            'state_id'    => 'required',
+        ];
+
+        if ($this->validate($rules)) {
+            $id = $this->request->getVar('id');
+            if (!empty($id)) {
+                if ($this->cityModel->update_city($id)) {
+                    reset_cache_data_on_change();
+                    $this->session->setFlashData('success', trans("msg_updated"));
+                    return redirect()->to($this->agent->getReferrer());
+                } else {
+                    $this->session->setFlashData('error', trans("msg_error"));
+                    return redirect()->to($this->agent->getReferrer());
+                }
+            } else {
+                if ($this->cityModel->add_city()) {
+                    reset_cache_data_on_change();
+                    $this->session->setFlashData('success', trans("msg_suc_added"));
+                    return redirect()->to($this->agent->getReferrer());
+                } else {
+                    $this->session->setFlashData('error', trans("msg_error"));
+                    return redirect()->to($this->agent->getReferrer());
+                }
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+        }
+    }
+
+    public function delete_city_post()
+    {
+        $id = $this->request->getVar('id');
+
+
+        if ($this->cityModel->delete_city($id)) {
+            reset_cache_data_on_change();
+            $this->session->setFlashData('success', trans("msg_suc_deleted"));
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+        }
+    }
 }

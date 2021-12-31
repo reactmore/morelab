@@ -32,6 +32,7 @@
             <!-- Main row -->
             <?php echo form_open_multipart('admin/usermanagement/add_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
             <?php echo $this->include('admin/includes/_messages') ?>
+            <input type="hidden" id="crsf">
             <div class="row">
                 <div class="col-lg-12 col-xl-12">
                     <div class="card card-primary card-outline card-outline-tabs">
@@ -53,20 +54,7 @@
 
                                 <div class="tab-pane fade show active" id="custom-tabs-basic" role="tabpanel" aria-labelledby="custom-tabs-basic-tab">
 
-                                    <div class="form-group mb-3 text-center">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-profile">
-                                                <center><img id="userimg" src="<?php echo get_user_avatar(''); ?>" alt="" class="img-fluid rounded-circle avatar-lg img-thumbnail"> </center>
-                                            </div>
-                                        </div>
 
-                                        <div class="row mt-3">
-                                            <div class="col-sm-12 col-profile">
-                                                <button type="button" class="btn btn-sm btn-success " data-toggle="modal" data-target="#file_manager_image" data-bs-image-type="input" data-bs-item-id="#userimg" data-bs-input-id="#newimage_id"><i class="fa fa-image"></i><?php echo trans('change_avatar'); ?></button>
-                                                <input id="newimage_id" type="hidden" class="form-control mb-3" name="newimage_id" value="">
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group mb-3">
                                         <label><?php echo trans("username"); ?><span class="required"> *</span></label>
@@ -141,7 +129,7 @@
                                             </div>
 
                                             <div id="get_cities_container" class="col-12 col-sm-3 m-b-15 display-none">
-                                                <select id="select_cities" name="city_id" class="select2 form-control" <?php echo (!empty($map)) ? 'onchange="update_product_map();"' : ''; ?>>
+                                                <select id="select_cities" name="city_id" class="select2 form-control">
                                                     <option value=""><?php echo trans('city'); ?></option>
 
                                                 </select>

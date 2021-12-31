@@ -54,7 +54,6 @@ class UploadModel extends Model
 
     public function avatar_upload($user_id, $path)
     {
-
         $new_path = '/public/uploads/profile/avatar_' . $user_id . '_' . uniqid() . '.jpg';
         $img = ImageManagerStatic::make($path)->orientate();
         $img->fit(150, 150);

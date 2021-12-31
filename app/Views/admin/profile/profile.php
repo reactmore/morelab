@@ -26,6 +26,9 @@
                     <?php if ($active_tab === 'details') : ?>
                         <?php echo view('admin/profile/form/_basic_informations') ?>
                     <?php endif; ?>
+                    <?php if ($active_tab === 'address_information') : ?>
+                        <?php echo view('admin/profile/form/_address_information') ?>
+                    <?php endif; ?>
                     <?php if ($active_tab === 'change_password') : ?>
                         <?php echo view('admin/profile/form/_change_password') ?>
                     <?php endif; ?>

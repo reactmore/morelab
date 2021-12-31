@@ -48,6 +48,10 @@ Vagrantfile
 #-------------------------
 # Temporary Files
 #-------------------------
+writable/cronjob/*
+!writable/cronjob/index.html
+!writable/cronjob/jobs
+
 writable/cache/*
 !writable/cache/index.html
 
@@ -61,7 +65,8 @@ writable/uploads/*
 !writable/uploads/tmp
 !writable/uploads/index.html
 !writable/uploads/index.html
-
+writable/database/*
+!writable/database/index.html
 writable/debugbar/*
 
 php_errors.log
@@ -130,4 +135,6 @@ nb-configuration.xml
 
 vendor/*
 app/Telegram/Logs/*
+
+cookiejar
 

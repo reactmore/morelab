@@ -92,4 +92,15 @@ class CityModel extends Model
     {
         return $this->asObject()->where('state_id', clean_number($state_id))->findAll();
     }
+
+    //delete country
+    public function delete_city($id)
+    {
+        $id = clean_number($id);
+        $city = $this->asObject()->find($id);
+        if (!empty($city)) {
+            return $this->delete($city->id);
+        }
+        return false;
+    }
 }

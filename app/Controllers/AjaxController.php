@@ -161,23 +161,38 @@ class AjaxController extends BaseController
         $country_val = $this->request->getVar('country_val');
         $state_text = $this->request->getVar('state_text');
         $state_val = $this->request->getVar('state_val');
+        $city_text = $this->request->getVar('city_text');
+        $city_val = $this->request->getVar('city_val');
         $address = $this->request->getVar('address');
         $zip_code = $this->request->getVar('zip_code');
 
-        $adress_details = $address . " " . $zip_code;
+
+
+
         $data["map_address"] = "";
-        if (!empty($adress_details)) {
-            $data["map_address"] = $adress_details . " ";
-        }
-        if (!empty($state_val)) {
-            $data["map_address"] = $data["map_address"] . $state_text . " ";
-        }
+
         if (!empty($country_val)) {
             $data["map_address"] = $data["map_address"] . $country_text;
         }
 
-        return $data;
+        if (!empty($state_val)) {
+            $data["map_address"] = $data["map_address"] . ' ' . $state_text . " ";
+        }
 
-        // $this->load->view('product/_load_map', $data);
+        if (!empty($city_val)) {
+            $data["map_address"] = $data["map_address"] . $city_text . " ";
+        }
+
+
+        if (!empty($address)) {
+            $data["map_address"] =  $address . " " . $zip_code;
+
+            if (!empty($zip_code)) {
+                $data["map_address"] =  $address . " " . $zip_code;
+            }
+        }
+
+
+        return view('admin/includes/_load_map', $data);
     }
 }

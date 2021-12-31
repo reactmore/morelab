@@ -112,9 +112,9 @@
                                                                 </button>
 
                                                                 <div class="dropdown-menu dropdown-menu-animated">
-                                                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-state" onclick="$('form').attr('action', '/admin_controller/saved_state_post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_country').val('<?php echo html_escape($item->country_id); ?>').change();"><?php echo trans('edit'); ?></a>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-state" onclick="$('form').attr('action', '/admin/locations/state/saved_state_post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_country').val('<?php echo html_escape($item->country_id); ?>').change();"><?php echo trans('edit'); ?></a>
                                                                     <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('admin_controller/delete_state_post','<?php echo $item->id; ?>','<?php echo trans('confirm_delete'); ?>');"><?php echo trans('delete'); ?></a>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/locations/delete_state_post','<?php echo $item->id; ?>','<?php echo trans('confirm_delete'); ?>');"><?php echo trans('delete'); ?></a>
                                                                 </div>
                                                             </div>
 
@@ -155,7 +155,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="form_safe" action="/admin_controller/saved_state_post" method="post">
+            <form id="form_safe" action="/admin/locations/state/saved_state_post" method="post">
                 <input type="hidden" id="modal_id" name="id" class="form-control form-input">
                 <input type="hidden" id="crsf" class="form-control form-input">
 

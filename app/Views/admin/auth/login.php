@@ -82,7 +82,7 @@
                             </a>
                         <?php endif; ?>
                         <?php if (!empty(get_general_settings()->google_client_id)) : ?>
-                            <a href="<?php echo base_url('connect-with-facebook') ?>" class="btn btn-block btn-danger">
+                            <a href="<?php echo base_url('connect-with-google') ?>" class="btn btn-block btn-danger">
                                 <i class="fab fa-google-plus mr-2"></i> Google
                             </a>
                         <?php endif; ?>

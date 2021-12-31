@@ -68,7 +68,6 @@ class UserManagement extends BaseController
     public function add_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
 
         $validation =  \Config\Services::validation();
@@ -122,6 +121,9 @@ class UserManagement extends BaseController
         $data['title'] = trans("update_profile");
         $data['user'] = $this->userModel->get_user($id);
         $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
+        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
+        $data["states"] = $this->stateModel->asObject()->where('country_id', $data['user']->country_id)->findAll();
+        $data["cities"] = $this->cityModel->asObject()->where('state_id', $data['user']->state_id)->findAll();
 
         if (empty($data['user']->id)) {
             return redirect()->back();
@@ -136,7 +138,6 @@ class UserManagement extends BaseController
     public function edit_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
 
         $validation =  \Config\Services::validation();
@@ -221,7 +222,6 @@ class UserManagement extends BaseController
     public function delete_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
         $id = $this->request->getVar('id');
         $user = $this->userModel->asObject()->find($id);
@@ -230,7 +230,6 @@ class UserManagement extends BaseController
 
         if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
-            exit();
         }
 
 
@@ -248,7 +247,6 @@ class UserManagement extends BaseController
     public function ban_user_post()
     {
         if (!check_user_permission('users')) {
-            exit();
         }
         $option = $this->request->getVar('option');
         $id = $this->request->getVar('id');
@@ -256,7 +254,6 @@ class UserManagement extends BaseController
         $user = $this->userModel->asObject()->find($id);
         if ($user->id == 1 || $user->id == user()->id) {
             $this->session->setFlashData('error', trans("msg_error"));
-            exit();
         }
 
         //if option ban
@@ -311,7 +308,6 @@ class UserManagement extends BaseController
             if ($user->id == 1 || $user->id == user()->id) {
                 $this->session->setFlashData('error', trans("msg_error"));
                 return redirect()->back();
-                exit();
             }
 
             if ($this->userModel->change_user_role($id, $role)) {

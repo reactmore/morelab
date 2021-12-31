@@ -87,4 +87,15 @@ class CountryModel extends Model
         return $this->asObject()->where('continent_code', clean_str($continent_code))->findAll();
         // return $this->db->where('continent_code', clean_str($continent_code))->order_by('name')->get('location_countries')->result();
     }
+
+    //delete country
+    public function delete_country($id)
+    {
+        $id = clean_number($id);
+        $country = $this->asObject()->find($id);
+        if (!empty($country)) {
+            return $this->delete($country->id);
+        }
+        return false;
+    }
 }

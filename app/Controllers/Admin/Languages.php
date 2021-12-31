@@ -26,11 +26,6 @@ class Languages extends BaseController
         $data["languages"] = model('LanguageModel')->builder()->get()->getResultObject();
 
         return view('admin/language/languages', $data);
-
-        foreach ($this->languageModel->asObject()->where('deleted', 0)
-            ->findAll() as $item) {
-            var_dump($item->id);
-        }
     }
 
     /**

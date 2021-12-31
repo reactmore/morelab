@@ -115,13 +115,9 @@
                 <?php if (!empty(get_general_settings()->facebook_app_id) || !empty(get_general_settings()->google_client_id)) : ?>
                     <div class="social-auth-links text-center mt-2 mb-3">
                         <p class="text-muted font-16"><?php echo trans("connect-with"); ?></p>
-                        <?php if (!empty(get_general_settings()->facebook_app_id)) : ?>
-                            <a href="<?php echo base_url('connect-with-facebook') ?>" class="btn btn-block btn-primary">
-                                <i class="fab fa-facebook mr-2"></i> Facebook
-                            </a>
-                        <?php endif; ?>
+
                         <?php if (!empty(get_general_settings()->google_client_id)) : ?>
-                            <a href="<?php echo base_url('connect-with-facebook') ?>" class="btn btn-block btn-danger">
+                            <a href="<?php echo base_url('connect-with-google') ?>" class="btn btn-block btn-danger">
                                 <i class="fab fa-google-plus mr-2"></i> Google
                             </a>
                         <?php endif; ?>

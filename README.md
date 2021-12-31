@@ -14,10 +14,20 @@
 9. Profile
 10. Language Management
 11. Filter, Secure CRSF, Validation
+12. Google Auth
 
-## TO DO
-- [x] Google Auth
-- [ ] Facebook Auth
+## Usage 
+
+1. `git clone https://github.com/reactmore/morelab.git`
+2. `composer install`
+3. `change database information and baseUrl on env`
+4. `Import database on PHP MY ADMIN`
+5. `Admin Login :`
+     `Email : reactmorecom@gmail.com`
+     `Password : reactmorecom321`
+
+## Database 
+[Download Version 1](https://drive.google.com/drive/folders/1qCNIg5DoBMQOlKGPdNZs4ARFuFVkZI74?usp=sharing)
 
     
 ## System Usage

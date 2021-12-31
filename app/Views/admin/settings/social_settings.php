@@ -37,59 +37,7 @@
                 </div>
                 <!-- Right Sidebar -->
                 <div class="col-xl-8 col-lg-7">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="app-search">
 
-                                    <div class="mb-2 position-relative">
-                                        <h5 class="mb-4 text-uppercase"><i class="fa fa-cog pr-2"></i><?php echo trans('facebook') ?></h5>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="mt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <?php echo form_open('admin/generalsettings/social_login_facebook_post'); ?>
-                                        <!-- include message block -->
-                                        <?php if (!empty(session()->getFlashdata('msg_social_facebook'))) :
-                                            echo view('admin/includes/_messages');
-                                        endif; ?>
-
-                                        <div class="form-group mb-3">
-                                            <label for="facebook_app_id" class="form-label"><?php echo trans('app_id'); ?></label>
-                                            <div class="input-group">
-                                                <input type="password" id="facebook_app_id" name="facebook_app_id" class="form-control" placeholder="<?php echo trans('app_id'); ?>" value="<?php echo $settings->facebook_app_id; ?>">
-                                                <div class="input-group-prepend" data-toggle="password" data-target="#facebook_app_id" data-icon="#icon-eye">
-                                                    <span class="input-group-text"><i id="icon-eye" class="fa fa-eye"></i></span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label for="facebook_app_secret" class="form-label"><?php echo trans('app_secret'); ?></label>
-                                            <div class="input-group">
-                                                <input type="password" id="facebook_app_secret" name="facebook_app_secret" class="form-control" placeholder="<?php echo trans('app_secret'); ?>" value="<?php echo $settings->facebook_app_secret; ?>">
-                                                <div class="input-group-prepend" data-toggle="password" data-target="#facebook_app_secret" data-icon="#icon-eye-1">
-                                                    <span class="input-group-text"><i id="icon-eye-1" class="fa fa-eye"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="submit" name="submit" class="btn btn-primary float-right"><?php echo trans('save_changes'); ?></button>
-                                        <?php echo form_close(); ?>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-
-                        </div> <!-- end card body -->
-                    </div> <!-- end card -->
 
                     <div class="card">
                         <div class="card-body">
@@ -146,6 +94,7 @@
 
                         </div> <!-- end card body -->
                     </div> <!-- end card -->
+
                 </div>
                 <!-- end Col -->
             </div><!-- End row -->
