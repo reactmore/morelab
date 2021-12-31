@@ -65,7 +65,8 @@ writable/uploads/*
 !writable/uploads/tmp
 !writable/uploads/index.html
 !writable/uploads/index.html
-
+writable/database/*
+!writable/database/index.html
 writable/debugbar/*
 
 php_errors.log
@@ -136,3 +137,4 @@ vendor/*
 app/Telegram/Logs/*
 
 cookiejar
+
