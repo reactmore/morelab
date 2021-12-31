@@ -53,24 +53,24 @@ $routes->get('connect-with-google', 'Common::connect_with_google');
 $routes->get('/', 'Home::index');
 
 $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"], ["filter" => 'auth-login'], function ($routes) {
+
     $routes->get('', 'Dashboard::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
     $routes->get('dashboard', 'Dashboard::index', ["filter" => 'check-permissions:admin_panel']);
-
     $routes->get('administrators', 'UserManagement::administrators', ["filter" => 'check-admin']);
 
-    $routes->group('users', ["filter" => 'check-permissions:users'], function ($routes) {
+    $routes->group('users', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-permissions:users'], function ($routes) {
         $routes->get('list-users', 'UserManagement::users');
         $routes->get('add-user', 'UserManagement::add_user', ["filter" => 'check-permissions:admin_panel']);
-        $routes->get('edit-user/(:num)', 'Admin\UserManagement::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('edit-user/(:num)', 'UserManagement::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
     });
 
-    $routes->group('roles-permissions', ["filter" => 'check-admin'], function ($routes) {
+    $routes->group('roles-permissions', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-admin'], function ($routes) {
         $routes->get('', 'RoleManagement::index');
         $routes->get('add-role', 'RoleManagement::add_role', ["filter" => 'check-admin']);
-        $routes->get('edit-role/(:num)', 'Admin\RoleManagement::edit_role/$1', ["filter" => 'check-admin']);
+        $routes->get('edit-role/(:num)', 'RoleManagement::edit_role/$1', ["filter" => 'check-admin']);
     });
 
-    $routes->group('settings', ["filter" => 'check-permissions:settings'], function ($routes) {
+    $routes->group('settings', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-permissions:settings'], function ($routes) {
         $routes->get('', 'GeneralSettings::index');
         $routes->get('general', 'GeneralSettings::index');
         $routes->get('email', 'GeneralSettings::email_settings', ["filter" => 'check-admin']);
@@ -79,24 +79,24 @@ $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"]
         $routes->get('cache-system', 'GeneralSettings::cache_system_settings', ["filter" => 'check-admin']);
     });
 
-    $routes->group('profile', function ($routes) {
+    $routes->group('profile', ["namespace" => "App\Controllers\Admin"], function ($routes) {
         $routes->get('', 'Profile::index');
         $routes->get('address-information', 'Profile::address_information');
         $routes->get('change-password', 'Profile::change_password');
         $routes->get('delete-account', 'Profile::delete_account');
     });
 
-    $routes->group('language-settings', ["filter" => 'check-admin'], function ($routes) {
+    $routes->group('language-settings', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-admin'], function ($routes) {
         $routes->get('', 'Languages::index');
-        $routes->get('edit-language/(:num)', 'Admin\Languages::edit_language/$1');
-        $routes->get('translations/(:num)', 'Admin\Languages::translations/$1');
-        $routes->get('search-phrases/(:num)', 'Admin\Languages::search_phrases1');
+        $routes->get('edit-language/(:num)', 'Languages::edit_language/$1');
+        $routes->get('translations/(:num)', 'Languages::translations/$1');
+        $routes->get('search-phrases/(:num)', 'Languages::search_phrases1');
     });
 
-    $routes->group('locations', ["filter" => 'check-admin'], function ($routes) {
-        $routes->get('country', 'Locations/Country::index');
-        $routes->get('state', 'Locations/State::index');
-        $routes->get('city', 'Locations/City::index');
+    $routes->group('locations', ["namespace" => "App\Controllers\Admin\Locations"], ["filter" => 'check-admin'], function ($routes) {
+        $routes->get('country', 'Country::index');
+        $routes->get('state', 'State::index');
+        $routes->get('city', 'City::index');
     });
 });
 
