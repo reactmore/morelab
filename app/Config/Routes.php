@@ -45,8 +45,7 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
     });
 });
 
-$routes->get('connect-with-facebook', 'Common::connect_with_facebook');
-$routes->get('facebook-callback', 'Common::facebook_callback');
+
 $routes->get('connect-with-google', 'Common::connect_with_google');
 
 // We get a performance increase by specifying the default
