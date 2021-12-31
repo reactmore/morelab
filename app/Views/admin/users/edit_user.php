@@ -175,14 +175,14 @@
                                             </div>
 
                                             <div id="get_zip_container" class="col-12 col-sm-3 m-b-15">
-                                                <input type="text" name="zip_code" id="zip_code_input" class="form-control form-input" value="" placeholder="<?php echo trans("zip_code") ?>" maxlength="90">
+                                                <input type="text" name="zip_code" id="zip_code_input" class="form-control form-input" value="<?php echo $user->zip_code ?>" placeholder="<?php echo trans("zip_code") ?>" maxlength="90">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label class="control-label"><?php echo trans('address'); ?></label>
-                                        <textarea class="form-control text-area" name="address" placeholder="<?php echo trans('address'); ?>"></textarea>
+
+                                        <textarea class="form-control text-area" name="address" placeholder="<?php echo trans('address'); ?>"><?php echo $user->address ?></textarea>
                                     </div>
 
                                     <div class="form-group mb-3 float-right">

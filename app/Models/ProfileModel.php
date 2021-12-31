@@ -133,4 +133,36 @@ class ProfileModel extends Model
             return false;
         }
     }
+
+    //update address
+    public function update_address($user_id)
+    {
+
+        $data = array(
+            'country_id' => $this->request->getVar('country_id'),
+            'state_id' => $this->request->getVar('state_id'),
+            'city_id' => $this->request->getVar('city_id'),
+            'address' => $this->request->getVar('address'),
+            'zip_code' => $this->request->getVar('zip_code')
+        );
+
+        $_image_id = $this->request->getVar('newimage_id');
+        if (!empty($_image_id)) {
+            $this->change_avatar($_image_id);
+        }
+
+        $this->session->set('vr_user_old_email', user()->email);
+        return $this->builder()->where('id', $user_id)->update($data);
+    }
+
+    private function change_avatar($_image_id)
+    {
+        $imageModel = new ImagesModel();
+        $image =  $imageModel->get_image($_image_id);
+        if (!empty($image)) {
+            $uploadModel = new UploadModel();
+            $data["avatar"] = $uploadModel->avatar_upload(user()->id, FCPATH . $image->image_default);
+            delete_file_from_server(user()->avatar);
+        }
+    }
 }

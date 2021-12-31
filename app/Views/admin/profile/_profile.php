@@ -16,6 +16,7 @@
     </div> <!-- end card-body -->
     <ul class="list-group list-group-flush">
         <a href="<?php echo admin_url(); ?>profile" class="list-group-item list-group-item-action <?php echo $active_tab === 'details' ? 'active' : '' ?>"><?php echo trans('basic_informations') ?></a>
+        <a href="<?php echo admin_url(); ?>profile/address-information" class="list-group-item list-group-item-action <?php echo $active_tab === 'address_information' ? 'active' : '' ?>"><?php echo trans('address_information') ?></a>
         <a href="<?php echo admin_url(); ?>profile/change-password" class="list-group-item list-group-item-action <?php echo $active_tab === 'change_password' ? 'active' : '' ?>"><?php echo trans('change_password') ?></a>
         <a href="<?php echo admin_url(); ?>profile/delete-account" class="list-group-item list-group-item-action <?php echo $active_tab === 'delete_account' ? 'active' : '' ?>"><?php echo trans('delete_account') ?></a>
 

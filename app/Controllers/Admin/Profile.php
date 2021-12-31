@@ -4,10 +4,23 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\Admin\BaseController;
 use App\Models\EmailModel;
+use App\Models\Locations\CityModel;
+use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
 use App\Models\ProfileModel;
 
 class Profile extends BaseController
 {
+    protected $cityModel;
+    protected $stateModel;
+    protected $countryModel;
+
+    public function __construct()
+    {
+        $this->cityModel = new CityModel();
+        $this->stateModel = new StateModel();
+        $this->countryModel = new CountryModel();
+    }
     /**
      * Update Profile
      */
@@ -172,6 +185,92 @@ class Profile extends BaseController
             }
         } else {
             $this->session->setFlashData('errors_form', $validation->listErrors());
+            return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Update Profile address information
+     */
+    public function address_information()
+    {
+
+        $data['title'] = trans("address_information");
+        $data["user"] = user();
+        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
+        $data["states"] = $this->stateModel->asObject()->where('country_id', $data['user']->country_id)->findAll();
+        $data["cities"] = $this->cityModel->asObject()->where('state_id', $data['user']->state_id)->findAll();
+
+        $data["active_tab"] = "address_information";
+
+        return view('admin/profile/profile', $data);
+    }
+
+    /**
+     * address information Post
+     */
+    public function address_information_post()
+    {
+        //validate inputs
+
+        $rules = [
+            'country_id' => [
+                'label'  => trans('country'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'state_id' => [
+                'label'  => trans('state'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'city_id' => [
+                'label'  => trans('city'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'address'    => [
+                'label'  => trans('address'),
+                'rules'  => 'required|min_length[10]|max_length[90]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+
+                ],
+
+            ],
+            'zip_code'    => [
+                'label'  => trans('zip_code'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ]
+            ]
+        ];
+
+
+        if ($this->validate($rules)) {
+            $profileModel = new ProfileModel();
+            if ($profileModel->update_address(user()->id)) {
+                $this->session->setFlashData('success', trans("msg_updated"));
+                return redirect()->to($this->agent->getReferrer());
+            } else {
+                $this->session->setFlashData('error', trans("msg_error"));
+                return redirect()->to($this->agent->getReferrer());
+            }
+        } else {
+            $this->session->setFlashData('errors_form', $this->validator->listErrors());
             return redirect()->back()->withInput();
         }
     }

@@ -3,6 +3,9 @@
 use App\Models\UserModel;
 use App\Models\Roles_permissionsModel;
 use App\Libraries\Recaptcha;
+use App\Models\Locations\CityModel;
+use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
 
 $CI4 = new \App\Controllers\BaseController;
 
@@ -892,5 +895,55 @@ if (!function_exists('reset_cache_data_on_change')) {
         if (get_general_settings()->refresh_cache_database_changes == 1) {
             return reset_cache_data();
         }
+    }
+}
+
+//get location
+if (!function_exists('get_location')) {
+    function get_location($object)
+    {
+        $cityModel = new CityModel();
+        $stateModel = new StateModel();
+        $countryModel = new CountryModel();
+
+        $location = "";
+        if (!empty($object)) {
+            if (!empty($object->address)) {
+                $location = $object->address;
+            }
+            if (!empty($object->zip_code)) {
+                $location .= " " . $object->zip_code;
+            }
+            if (!empty($object->city_id)) {
+                $city = $cityModel->asObject()->find($object->city_id);
+
+                if (!empty($city)) {
+                    if (!empty($object->address) || !empty($object->zip_code)) {
+                        $location .= " ";
+                    }
+                    $location .= $city->name;
+                }
+            }
+            if (!empty($object->state_id)) {
+                $state = $stateModel->asObject()->find($object->state_id);
+
+                if (!empty($state)) {
+                    if (!empty($object->address) || !empty($object->zip_code) || !empty($object->city_id)) {
+                        $location .= ", ";
+                    }
+                    $location .= $state->name;
+                }
+            }
+            if (!empty($object->country_id)) {
+                $country = $countryModel->asObject()->find($object->country_id);
+                if (!empty($country)) {
+                    if (!empty($object->state_id) || $object->city_id || !empty($object->address) || !empty($object->zip_code)) {
+                        $location .= ", ";
+                    }
+                    $location .= $country->name;
+                }
+            }
+        }
+        return $location;
     }
 }

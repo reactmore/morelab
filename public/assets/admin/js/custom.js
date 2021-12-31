@@ -252,6 +252,8 @@ function update_product_map() {
     var country_val = $("#select_countries").find('option:selected').val();
     var state_text = $("#select_states").find('option:selected').text();
     var state_val = $("#select_states").find('option:selected').val();
+    var city_text = $("#select_cities").find('option:selected').text();
+    var city_val = $("#select_cities").find('option:selected').val();
     var address = $("#address_input").val();
     var zip_code = $("#zip_code_input").val();
     var data = {
@@ -259,16 +261,21 @@ function update_product_map() {
         "country_val": country_val,
         "state_text": state_text,
         "state_val": state_val,
+        "city_text": city_text,
+        "city_val": city_val,
         "address": address,
         "zip_code": zip_code,
         "sys_lang_id": sys_lang_id
     };
+
+
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
         url: baseUrl + "/AjaxController/show_address_on_map",
         data: data,
         success: function (response) {
+
             document.getElementById("map-result").innerHTML = response;
         }
     });
