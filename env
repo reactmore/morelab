@@ -7,7 +7,7 @@ CI_ENVIRONMENT = development
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'https://ems.test/'
+app.baseURL = 'http://localhost/'
 # app.forceGlobalSecureRequests = false
 app.appTimezone = 'Asia/Jakarta'
 app.sessionDriver = 'CodeIgniter\Session\Handlers\DatabaseHandler'
@@ -119,4 +119,4 @@ security.redirect = true
 # curlrequest.shareOptions = true
 
 
-TOKEN_SECRET = cskhfuwt48wbfjn3i4utnjf38754hf3yfbjc93758thrjsnf83hcwn8437
+#TOKEN_SECRET = 
