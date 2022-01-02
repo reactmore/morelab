@@ -6,9 +6,6 @@
 
 
 $(document).ready(function () {
-
-
-
     $('#wait').hide();
     $('#form').parsley();
     $("form").on('submit', function () {
@@ -45,38 +42,7 @@ $(document).ready(function () {
             }
         });
     });
-
-
-
 });
-
-
-function syncMutations() {
-    var data = {
-
-    };
-
-    data[csrfName] = $.cookie(csrfCookie);
-
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}/admin/dashboard/checkMutation`,
-        data: data,
-        beforeSend: function () {
-            $("#wait").show();
-        },
-        complete: function () {
-            $("#wait").hide();
-
-        },
-        success: function (response) {
-
-            custom_alert('success', response, true)
-
-
-        }
-    });
-};
 
 
 
@@ -118,8 +84,6 @@ function custom_alert(type, msg, reload = true) {
         title: msg
     });
 };
-
-
 
 
 //confirm user email
