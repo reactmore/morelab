@@ -34,6 +34,7 @@
     <!-- jQuery UI 1.11.4 -->
     <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/parsley/parsley.min.js"></script>
     <script>
         csrfName = '<?php echo csrf_token() ?>';
         csrfCookie = '<?php echo config('cookie')->prefix . config('security')->cookieName ?>';

@@ -3,8 +3,11 @@
  * Author: More
  */
 
+
+
 $(document).ready(function () {
     $('#wait').hide();
+    $('#form').parsley();
     $("form").on('submit', function () {
         $("#crsf").attr("name", csrfName).val($.cookie(csrfCookie));
     });

@@ -30,7 +30,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
-            <?php echo form_open_multipart('admin/usermanagement/add_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
+            <?php echo form_open_multipart('admin/usermanagement/add_user_post', ['id' => 'form',  'class' => 'custom-validation needs-validation']); ?>
             <?php echo $this->include('admin/includes/_messages') ?>
             <input type="hidden" id="crsf">
             <div class="row">
@@ -58,7 +58,7 @@
 
                                     <div class="form-group mb-3">
                                         <label><?php echo trans("username"); ?><span class="required"> *</span></label>
-                                        <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo old("username"); ?>" required>
+                                        <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo old("username"); ?>" data-parsley-required="true" required>
                                     </div>
 
                                     <div class="row">
@@ -157,7 +157,7 @@
                                         <div class="col-6">
                                             <div class="form-group mb-3">
                                                 <label><?php echo trans("form_password"); ?><span class="required"> *</span></label>
-                                                <input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("form_password"); ?>" value="<?php echo old("password"); ?>" required>
+                                                <input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("form_password"); ?>" value="<?php echo old("password"); ?>" data-parsley-required="true" required>
                                             </div>
                                         </div>
                                         <div class="col-6">

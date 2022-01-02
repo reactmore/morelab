@@ -67,17 +67,42 @@ class UserManagement extends BaseController
      */
     public function add_user_post()
     {
-        if (!check_user_permission('users')) {
-        }
-
         $validation =  \Config\Services::validation();
 
         //validate inputs
+
         $rules = [
-            'username'      => 'required|min_length[4]|max_length[100]',
-            'email'         => 'required|max_length[200]|valid_email',
-            'password'      => 'required|min_length[4]|max_length[50]',
+            'username' => [
+                'label'  => trans('username'),
+                'rules'  => 'required|min_length[4]|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+
+            'email'    => [
+                'label'  => trans('email'),
+                'rules'  => 'required|max_length[200]|valid_email',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                    'valid_email' => 'Please check the Email field. It does not appear to be valid.',
+                ],
+            ],
+            'password'    => [
+                'label'  => trans('password'),
+                'rules'  => 'required|min_length[4]|max_length[200]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
         ];
+
 
         if ($this->validate($rules)) {
             $email = $this->request->getVar('email');
