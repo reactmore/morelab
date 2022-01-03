@@ -11,13 +11,16 @@ class CheckPermissions implements FilterInterface
 
     public function before(RequestInterface $request, $arguments = null)
     {
+        if (!auth_check()) {
+            return redirect()->route('admin/login');
+        } else {
+            if (!check_user_permission($arguments)) {
 
-        if (!check_user_permission($arguments)) {
-
-            if ($arguments[0] === 'admin_panel') {
-                return redirect()->to(base_url());
-            } else {
-                return redirect()->to(admin_url());
+                if ($arguments[0] === 'admin_panel') {
+                    return redirect()->to(base_url());
+                } else {
+                    return redirect()->to(admin_url());
+                }
             }
         }
     }

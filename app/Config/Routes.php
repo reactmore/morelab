@@ -54,14 +54,14 @@ $routes->get('/', 'Home::index');
 
 $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"], ["filter" => 'auth-login'], function ($routes) {
 
-    $routes->get('', 'Dashboard::index', ["filter" => 'auth-login', 'check-permissions:admin_panel']);
+    $routes->get('/', 'Dashboard::index', ["filter" => 'check-permissions:admin_panel']);
     $routes->get('dashboard', 'Dashboard::index', ["filter" => 'check-permissions:admin_panel']);
     $routes->get('administrators', 'UserManagement::administrators', ["filter" => 'check-admin']);
 
     $routes->group('users', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-permissions:users'], function ($routes) {
-        $routes->get('list-users', 'UserManagement::users');
-        $routes->get('add-user', 'UserManagement::add_user', ["filter" => 'check-permissions:admin_panel']);
-        $routes->get('edit-user/(:num)', 'UserManagement::edit_user/$1', ["filter" => 'check-permissions:admin_panel']);
+        $routes->get('list-users', 'UserManagement::users', ["filter" => 'check-permissions:users']);
+        $routes->get('add-user', 'UserManagement::add_user', ["filter" => 'check-permissions:users']);
+        $routes->get('edit-user/(:num)', 'UserManagement::edit_user/$1', ["filter" => 'check-permissions:users']);
     });
 
     $routes->group('roles-permissions', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-admin'], function ($routes) {

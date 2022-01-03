@@ -33,46 +33,47 @@
                           <p><?php echo trans('dashboard') ?> </p>
                       </a>
                   </li>
+                  <?php if (check_user_permission(['users'])) : ?>
+                      <li class="nav-header"><?php echo trans('users') ?> Management</li>
 
-                  <li class="nav-header"><?php echo trans('users') ?> Management</li>
+                      <li class="nav-item <?php is_admin_nav_active(['users', 'administrators'], 2, 'menu-open'); ?>">
+                          <a href="#" class="nav-link <?php is_admin_nav_active(['users', 'administrators'], 2, 'active'); ?>">
+                              <i class="nav-icon fas fa-users"></i>
+                              <p>
+                                  <?php echo trans("users"); ?>
+                                  <i class="right fas fa-angle-left"></i>
+                              </p>
+                          </a>
 
-                  <li class="nav-item <?php is_admin_nav_active(['users', 'administrators'], 2, 'menu-open'); ?>">
-                      <a href="#" class="nav-link <?php is_admin_nav_active(['users', 'administrators'], 2, 'active'); ?>">
-                          <i class="nav-icon fas fa-users"></i>
-                          <p>
-                              <?php echo trans("users"); ?>
-                              <i class="right fas fa-angle-left"></i>
-                          </p>
-                      </a>
+                          <ul class="nav nav-treeview">
+                              <?php if (is_admin()) : ?>
+                                  <li class="nav-item">
+                                      <a href="<?php echo admin_url() ?>users/add-user" class="nav-link ">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p><?php echo trans("add_user"); ?></p>
 
-                      <ul class="nav nav-treeview">
+                                      </a>
+                                  </li>
 
-                          <li class="nav-item">
-                              <a href="<?php echo admin_url() ?>users/add-user" class="nav-link ">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p><?php echo trans("add_user"); ?></p>
 
-                              </a>
-                          </li>
+                                  <li class="nav-item">
 
-                          <?php if (is_admin()) : ?>
+                                      <a href="<?php echo admin_url() ?>administrators" class="nav-link ">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p><?php echo trans("administrators"); ?></p>
+                                      </a>
+                                  </li>
+                              <?php endif; ?>
+
                               <li class="nav-item">
-
-                                  <a href="<?php echo admin_url() ?>administrators" class="nav-link ">
+                                  <a href="<?php echo admin_url() ?>users/list-users" class="nav-link ">
                                       <i class="far fa-circle nav-icon"></i>
-                                      <p><?php echo trans("administrators"); ?></p>
+                                      <p><?php echo trans("users"); ?></p>
                                   </a>
                               </li>
-                          <?php endif; ?>
-
-                          <li class="nav-item">
-                              <a href="<?php echo admin_url() ?>users/list-users" class="nav-link ">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p><?php echo trans("users"); ?></p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
+                          </ul>
+                      </li>
+                  <?php endif; ?>
 
                   <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
