@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Libraries\Bcrypt;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends ResourceController
 {
@@ -22,20 +23,21 @@ class User extends ResourceController
     }
 
     // get all product
-    public function index()
+    public function index(): ResponseInterface
     {
-        $data = $this->userModel->findAll();
 
         $response = [
             'status'   => 200,
             'error'    => false,
             'messages' => null,
-            'data' => $data
+            'data' => $this->userModel->findAll()
         ];
 
 
         return $this->respond($response);
     }
+
+
 
     // get single product
     public function show($id = null)

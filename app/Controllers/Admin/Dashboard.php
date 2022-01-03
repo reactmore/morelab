@@ -19,15 +19,6 @@ class Dashboard extends BaseController
     {
         $data['title'] = trans('dashboard');
 
-
-        return view('admin/blank', $data);
+        return view('admin/dashboard', $data);
     }
-
-    // public function index()
-    // {
-    //     $data['title'] = trans('dashboard');
-
-
-    //     return view('admin/dashboard', $data);
-    // }
 }

@@ -37,11 +37,11 @@ $routes->setAutoRoute(true);
 $routes->resource('api/rest');
 $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes) {
     $routes->group("user", function ($routes) {
-        $routes->get(" ", "User::index");
-        $routes->get("(:num)", "User::show/$1");
-        $routes->post("create", "User::create");
-        $routes->put("update/(:num)", "User::update/$1");
-        $routes->delete("delete/(:num)", "User::delete/$1");
+        $routes->get("/", "User::index", ["filter" => 'secure-api']);
+        $routes->get("(:num)", "User::show/$1", ["filter" => 'secure-api']);
+        $routes->post("create", "User::create", ["filter" => 'secure-api']);
+        $routes->put("update/(:num)", "User::update/$1", ["filter" => 'secure-api']);
+        $routes->delete("delete/(:num)", "User::delete/$1", ["filter" => 'secure-api']);
     });
 });
 

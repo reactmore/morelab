@@ -9,6 +9,8 @@ use CodeIgniter\Filters\Honeypot;
 use App\Filters\CheckAdmin;
 use App\Filters\CheckPermissions;
 use App\Filters\Auth;
+use App\Filters\Cors;
+use App\Filters\SecureAPI;
 
 class Filters extends BaseConfig
 {
@@ -25,7 +27,8 @@ class Filters extends BaseConfig
         'auth-login' => Auth::class,
         'check-admin' => CheckAdmin::class,
         'check-permissions' => CheckPermissions::class,
-        'cors'     => \App\Filters\Cors::class,
+        'cors'     => Cors::class,
+        'secure-api'     => SecureAPI::class,
     ];
 
     /**
@@ -38,7 +41,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             'csrf' => ['except' => ['rest', 'api/*', 'vr-run-internal-cron']],
-            'cors'
+            // 'cors'
         ],
         'after' => [
             'toolbar',
