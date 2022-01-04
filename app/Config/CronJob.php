@@ -2,11 +2,6 @@
 
 namespace Config;
 
-use App\Controllers\Admin\Dashboard;
-use App\Controllers\AjaxController;
-use App\Controllers\Home;
-use App\Libraries\Finance\BCAParser;
-use App\Models\Finance\AccountMutationModel;
 use CodeIgniter\Config\BaseConfig;
 
 use Daycry\CronJob\Scheduler;
@@ -75,33 +70,8 @@ class CronJob extends \Daycry\CronJob\Config\CronJob
 	*/
 	public function init(Scheduler $schedule)
 	{
-
-
 		$schedule->call(function () {
-			$mutations = new BCAParser(getenv('BCA_USERNAME'), getenv('BCA_PIN'));
-			$result = $mutations->getListTransaksi(date("Y-m-d"), date("Y-m-d"));
-			$AccountMutationModel = new AccountMutationModel();
-
-			if (!empty($result)) {
-				foreach ($result as $item) {
-					$product_code = md5($item['date'] . $item['description']);
-					$insert = [
-						'validate_code' =>  $product_code,
-						'amount' => $item['nominal'],
-						'description' => $item['description'],
-						'type'    => $item['flows'],
-						'transactions_at'    => $item['date'],
-					];
-
-					$output = $AccountMutationModel->syncMutation($product_code, $insert);
-					$mutations->logout();
-				}
-
-				echo $output;
-			} else {
-				echo 'Mohon Menunggu Selama 10 Menit!';
-				$mutations->logout();
-			}
+			echo 'waiting!';
 		})->everyFifteenMinutes()->named('mutasi');
 
 		// $schedule->shell('cp foo bar')->daily( '11:00 pm' );
