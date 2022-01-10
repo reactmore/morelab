@@ -118,10 +118,10 @@
 
                                                                     <a class="dropdown-item" href="<?php echo base_url('invoice/') . html_escape($invoice->txn_id); ?>"><?php echo trans('invoice_url'); ?></a>
                                                                     <a class="dropdown-item" href="<?php echo admin_url(); ?>view-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('view'); ?></a>
-                                                                    <a class="dropdown-item" href="<?php echo admin_url(); ?>edit-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('edit'); ?></a>
+                                                                    <a class="dropdown-item" href="<?php echo admin_url(); ?>invoices/edit-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('edit'); ?></a>
 
                                                                     <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('admin_controller/delete_invoice_post','<?php echo $invoice->id; ?>','<?php echo trans('confirm_invoice'); ?>');"><?php echo trans('delete'); ?></a>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/invoicesmanagement/delete_invoice_post','<?php echo $invoice->id; ?>','<?php echo trans('confirm_invoice'); ?>');"><?php echo trans('delete'); ?></a>
 
                                                                 </div>
                                                             </div>

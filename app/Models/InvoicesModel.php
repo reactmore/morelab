@@ -29,6 +29,7 @@ class InvoicesModel extends Model
         parent::__construct();
         $this->session = session();
         $this->request = \Config\Services::request();
+        $this->db->query("SET sql_mode = ''");
     }
 
     //get paginated users
@@ -40,8 +41,13 @@ class InvoicesModel extends Model
             'invoices.*, 
             users.username as client_username,
             CONCAT(users.first_name, "  " , users.last_name) AS client_name'
-        )->join('users', 'users.id = invoices.user_id ', 'Left')->where('invoices.deleted_at', null)->orderBy('invoices.id', 'ASC');
+        );
 
+
+
+        $this->builder()->join('users', 'users.id = invoices.user_id ', 'Left')
+            ->where('invoices.deleted_at', null)
+            ->orderBy('invoices.id', 'ASC');
         $this->_filter();
 
         $query = $this->builder()->get($per_page, $offset);
@@ -52,17 +58,32 @@ class InvoicesModel extends Model
 
     public function get_paginated_count()
     {
-        $this->builder()->selectCount('id');
-        $this->builder()->where('deleted_at', NULL);
+        $this->builder()->select('COUNT(invoices.id) AS count, invoices.id, users.username as client_username,
+        CONCAT(users.first_name, "  " , users.last_name) AS client_name');
+        $this->builder()->where('invoices.deleted_at', NULL);
+        $this->builder()->join('users', 'users.id = invoices.user_id ', 'Left');
         $this->_filter();
         $query = $this->builder()->get();
-        return $query->getRow()->id;
+        return $query->getRow()->count;
     }
 
     public function _filter()
     {
         $request = service('request');
         $search = trim($request->getGet('search'));
+        if (!empty($search)) {
+            $this->builder()->groupStart()
+                ->like('invoices.invoice_no', clean_str($search))
+                ->orLike('users.username', clean_str($search))
+                ->orLike('users.first_name', clean_str($search))
+                ->orLike('users.last_name', clean_str($search))
+                ->groupEnd();
+        }
+
+        $status = trim($request->getGet('status'));
+        if (!empty($status)) {
+            $this->builder()->where('invoices.payment_status', clean_str($status));
+        }
     }
 
     //input values
@@ -81,7 +102,6 @@ class InvoicesModel extends Model
             'payment_method' => '',
             'payment_status ' => $this->request->getVar('payment_status'),
             'client_note ' => $this->request->getVar('client_note'),
-            'termsncondition ' => $this->request->getVar('termsncondition'),
             'created_at' => date('Y-m-d H:i:s', strtotime($this->request->getVar('billing_date'))),
             'due_date' => date('Y-m-d H:i:s', strtotime($this->request->getVar('due_date')))
         );
@@ -109,5 +129,15 @@ class InvoicesModel extends Model
         } else {
             return $this->protect(false)->insert($data);
         }
+    }
+
+    public function delete_invoice($id)
+    {
+        $id = clean_number($id);
+        $invoice = $this->asObject()->find($id);
+        if (!empty($invoice)) {
+            return $this->where('id', $invoice->id)->delete();
+        }
+        return false;
     }
 }

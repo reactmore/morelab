@@ -90,7 +90,7 @@ $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"]
         $routes->get('', 'Languages::index');
         $routes->get('edit-language/(:num)', 'Languages::edit_language/$1');
         $routes->get('translations/(:num)', 'Languages::translations/$1');
-        $routes->get('search-phrases/(:num)', 'Languages::search_phrases1');
+        $routes->get('search-phrases/(:num)', 'Languages::search_phrases/$1');
     });
 
     $routes->group('locations', ["namespace" => "App\Controllers\Admin\Locations"], ["filter" => 'check-admin'], function ($routes) {
@@ -103,6 +103,7 @@ $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"]
         $routes->get('', 'InvoicesManagement::index');
         $routes->get('list-invoices', 'InvoicesManagement::index');
         $routes->get('add-invoice', 'InvoicesManagement::add_invoice');
+        $routes->get('edit-invoice/(:num)', 'InvoicesManagement::edit_invoice/$1');
     });
 });
 
