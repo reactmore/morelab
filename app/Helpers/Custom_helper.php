@@ -947,3 +947,40 @@ if (!function_exists('get_location')) {
         return $location;
     }
 }
+
+if (!function_exists('auto_uniq_number_database')) {
+    function auto_uniq_number_database($database, $column, $prefix)
+    {
+        $db = \Config\Database::connect();
+        $sql = "SELECT COUNT($database.$column) AS count FROM $database";
+
+        $query = $db->query($sql)->getRow()->count + 1;
+
+        return  $prefix . '-' . date('Ym') . str_pad($query, 3, '0', STR_PAD_LEFT);
+    }
+}
+
+if (!function_exists('auto_uniq_number_invoice')) {
+    function auto_uniq_number_invoice()
+    {
+        return auto_uniq_number_database('invoices', 'id', 'INV');
+    }
+}
+
+if (!function_exists('generate_uuid')) {
+
+    function generate_uuid()
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
+    }
+}

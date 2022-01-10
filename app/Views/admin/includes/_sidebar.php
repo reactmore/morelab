@@ -75,6 +75,40 @@
                       </li>
                   <?php endif; ?>
 
+                  <li class="nav-header"><?php echo trans('invoice_management') ?></li>
+                  <li class="nav-item <?php is_admin_nav_active(['invoices'], 2, 'menu-open'); ?>">
+                      <a href="#" class="nav-link <?php is_admin_nav_active(['invoice'], 2, 'active'); ?>">
+                          <i class="nav-icon fas fa-file-invoice"></i>
+                          <p>
+                              <?php echo trans("invoices"); ?>
+                              <i class="right fas fa-angle-left"></i>
+                          </p>
+                      </a>
+
+                      <ul class="nav nav-treeview">
+
+                          <li class="nav-item">
+                              <a href="<?php echo admin_url() ?>invoices/add-invoice" class="nav-link ">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p><?php echo trans("add_invoice"); ?></p>
+
+                              </a>
+                          </li>
+
+
+
+
+
+                          <li class="nav-item">
+                              <a href="<?php echo admin_url() ?>invoices/list-invoices" class="nav-link ">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p><?php echo trans("invoice"); ?></p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
+
+
                   <?php if (check_user_permission(['settings'])) : ?>
                       <li class="nav-header"><?php echo trans('settings') ?></li>
                       <?php if (is_admin()) : ?>

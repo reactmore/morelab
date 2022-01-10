@@ -98,6 +98,12 @@ $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"]
         $routes->get('state', 'State::index');
         $routes->get('city', 'City::index');
     });
+
+    $routes->group('invoices', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-admin'], function ($routes) {
+        $routes->get('', 'InvoicesManagement::index');
+        $routes->get('list-invoices', 'InvoicesManagement::index');
+        $routes->get('add-invoice', 'InvoicesManagement::add_invoice');
+    });
 });
 
 
