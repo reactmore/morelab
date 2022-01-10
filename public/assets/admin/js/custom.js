@@ -8,6 +8,13 @@
 $(document).ready(function () {
     $('#wait').hide();
     $('#form').parsley();
+    $(document).on('click', 'button[name="validate"]', function () {
+        $(':required:invalid', '#form').each(function () {
+            var id = $('.tab-pane').find(':required:invalid').closest('.tab-pane').attr('id');
+
+            $('.nav a[href="#' + id + '"]').tab('show');
+        });
+    });
     $("form").on('submit', function () {
         $("#crsf").attr("name", csrfName).val($.cookie(csrfCookie));
     });

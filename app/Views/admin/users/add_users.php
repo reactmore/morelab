@@ -110,7 +110,7 @@
                                         <div class="row">
 
                                             <div id="get_country_container" class="col-12 col-sm-3 m-b-15">
-                                                <select id="select_countries" name="country_id" class="select2 form-control" onchange="get_states(this.value, 'false');" required>
+                                                <select id="select_countries" name="country_id" class="select2 form-control" onchange="get_states(this.value, 'false');">
                                                     <option value=""><?php echo trans('country'); ?></option>
                                                     <?php foreach ($countries as $item) :
                                                         if (!empty($country_id)) : ?>
@@ -175,7 +175,7 @@
 
                                     <div class="form-group mb-3 float-right">
                                         <a href="javascript: void(0);" class="btn btn-primary  btnPrevious"><?php echo 'Previous'; ?></a>
-                                        <button type="submit" id="single_submit" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
+                                        <button type="submit" id="single_submit" name="validate" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
                                     </div>
                                 </div>
 
@@ -190,6 +190,7 @@
             </div> <!-- end col -->
 
         </div>
+
         <?php echo form_close(); ?>
         <!-- /.row (main row) -->
 </div><!-- /.container-fluid -->

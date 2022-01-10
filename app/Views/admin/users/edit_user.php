@@ -30,7 +30,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
-            <?php echo form_open_multipart('admin/usermanagement/edit_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
+            <?php echo form_open_multipart('admin/usermanagement/edit_user_post', ['id' => 'form', 'class' => 'custom-validation needs-validation']); ?>
             <?php echo $this->include('admin/includes/_messages') ?>
 
             <div class="row">
@@ -195,7 +195,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("form_password"); ?><span class="required"> *</span></label>
+                                                <label><?php echo trans("form_password"); ?></label>
                                                 <input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("form_password"); ?>">
                                             </div>
                                         </div>
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="form-group mb-3 float-right">
                                         <a href="javascript: void(0);" class="btn btn-primary  btnPrevious"><?php echo 'Previous'; ?></a>
-                                        <button type="submit" id="single_submit" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
+                                        <button type="submit" id="single_submit" name="validate" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
                                     </div>
 
                                 </div>
