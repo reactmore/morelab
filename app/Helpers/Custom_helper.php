@@ -3,6 +3,8 @@
 use App\Models\UserModel;
 use App\Models\Roles_permissionsModel;
 use App\Libraries\Recaptcha;
+use App\Models\CurrencyModel;
+use App\Models\GeneralSettingModel;
 use App\Models\Locations\CityModel;
 use App\Models\Locations\CountryModel;
 use App\Models\Locations\StateModel;
@@ -982,5 +984,122 @@ if (!function_exists('generate_uuid')) {
             mt_rand(0, 0xffff),
             mt_rand(0, 0xffff)
         );
+    }
+}
+
+//price formatted
+if (!function_exists('price_formatted')) {
+    function price_formatted($price, $currency_code, $convert_currency = false)
+    {
+
+        $price = $price / 100;
+        //convert currency
+        if (payment_settings()->currency_converter == 1 && $convert_currency == true) {
+            $rate = 1;
+            if (selected_currency() != null && isset(selected_currency()->exchange_rate)) {
+                $rate = selected_currency()->exchange_rate;
+                $price = $price * $rate;
+                $currency_code = selected_currency()->code;
+            }
+        }
+
+        $dec_point = '.';
+        $thousands_sep = ',';
+        if (isset(currencies()[$currency_code]) && currencies()[$currency_code]->currency_format != 'us') {
+            $dec_point = ',';
+            $thousands_sep = '.';
+        }
+
+        if (filter_var($price, FILTER_VALIDATE_INT) !== false) {
+            $price = number_format($price, 0, $dec_point, $thousands_sep);
+        } else {
+            $price = number_format($price, 2, $dec_point, $thousands_sep);
+        }
+        $price = price_currency_format($price, $currency_code);
+        return $price;
+    }
+}
+
+//price currency format
+if (!function_exists('price_currency_format')) {
+    function price_currency_format($price, $currency_code)
+    {
+
+        if (isset(currencies()[$currency_code])) {
+            $currency = currencies()[$currency_code];
+            $space = "";
+            if ($currency->space_money_symbol == 1) {
+                $space = " ";
+            }
+            if ($currency->symbol_direction == "left") {
+                $price = "<span>" . $currency->symbol . "</span>" . $space . $price;
+            } else {
+                $price = $price . $space . "<span>" . $currency->symbol . "</span>";
+            }
+        }
+        return $price;
+    }
+}
+
+
+
+//convert currency for payments in the cart
+if (!function_exists('convert_currency_by_exchange_rate')) {
+    function convert_currency_by_exchange_rate($amount, $exchange_rate)
+    {
+
+        if ($amount <= 0) {
+            return 0;
+        }
+        if (empty($exchange_rate)) {
+            $exchange_rate = 1;
+        }
+        if (payment_settings()->currency_converter == 1) {
+            $amount = $amount * $exchange_rate;
+            if (filter_var($amount, FILTER_VALIDATE_INT) !== false) {
+                $amount = number_format($amount, 0, ".", "");
+            } else {
+                $amount = number_format($amount, 2, ".", "");
+            }
+        }
+        return $amount;
+    }
+}
+
+
+
+// Helper Currency 
+if (!function_exists('payment_settings')) {
+    function payment_settings()
+    {
+        $generalModel = new GeneralSettingModel();
+        //payment settings
+        return $generalModel->get_payment_settings();
+    }
+}
+
+if (!function_exists('currencies')) {
+    function currencies()
+    {
+        $currency_model = new CurrencyModel();
+        //currencies
+        return $currency_model->get_currencies_array();
+    }
+}
+
+if (!function_exists('default_currency')) {
+    function default_currency()
+    {
+        $currency_model = new CurrencyModel();
+        //currencies
+        return $currency_model->get_default_currency(currencies(), payment_settings());
+    }
+}
+if (!function_exists('selected_currency')) {
+    function selected_currency()
+    {
+        $currency_model = new CurrencyModel();
+        //currencies
+        return $currency_model->get_selected_currency(default_currency());
     }
 }

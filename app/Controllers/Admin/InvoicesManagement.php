@@ -129,4 +129,18 @@ class InvoicesManagement extends BaseController
             $this->session->setFlashData('error', trans("msg_error"));
         }
     }
+
+    public function view_invoice($id)
+    {
+
+        $data['invoice'] = $this->invoiceModel->getInvoiceById($id);
+        $data['title'] = $data['invoice']->invoice_no;
+
+
+        if (empty($data['invoice']->id)) {
+            return redirect()->back();
+        }
+
+        return view('admin/invoices/detail_invoice', $data);
+    }
 }

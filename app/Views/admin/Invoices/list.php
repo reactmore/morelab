@@ -107,7 +107,7 @@
                                                         <td><?php echo $invoice->due_date ?></td>
                                                         <td><?php echo $invoice->created_at ?></td>
                                                         <td class="text-center">
-                                                            <button type="button" class="btn btn-outline-<?php echo ($invoice->payment_status === 'UNPAID' || $invoice->payment_status === 'EXPIRED') ? 'danger' : 'success' ?> waves-effect waves-light"><?php echo $invoice->payment_status ?></button>
+                                                            <button type="button" class="btn btn-outline-<?php echo ($invoice->payment_status === 'Unpaid' || $invoice->payment_status === 'Overdue') ? 'danger' : 'success' ?> waves-effect waves-light"><?php echo $invoice->payment_status ?></button>
                                                         </td>
                                                         <td>
                                                             <div class="dropdown">
@@ -116,8 +116,8 @@
                                                                 </button>
                                                                 <div class="dropdown-menu dropdown-menu-right">
 
-                                                                    <a class="dropdown-item" href="<?php echo base_url('invoice/') . html_escape($invoice->txn_id); ?>"><?php echo trans('invoice_url'); ?></a>
-                                                                    <a class="dropdown-item" href="<?php echo admin_url(); ?>view-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('view'); ?></a>
+                                                                    <a class="dropdown-item" href="<?php echo base_url('/invoices/') . html_escape($invoice->txn_id); ?>"><?php echo trans('url'); ?></a>
+                                                                    <a class="dropdown-item" href="<?php echo admin_url(); ?>invoices/detail-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('view'); ?></a>
                                                                     <a class="dropdown-item" href="<?php echo admin_url(); ?>invoices/edit-invoice/<?php echo html_escape($invoice->id); ?>"><?php echo trans('edit'); ?></a>
 
                                                                     <div class="dropdown-divider"></div>

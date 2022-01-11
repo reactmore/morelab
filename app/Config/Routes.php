@@ -102,6 +102,7 @@ $routes->group("$custom_routes->admin", ["namespace" => "App\Controllers\Admin"]
     $routes->group('invoices', ["namespace" => "App\Controllers\Admin"], ["filter" => 'check-admin'], function ($routes) {
         $routes->get('', 'InvoicesManagement::index');
         $routes->get('list-invoices', 'InvoicesManagement::index');
+        $routes->get('detail-invoice/(:num)', 'InvoicesManagement::view_invoice/$1');
         $routes->get('add-invoice', 'InvoicesManagement::add_invoice');
         $routes->get('edit-invoice/(:num)', 'InvoicesManagement::edit_invoice/$1');
     });

@@ -131,6 +131,23 @@ class InvoicesModel extends Model
         }
     }
 
+    public function getInvoiceById($id)
+    {
+        $this->builder()->select(
+            'invoices.*, 
+            users.username as client_username,
+            CONCAT(users.first_name, "  " , users.last_name) AS client_name,
+            users.address as client_address'
+        );
+
+        $this->builder()->join('users', 'users.id = invoices.user_id ', 'Left')
+            ->where('invoices.id', clean_number($id));
+
+        $query = $this->builder()->get();
+
+        return $query->getRowObject();
+    }
+
     public function delete_invoice($id)
     {
         $id = clean_number($id);
