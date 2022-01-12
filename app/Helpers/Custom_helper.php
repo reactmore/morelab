@@ -962,12 +962,6 @@ if (!function_exists('auto_uniq_number_database')) {
     }
 }
 
-if (!function_exists('auto_uniq_number_invoice')) {
-    function auto_uniq_number_invoice()
-    {
-        return auto_uniq_number_database('invoices', 'id', 'INV');
-    }
-}
 
 if (!function_exists('generate_uuid')) {
 
