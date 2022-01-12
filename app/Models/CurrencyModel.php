@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Currency;
 use CodeIgniter\Model;
 
 class CurrencyModel extends Model
@@ -23,6 +24,7 @@ class CurrencyModel extends Model
         parent::__construct();
         $this->session = session();
         $this->request = \Config\Services::request();
+        $this->currencyLib = new Currency();
         $this->db->query("SET sql_mode = ''");
     }
 
@@ -62,16 +64,16 @@ class CurrencyModel extends Model
     public function add_currency()
     {
         $data = array(
-            'code' => $this->input->post('code', true),
-            'name' => $this->input->post('name', true),
-            'symbol' => $this->input->post('symbol', true),
-            'currency_format' => $this->input->post('currency_format', true),
-            'symbol_direction' => $this->input->post('symbol_direction', true),
-            'space_money_symbol' => $this->input->post('space_money_symbol', true),
-            'status' => $this->input->post('status', true)
+            'code' => $this->request->getVar('code'),
+            'name' => $this->request->getVar('name'),
+            'symbol' => $this->request->getVar('symbol'),
+            'currency_format' => $this->request->getVar('currency_format'),
+            'symbol_direction' => $this->request->getVar('symbol_direction'),
+            'space_money_symbol' => $this->request->getVar('space_money_symbol'),
+            'status' => $this->request->getVar('status')
         );
 
-        return $this->db->insert('currencies', $data);
+        return $this->protect(false)->insert($data);
     }
 
     //update currency
@@ -79,17 +81,16 @@ class CurrencyModel extends Model
     {
         $id = clean_number($id);
         $data = array(
-            'code' => $this->input->post('code', true),
-            'name' => $this->input->post('name', true),
-            'symbol' => $this->input->post('symbol', true),
-            'currency_format' => $this->input->post('currency_format', true),
-            'symbol_direction' => $this->input->post('symbol_direction', true),
-            'space_money_symbol' => $this->input->post('space_money_symbol', true),
-            'status' => $this->input->post('status', true)
+            'code' => $this->request->getVar('code'),
+            'name' => $this->request->getVar('name'),
+            'symbol' => $this->request->getVar('symbol'),
+            'currency_format' => $this->request->getVar('currency_format'),
+            'symbol_direction' => $this->request->getVar('symbol_direction'),
+            'space_money_symbol' => $this->request->getVar('space_money_symbol'),
+            'status' => $this->request->getVar('status')
         );
 
-        $this->db->where('id', $id);
-        return $this->db->update('currencies', $data);
+        return $this->protect(false)->update($id, $data);
     }
 
     //get currencies array
@@ -109,8 +110,8 @@ class CurrencyModel extends Model
     //get currencies
     public function get_currencies()
     {
-        $this->db->order_by('status DESC, id');
-        return $this->db->get('currencies')->result();
+        $this->builder()->orderBy('status', 'DESC');;
+        return $this->builder()->get()->getResult();
     }
 
     //get currency
@@ -133,12 +134,11 @@ class CurrencyModel extends Model
     public function update_currency_settings()
     {
         $data = array(
-            'default_currency' => $this->input->post('default_currency', true),
-            'allow_all_currencies_for_classied' => $this->input->post('allow_all_currencies_for_classied', true)
+            'default_currency' => $this->request->getVar('default_currency'),
+            'allow_all_currencies_for_classied' => $this->request->getVar('allow_all_currencies_for_classied')
         );
 
-        $this->db->where('id', 1);
-        $this->db->update('payment_settings', $data);
+        $this->builder('payment_settings')->where('id', 1)->update($data);
         $this->update_currency_rates($data['default_currency'], null);
         return true;
     }
@@ -147,13 +147,13 @@ class CurrencyModel extends Model
     public function update_currency_converter_settings()
     {
         $data = array(
-            'currency_converter' => $this->input->post('currency_converter', true),
-            'auto_update_exchange_rates' => $this->input->post('auto_update_exchange_rates', true),
-            'currency_converter_api' => $this->input->post('currency_converter_api', true),
-            'currency_converter_api_key' => $this->input->post('currency_converter_api_key', true)
+            'currency_converter' => $this->request->getVar('currency_converter'),
+            'auto_update_exchange_rates' => $this->request->getVar('auto_update_exchange_rates'),
+            'currency_converter_api' => $this->request->getVar('currency_converter_api'),
+            'currency_converter_api_key' => $this->request->getVar('currency_converter_api_key')
         );
-        $this->db->where('id', 1);
-        $this->db->update('payment_settings', $data);
+
+        $this->builder('payment_settings')->where('id', 1)->update($data);
         $this->update_currency_rates(null, $data['currency_converter_api'], $data['currency_converter_api_key']);
         return true;
     }
@@ -162,17 +162,17 @@ class CurrencyModel extends Model
     public function update_currency_rates($base = null, $service = null, $service_key = null)
     {
         if (empty($base)) {
-            $base = $this->payment_settings->default_currency;
+            $base = payment_settings()->default_currency;
         }
         if (empty($service)) {
-            $service = $this->payment_settings->currency_converter_api;
+            $service = payment_settings()->currency_converter_api;
         }
         if (empty($service_key)) {
-            $service_key = $this->payment_settings->currency_converter_api_key;
+            $service_key = payment_settings()->currency_converter_api_key;
         }
-        if ($this->payment_settings->currency_converter == 1) {
-            $this->load->library('currency');
-            $this->currency->updateExchangeRates($base, $service, $service_key);
+        if (payment_settings()->currency_converter == 1) {
+
+            return $this->currencyLib->updateExchangeRates($base, $service, $service_key);
         }
         return true;
     }
@@ -180,23 +180,22 @@ class CurrencyModel extends Model
     //edit currency rate
     public function edit_currency_rate()
     {
-        $currency_id = $this->input->post('currency_id', true);
-        $exchange_rate = $this->input->post('exchange_rate', true);
+        $currency_id = $this->request->getVar('currency_id');
+        $exchange_rate = $this->request->getVar('exchange_rate');
         $currency = $this->get_currency($currency_id);
         if (!empty($currency)) {
-            $this->db->where('id', $currency->id);
-            $this->db->update('currencies', ['exchange_rate' => $exchange_rate]);
+            return $this->protect(false)->update($currency->id, ['exchange_rate' => $exchange_rate]);
         }
     }
 
     //delete currency
     public function delete_currency($id)
     {
+
         $id = clean_number($id);
-        $currency = $this->get_currency($id);
+        $currency = $this->asObject()->find($id);
         if (!empty($currency)) {
-            $this->db->where('id', $id);
-            return $this->db->delete('currencies');
+            return $this->where('id', $currency->id)->delete();
         }
         return false;
     }

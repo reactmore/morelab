@@ -122,7 +122,7 @@
                                                                 <td><?php echo $items_detail['product_description'][$i]; ?></td>
                                                                 <td class="text-center"><?php echo $items_detail['quantity'][$i]; ?></td>
                                                                 <td class="text-center"><?php echo price_formatted($items_detail['price'][$i], $invoice->currency); ?></td>
-                                                                <td class="text-center"><?php echo $items_detail['tax'][$i]; ?></td>
+                                                                <td class="text-center"><?php echo $items_detail['tax'][$i]; ?>%</td>
                                                                 <td class="text-right"><?php echo price_formatted($items_detail['total'][$i], $invoice->currency); ?></td>
                                                             </tr>
                                                         <?php endfor; ?>

@@ -103,7 +103,7 @@
                                                         <td><?php echo $invoice->id ?></td>
                                                         <td><?php echo $invoice->invoice_no ?></td>
                                                         <td><?php echo $invoice->client_name ?> </td>
-                                                        <td><?php echo $invoice->grand_total . ' ' . $invoice->currency; ?></td>
+                                                        <td><?php echo price_formatted($invoice->grand_total, $invoice->currency); ?></td>
                                                         <td><?php echo $invoice->due_date ?></td>
                                                         <td><?php echo $invoice->created_at ?></td>
                                                         <td class="text-center">
