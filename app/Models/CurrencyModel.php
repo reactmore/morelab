@@ -162,15 +162,15 @@ class CurrencyModel extends Model
     public function update_currency_rates($base = null, $service = null, $service_key = null)
     {
         if (empty($base)) {
-            $base = payment_settings()->default_currency;
+            $base = get_general_settings()->default_currency;
         }
         if (empty($service)) {
-            $service = payment_settings()->currency_converter_api;
+            $service = get_general_settings()->currency_converter_api;
         }
         if (empty($service_key)) {
-            $service_key = payment_settings()->currency_converter_api_key;
+            $service_key = get_general_settings()->currency_converter_api_key;
         }
-        if (payment_settings()->currency_converter == 1) {
+        if (get_general_settings()->currency_converter == 1) {
 
             return $this->currencyLib->updateExchangeRates($base, $service, $service_key);
         }

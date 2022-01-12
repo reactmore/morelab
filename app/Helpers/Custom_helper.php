@@ -988,7 +988,7 @@ if (!function_exists('price_formatted')) {
 
         $price = $price / 100;
         //convert currency
-        if (payment_settings()->currency_converter == 1 && $convert_currency == true) {
+        if (get_general_settings()->currency_converter == 1 && $convert_currency == true) {
             $rate = 1;
             if (selected_currency() != null && isset(selected_currency()->exchange_rate)) {
                 $rate = selected_currency()->exchange_rate;
@@ -1048,7 +1048,7 @@ if (!function_exists('convert_currency_by_exchange_rate')) {
         if (empty($exchange_rate)) {
             $exchange_rate = 1;
         }
-        if (payment_settings()->currency_converter == 1) {
+        if (get_general_settings()->currency_converter == 1) {
             $amount = $amount * $exchange_rate;
             if (filter_var($amount, FILTER_VALIDATE_INT) !== false) {
                 $amount = number_format($amount, 0, ".", "");
@@ -1063,15 +1063,6 @@ if (!function_exists('convert_currency_by_exchange_rate')) {
 
 
 // Helper Currency 
-if (!function_exists('payment_settings')) {
-    function payment_settings()
-    {
-        $generalModel = new GeneralSettingModel();
-        //payment settings
-        return $generalModel->get_payment_settings();
-    }
-}
-
 if (!function_exists('currencies')) {
     function currencies()
     {
@@ -1086,7 +1077,7 @@ if (!function_exists('default_currency')) {
     {
         $currency_model = new CurrencyModel();
         //currencies
-        return $currency_model->get_default_currency(currencies(), payment_settings());
+        return $currency_model->get_default_currency(currencies(), get_general_settings());
     }
 }
 if (!function_exists('selected_currency')) {

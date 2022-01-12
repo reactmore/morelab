@@ -237,12 +237,4 @@ class GeneralSettingModel extends Model
     {
         return $this->db->query("DELETE FROM ci_sessions WHERE timestamp < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 DAY))");
     }
-
-
-    public function get_payment_settings()
-    {
-        $query =  $this->builder('payment_settings')->where('id', 1)->get();
-
-        return $query->getRowObject();
-    }
 }
