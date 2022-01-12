@@ -35,7 +35,7 @@
 - Laragon
 - Visual Studio 
 - PHP 8 
-- Codeigniter Version 4.1.5
+- Codeigniter Version 4.1.7
 
 ## What is CodeIgniter?
 
@@ -46,7 +46,7 @@ More information can be found at the [official site](http://codeigniter.com).
 You can contribute on the development of this package by opening new issue(s) when encountering any bugs or issues in this project or by submitting new pull request(s) to contribute directly to the code
 
 ## Credit 
-- Framework - Codeigniter 4.1.5
+- Framework - Codeigniter 4.1.7
 - Admin Template - AdminLte
 - Website Template - Eterna Boostrap 4
 
