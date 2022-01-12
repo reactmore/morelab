@@ -24,10 +24,10 @@ var ciDebugBar = {
 		document.getElementById('debug-icon-link').addEventListener('click', ciDebugBar.toggleToolbar, true);
 
 		// Allows to highlight the row of the current history request
-		var btn = document.querySelector('button[data-time="' + localStorage.getItem('debugbar-time') + '"]');
+		var btn = this.toolbar.querySelector('button[data-time="' + localStorage.getItem('debugbar-time') + '"]');
 		ciDebugBar.addClass(btn.parentNode.parentNode, 'current');
 
-		historyLoad = document.getElementsByClassName('ci-history-load');
+		historyLoad = this.toolbar.getElementsByClassName('ci-history-load');
 
 		for (var i = 0; i < historyLoad.length; i++)
 		{
@@ -52,11 +52,18 @@ var ciDebugBar = {
 	},
 
 	createListeners : function () {
-		var buttons = [].slice.call(document.querySelectorAll('#debug-bar .ci-label a'));
+		var buttons = [].slice.call(this.toolbar.querySelectorAll('.ci-label a'));
 
 		for (var i = 0; i < buttons.length; i++)
 		{
 			buttons[i].addEventListener('click', ciDebugBar.showTab, true);
+		}
+
+		// Hook up generic toggle via data attributes `data-toggle="foo"`
+		var links = this.toolbar.querySelectorAll('[data-toggle]');
+		for (var i = 0; i < links.length; i++)
+		{
+			links[i].addEventListener('click', ciDebugBar.toggleRows, true);
 		}
 	},
 
@@ -125,6 +132,21 @@ var ciDebugBar = {
 	},
 
 	/**
+	 * Toggle display of another object based on
+	 * the data-toggle value of this object
+	 *
+	 * @param event
+	 */
+	toggleRows : function(event) {
+		if(event.target)
+		{
+			let row = event.target.closest('tr');
+			let target = document.getElementById(row.getAttribute('data-toggle'));
+			target.style.display = target.style.display === 'none' ? 'table-row' : 'none';
+		}
+	},
+
+	/**
 	 * Toggle display of a data table
 	 *
 	 * @param obj
@@ -137,7 +159,7 @@ var ciDebugBar = {
 
 		if (obj)
 		{
-			obj.style.display = obj.style.display == 'none' ? 'block' : 'none';
+			obj.style.display = obj.style.display === 'none' ? 'block' : 'none';
 		}
 	},
 
@@ -155,7 +177,7 @@ var ciDebugBar = {
 
 		if (par && obj)
 		{
-			obj.style.display = obj.style.display == 'none' ? '' : 'none';
+			obj.style.display = obj.style.display === 'none' ? '' : 'none';
 			par.classList.toggle('timeline-parent-open');
 		}
 	},
@@ -480,7 +502,7 @@ var ciDebugBar = {
 	},
 
 	setToolbarPosition: function () {
-		var btnPosition = document.getElementById('toolbar-position');
+		var btnPosition = this.toolbar.querySelector('#toolbar-position');
 
 		if (ciDebugBar.readCookie('debug-bar-position') === 'top')
 		{
@@ -509,7 +531,7 @@ var ciDebugBar = {
 	},
 
 	setToolbarTheme: function () {
-		var btnTheme    = document.getElementById('toolbar-theme');
+		var btnTheme    = this.toolbar.querySelector('#toolbar-theme');
 		var isDarkMode  = window.matchMedia("(prefers-color-scheme: dark)").matches;
 		var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches;
 
@@ -605,7 +627,7 @@ var ciDebugBar = {
 
 	routerLink: function () {
 		var row, _location;
-		var rowGet = document.querySelectorAll('#debug-bar td[data-debugbar-route="GET"]');
+		var rowGet = this.toolbar.querySelectorAll('td[data-debugbar-route="GET"]');
 		var patt   = /\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)/;
 
 		for (var i = 0; i < rowGet.length; i++)
@@ -631,7 +653,7 @@ var ciDebugBar = {
 			}
 		}
 
-		rowGet = document.querySelectorAll('#debug-bar td[data-debugbar-route="GET"] form');
+		rowGet = this.toolbar.querySelectorAll('td[data-debugbar-route="GET"] form');
 		for (var i = 0; i < rowGet.length; i++)
 		{
 			row = rowGet[i];

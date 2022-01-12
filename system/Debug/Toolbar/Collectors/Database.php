@@ -85,10 +85,19 @@ class Database extends BaseCollector
         if (count(static::$queries) < $max) {
             $queryString = $query->getQuery();
 
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+            if (! is_cli()) {
+                // when called in the browser, the first two trace arrays
+                // are from the DB event trigger, which are unneeded
+                $backtrace = array_slice($backtrace, 2);
+            }
+
             static::$queries[] = [
                 'query'     => $query,
                 'string'    => $queryString,
                 'duplicate' => in_array($queryString, array_column(static::$queries, 'string', null), true),
+                'trace'     => $backtrace,
             ];
         }
     }
@@ -133,11 +142,49 @@ class Database extends BaseCollector
         $data['queries'] = array_map(static function (array $query) {
             $isDuplicate = $query['duplicate'] === true;
 
+            $firstNonSystemLine = '';
+
+            foreach ($query['trace'] as $index => &$line) {
+                // simplify file and line
+                if (isset($line['file'])) {
+                    $line['file'] = clean_path($line['file']) . ':' . $line['line'];
+                    unset($line['line']);
+                } else {
+                    $line['file'] = '[internal function]';
+                }
+
+                // find the first trace line that does not originate from `system/`
+                if ($firstNonSystemLine === '' && strpos($line['file'], 'SYSTEMPATH') === false) {
+                    $firstNonSystemLine = $line['file'];
+                }
+
+                // simplify function call
+                if (isset($line['class'])) {
+                    $line['function'] = $line['class'] . $line['type'] . $line['function'];
+                    unset($line['class'], $line['type']);
+                }
+
+                if (strrpos($line['function'], '{closure}') === false) {
+                    $line['function'] .= '()';
+                }
+
+                $line['function'] = str_repeat(chr(0xC2) . chr(0xA0), 8) . $line['function'];
+
+                // add index numbering padded with nonbreaking space
+                $indexPadded = str_pad(sprintf('%d', $index + 1), 3, ' ', STR_PAD_LEFT);
+                $indexPadded = preg_replace('/\s/', chr(0xC2) . chr(0xA0), $indexPadded);
+
+                $line['index'] = $indexPadded . str_repeat(chr(0xC2) . chr(0xA0), 4);
+            }
+
             return [
-                'hover'    => $isDuplicate ? 'This query was called more than once.' : '',
-                'class'    => $isDuplicate ? 'duplicate' : '',
-                'duration' => ((float) $query['query']->getDuration(5) * 1000) . ' ms',
-                'sql'      => $query['query']->debugToolbarDisplay(),
+                'hover'      => $isDuplicate ? 'This query was called more than once.' : '',
+                'class'      => $isDuplicate ? 'duplicate' : '',
+                'duration'   => ((float) $query['query']->getDuration(5) * 1000) . ' ms',
+                'sql'        => $query['query']->debugToolbarDisplay(),
+                'trace'      => $query['trace'],
+                'trace-file' => $firstNonSystemLine,
+                'qid'        => md5($query['query'] . microtime()),
             ];
         }, static::$queries);
 
