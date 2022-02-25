@@ -44,7 +44,8 @@
                                             <div class="row table-filter-container">
                                                 <div class="col-sm-6">
                                                     <?php $request = \Config\Services::request(); ?>
-                                                    <?php echo form_open(admin_url() . "master-locations", ['method' => 'GET']); ?>
+                                                    <?php echo form_open(admin_url() . "locations/state", ['method' => 'GET']); ?>
+                                                    <input type="hidden" name="page" value="<?php echo (!empty($request->getVar('page'))) ? $request->getVar('page') : '1'; ?>">
                                                     <div class="item-table-filter" style="width: 80px; min-width: 80px;">
                                                         <label><?php echo trans("show"); ?></label>
                                                         <select name="show" class="form-control">
@@ -157,7 +158,7 @@
             </div>
             <form id="form_safe" action="/admin/locations/state/saved_state_post" method="post">
                 <input type="hidden" id="modal_id" name="id" class="form-control form-input">
-                <input type="hidden" id="crsf" class="form-control form-input">
+                <?php echo csrf_field() ?>
 
                 <div class="modal-body">
                     <div class="form-group">

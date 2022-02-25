@@ -2,11 +2,11 @@
 
 namespace App\Controllers\Admin\Locations;
 
-use App\Controllers\Admin\BaseController;
+use App\Controllers\Admin\AdminController;
 use App\Models\Locations\CountryModel;
 use App\Models\Locations\StateModel;
 
-class Country extends BaseController
+class Country extends AdminController
 {
     protected $countryModel;
 
@@ -18,12 +18,13 @@ class Country extends BaseController
 
     public function index()
     {
-        $data['title'] = trans('country');
-        $data["active_tab"] = 'country';
+        $data = array_merge($this->data, [
+            'title'     => trans('country'),
+            'active_tab'     => 'country',
+        ]);
 
         // Paginations
         $paginate = $this->countryModel->DataPaginations();
-
         $data['country'] =  get_cached_data('country_page_' . $paginate['current_page']);
         if (empty($data['country'])) {
             $data['country'] =   $paginate['country'];
@@ -42,8 +43,22 @@ class Country extends BaseController
 
         //validate inputs
         $rules = [
-            'name'              => 'required|max_length[200]',
-            'continent_code'    => 'required|max_length[200]',
+            'name' => [
+                'label'  => trans('name'),
+                'rules'  => 'required|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+            'continent_code' => [
+                'label'  => trans('continent_code'),
+                'rules'  => 'required|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
         ];
 
         if ($this->validate($rules)) {
@@ -87,5 +102,21 @@ class Country extends BaseController
                 $this->session->setFlashData('error', trans("msg_error"));
             }
         }
+    }
+
+    //activate inactivate countries
+    public function activate_inactivate_countries()
+    {
+        $action = $this->request->getVar('action');
+
+        $status = 1;
+        if ($action == "inactivate") {
+            $status = 0;
+        }
+        $data = array(
+            'status' => $status
+        );
+        reset_cache_data_on_change();
+        return $this->countryModel->update(null, $data);
     }
 }

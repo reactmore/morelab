@@ -14,43 +14,39 @@
 9. Profile
 10. Language Management
 11. Filter, Secure CRSF, Validation
-12. Google Auth
+12. Google Auth, Gitthub Auth
 
 ## Usage 
 
 1. `git clone https://github.com/reactmore/morelab.git`
 2. `composer install`
-3. `change database information and baseUrl on env`
-4. `Import database on PHP MY ADMIN`
-5. `Admin Login :`
-     `Email : reactmorecom@gmail.com`
-     `Password : reactmorecom321`
+3. `php spark db:create` 
+4. `php spark migrate` 
+5. `php spark db:seed Development` || If you update from old version dont seed again
+6. `php spark key:generate`
+7. `Admin Login : Email : reactmorecom@gmail.com || Password : reactmorecom321`
 
-## Database 
-[Download Version 1](https://drive.google.com/drive/folders/1qCNIg5DoBMQOlKGPdNZs4ARFuFVkZI74?usp=sharing)
-
-    
+## Changelog Update 
+- Version 1.0.1 
+    - Initial 
+- Version 1.0.2
+    - Added Github Auth
+    - Added Chart Js on dashboard
+    - Beta Secure API 
+    - Maintenace Page
+    - Fix Some Code from CI 3
+      
 ## System Usage
 - Windows 10 
 - Laragon
 - Visual Studio 
 - PHP 8 
-- Codeigniter Version 4.1.5
-
-## What is CodeIgniter?
-
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
+- Codeigniter Version 4.1.8
 
 ## Contributing
 You can contribute on the development of this package by opening new issue(s) when encountering any bugs or issues in this project or by submitting new pull request(s) to contribute directly to the code
 
 ## Credit 
-- Framework - Codeigniter 4.1.5
+- Framework - Codeigniter 4.*
 - Admin Template - AdminLte
-- Website Template - Eterna Boostrap 4
-
-## Screenshoot
-![This is an image](https://i.ibb.co/M1rhXyN/image.png)
-![This is an image](https://i.ibb.co/hBCy1FS/image.png)
 

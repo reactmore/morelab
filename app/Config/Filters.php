@@ -6,9 +6,8 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
-use App\Filters\CheckAdmin;
-use App\Filters\CheckPermissions;
-use App\Filters\Auth;
+use CodeIgniter\Filters\InvalidChars;
+use CodeIgniter\Filters\SecureHeaders;
 
 class Filters extends BaseConfig
 {
@@ -19,13 +18,16 @@ class Filters extends BaseConfig
      * @var array
      */
     public $aliases = [
-        'csrf'     => CSRF::class,
-        'toolbar'  => DebugToolbar::class,
-        'honeypot' => Honeypot::class,
-        'auth-login' => Auth::class,
-        'check-admin' => CheckAdmin::class,
-        'check-permissions' => CheckPermissions::class,
-        'cors'     => \App\Filters\Cors::class,
+        'csrf'          => CSRF::class,
+        'toolbar'       => DebugToolbar::class,
+        'honeypot'      => Honeypot::class,
+        'invalidchars'  => InvalidChars::class,
+        'secureheaders' => SecureHeaders::class,
+        'isLoggedIn'     => \App\Filters\Authentication::class,
+        'isGranted'     => \App\Filters\Authorization::class,
+        'check-admin' => \App\Filters\CheckAdmin::class,
+        'isMaintenance' => \App\Filters\Maintenance::class,
+        'secure-api'     => \App\Filters\SecureAPI::class,
     ];
 
     /**
@@ -37,12 +39,16 @@ class Filters extends BaseConfig
     public $globals = [
         'before' => [
             // 'honeypot',
-            'csrf' => ['except' => ['rest', 'api/*', 'vr-run-internal-cron']],
-            'cors'
+            'csrf' => ['except' => ['vr-run-internal-cron', 'api/*']],
+            // 'invalidchars',
+            'isLoggedIn'    => ['except' => ['/', 'Auth/*', 'api/*', 'blocked', 'maintenance']],
+            'isGranted'     => ['except' => ['/', 'Auth/*', 'api/*', 'blocked', 'maintenance']],
+            'isMaintenance' => ['except' => ['Auth/*', 'api/*', 'blocked', 'admin/*', 'maintenance']],
         ],
         'after' => [
             'toolbar',
             // 'honeypot',
+            // 'secureheaders',
         ],
     ];
 

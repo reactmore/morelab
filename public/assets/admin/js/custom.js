@@ -5,9 +5,19 @@
 
 $(document).ready(function () {
     $('#wait').hide();
+    $('#form').parsley();
     $("form").on('submit', function () {
         $("#crsf").attr("name", csrfName).val($.cookie(csrfCookie));
     });
+
+    $(document).on('click', 'button[name="validate"]', function () {
+        $(':required:invalid', '#form').each(function () {
+            var id = $('.tab-pane').find(':required:invalid').closest('.tab-pane').attr('id');
+
+            $('.nav a[href="#' + id + '"]').tab('show');
+        });
+    });
+
 
     $("#checkAll").on('click', function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
@@ -19,6 +29,71 @@ $(document).ready(function () {
 
     $('.btnPrevious').click(function () {
         $('.nav-tabs .active').parent().prev('li').find('a').trigger('click');
+    });
+
+    $('.menu_category_permission').on('click', function () {
+        const menuCategoryId = $(this).data('menucategory');
+        const roleId = $(this).data('role');
+        var data = {
+            'menuCategoryID': menuCategoryId,
+            'roleID': roleId,
+        };
+        data[csrfName] = $.cookie(csrfCookie);
+
+        $.ajax({
+            url: baseUrl + "/admin/role-management/change-menu-category-permission",
+
+            type: 'post',
+            data: data,
+            success: function () {
+                // alert('User Access has been changed !');
+                location.reload();
+            }
+        });
+    });
+
+    $('.menu_permission').on('click', function () {
+        const menuId = $(this).data('menu');
+        const roleId = $(this).data('role');
+
+        var data = {
+            'menuID': menuId,
+            'roleID': roleId,
+        };
+
+        data[csrfName] = $.cookie(csrfCookie);
+
+        $.ajax({
+            url: baseUrl + "/admin/role-management/change-menu-permission",
+            type: 'post',
+            data: data,
+            success: function (response) {
+                console.log(response);
+                // alert('User Access has been changed !');
+                location.reload();
+            }
+        });
+    });
+
+    $('.submenu_permission').on('click', function () {
+        const submenuID = $(this).data('submenu');
+        const roleId = $(this).data('role');
+
+        var data = {
+            'submenuID': submenuID,
+            'roleID': roleId,
+        };
+        data[csrfName] = $.cookie(csrfCookie);
+
+        $.ajax({
+            url: baseUrl + "/admin/role-management/change-submenu-permission",
+            type: 'post',
+            data: data,
+            success: function () {
+                // alert('User Access has been changed !');
+                location.reload();
+            }
+        });
     });
 
     document.querySelectorAll('[data-toggle="password"]').forEach(function (el) {
@@ -179,7 +254,7 @@ function get_states_by_country(val) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/AjaxController/get_states_by_country",
+        url: baseUrl + "/common/get_states_by_country",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -202,7 +277,7 @@ function get_states(val, map) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/AjaxController/get_states",
+        url: baseUrl + "/common/get_states",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -228,7 +303,7 @@ function get_cities(val, map) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/AjaxController/get_cities",
+        url: baseUrl + "/common/get_cities",
         data: data,
         success: function (response) {
             var obj = JSON.parse(response);
@@ -272,7 +347,7 @@ function update_product_map() {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/AjaxController/show_address_on_map",
+        url: baseUrl + "/common/show_address_on_map",
         data: data,
         success: function (response) {
 
@@ -289,7 +364,7 @@ function activate_inactivate_countries(action) {
     data[csrfName] = $.cookie(csrfCookie);
     $.ajax({
         type: "POST",
-        url: baseUrl + "/AjaxController/activate_inactivate_countries",
+        url: baseUrl + "/admin/locations/country/activate-inactivate-countries",
         data: data,
         success: function (response) {
             location.reload();

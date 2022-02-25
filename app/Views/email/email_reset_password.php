@@ -376,7 +376,7 @@
                                                     <?php echo trans("email_reset_password"); ?><br>
                                                 </p>
                                                 <p style='text-align: center;margin-top: 30px;'>
-                                                    <a href="<?php echo generate_url('reset_password'); ?>?token=<?php echo $token; ?>" style='font-size: 14px;text-decoration: none;padding: 14px 40px;background-color: #1abc9c;color: #ffffff !important; border-radius: 3px;'>
+                                                    <a href="<?php echo base_url('auth/reset-password'); ?>?token=<?php echo $token; ?>" style='font-size: 14px;text-decoration: none;padding: 14px 40px;background-color: #1abc9c;color: #ffffff !important; border-radius: 3px;'>
                                                         <?php echo trans("reset_password"); ?>
                                                     </a>
                                                 </p>
@@ -437,7 +437,7 @@
                             <tr>
                                 <td class="content-block powered-by">
                                     <span class="apple-link"><?php echo html_escape(get_general_settings()->contact_address); ?></span><br>
-                                    <?php echo html_escape(get_general_settings()->copyright); ?>
+                                    <?php echo get_general_settings()->copyright; ?>
                                 </td>
                             </tr>
                         </table>

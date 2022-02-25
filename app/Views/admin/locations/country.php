@@ -44,7 +44,8 @@
                                             <div class="row table-filter-container">
                                                 <div class="col-sm-6">
                                                     <?php $request = \Config\Services::request(); ?>
-                                                    <?php echo form_open(admin_url() . "master-locations?tab=country", ['method' => 'GET']); ?>
+                                                    <?php echo form_open(admin_url() . "locations/country", ['method' => 'GET']); ?>
+                                                    <input type="hidden" name="page" value="<?php echo (!empty($request->getVar('page'))) ? $request->getVar('page') : '1'; ?>">
                                                     <div class="item-table-filter" style="width: 80px; min-width: 80px;">
                                                         <label><?php echo trans("show"); ?></label>
                                                         <select name="show" class="form-control">
@@ -100,13 +101,13 @@
 
                                                                 <div class="dropdown-menu dropdown-menu-animated">
                                                                     <?php if ($item->status == 1) : ?>
-                                                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-country" onclick="$('form').attr('action', '/admin/locations/country/saved_country_post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_code').val('<?php echo html_escape($item->continent_code); ?>'); $('#status_1').prop('checked', true);"><?php echo trans('edit'); ?></a>
+                                                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-country" onclick="$('form').attr('action', '/admin/locations/country/saved-country-post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_code').val('<?php echo html_escape($item->continent_code); ?>'); $('#status_1').prop('checked', true);"><?php echo trans('edit'); ?></a>
                                                                     <?php else : ?>
-                                                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-country" onclick="$('form').attr('action', '/admin/locations/country/saved_country_post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_code').val('<?php echo html_escape($item->continent_code); ?>'); $('#status_2').prop('checked', true);"><?php echo trans('edit'); ?></a>
+                                                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal-country" onclick="$('form').attr('action', '/admin/locations/country/saved-country-post'); $('#modal-modalLabel').text('<?php echo trans('edit'); ?>'); $('#modal_id').val('<?php echo html_escape($item->id); ?>'); $('#modal_name').val('<?php echo html_escape($item->name); ?>'); $('#modal_code').val('<?php echo html_escape($item->continent_code); ?>'); $('#status_2').prop('checked', true);"><?php echo trans('edit'); ?></a>
                                                                     <?php endif; ?>
                                                                     <div class=" dropdown-divider">
                                                                     </div>
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/locations/country/delete_country_post','<?php echo $item->id; ?>','<?php echo trans('confirm_delete'); ?>');"><?php echo trans('delete'); ?></a>
+                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/locations/country/delete-country-post','<?php echo $item->id; ?>','<?php echo trans('confirm_delete'); ?>');"><?php echo trans('delete'); ?></a>
                                                                 </div>
                                                             </div>
 
@@ -157,9 +158,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="form_safe" action="/admin/locations/country/saved_country_post" method="post">
+            <form id="form_safe" action="/admin/locations/country/saved-country-post" method="post">
                 <input type="hidden" id="modal_id" name="id" class="form-control form-input">
-                <input type="hidden" id="crsf" class="form-control form-input">
+                <?php echo csrf_field() ?>
 
                 <div class="modal-body">
                     <div class="form-group">

@@ -2,13 +2,12 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\BaseController;
-use App\Models\EmailModel;
+
 use App\Models\LanguageModel;
 use App\Models\LanguageTranslationsModel;
-use App\Models\ProfileModel;
 
-class Languages extends BaseController
+
+class Languages extends AdminController
 {
 
     protected $languageModel;
@@ -22,8 +21,11 @@ class Languages extends BaseController
 
     public function index()
     {
-        $data["title"] = trans("language_settings");
-        $data["languages"] = model('LanguageModel')->builder()->get()->getResultObject();
+        $data = array_merge($this->data, [
+            'title' => trans('language_settings'),
+            'languages' => model('LanguageModel')->builder()->get()->getResultObject()
+
+        ]);
 
         return view('admin/language/languages', $data);
     }
@@ -53,8 +55,41 @@ class Languages extends BaseController
         $validation =  \Config\Services::validation();
 
         //validate inputs
+
         $rules = [
-            'name'      => 'required|max_length[200]',
+            'name' => [
+                'label'  => trans('language_name'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'short_form' => [
+                'label'  => trans('short_form'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'language_code' => [
+                'label'  => trans('language_code'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'text_editor_lang' => [
+                'label'  => trans('text_editor_language'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+
         ];
 
         if ($this->validate($rules)) {
@@ -80,9 +115,12 @@ class Languages extends BaseController
      */
     public function edit_language($id)
     {
-        $data['title'] = trans("update_language");
-        //get language
-        $data['language'] = $this->languageModel->asObject()->find($id);
+        $data = array_merge($this->data, [
+            'title' => trans('edit_translations'),
+            'language' => $this->languageModel->asObject()->find($id)
+
+        ]);
+
 
         if (empty($data['language']->id)) {
             return redirect()->to($this->agent->getReferrer());
@@ -100,7 +138,46 @@ class Languages extends BaseController
 
         //validate inputs
         $rules = [
-            'name'      => 'required|max_length[200]',
+            'id' => [
+                'label'  => trans('id'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'name' => [
+                'label'  => trans('language_name'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'short_form' => [
+                'label'  => trans('short_form'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'language_code' => [
+                'label'  => trans('language_code'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'text_editor_lang' => [
+                'label'  => trans('text_editor_language'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
         ];
 
         if ($this->validate($rules)) {
@@ -144,8 +221,13 @@ class Languages extends BaseController
      */
     public function translations($id)
     {
-        $data['title'] = trans('edit_translations');
-        $data['language'] = $this->languageModel->asObject()->find($id);
+
+        $data = array_merge($this->data, [
+            'title' => trans('edit_translations'),
+            'language' => $this->languageModel->asObject()->find($id)
+
+        ]);
+
 
         if (empty($data['language']->id)) {
             return redirect()->to($this->agent->getReferrer());
@@ -167,9 +249,33 @@ class Languages extends BaseController
 
         //validate inputs
         $rules = [
-            'lang_id'      => 'required',
-            'label'      => 'required|max_length[200]',
-            'translation'      => 'required|max_length[200]',
+            'lang_id' => [
+                'label'  => trans('id'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+
+                ],
+            ],
+            'label' => [
+                'label'  => trans('label'),
+                'rules'  => 'required|max_length[200]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+
+                ],
+            ],
+            'translation' => [
+                'label'  => trans('translation'),
+                'rules'  => 'required|max_length[200]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+
+                ],
+            ],
+
         ];
 
         if ($this->validate($rules)) {

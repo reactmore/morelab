@@ -68,7 +68,6 @@
 
 <div class="card text-center">
     <div class="card-body">
-
         <div class="form-group">
             <div id="map-result">
                 <div class="map-container">

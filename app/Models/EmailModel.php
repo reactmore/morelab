@@ -39,7 +39,7 @@ class EmailModel extends Model
     //send email activation
     public function send_email_activation($user_id, $sess = 'admin')
     {
-        $userModel = new UserModel();
+        $userModel = new UsersModel();
         $user = $userModel->get_user($user_id);
         if (!empty($user)) {
             $token = $user->token;
@@ -103,7 +103,7 @@ class EmailModel extends Model
     //send email reset password
     public function send_email_reset_password($user_id)
     {
-        $userModel = new UserModel();
+        $userModel = new UsersModel();
         $user = $userModel->get_user($user_id);
         if (!empty($user)) {
             $token = $user->token;

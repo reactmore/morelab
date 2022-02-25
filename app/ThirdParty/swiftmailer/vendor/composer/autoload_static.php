@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitcd6d29a87b36eebf9cc1a13c1c60ef58
+class ComposerStaticInit92fd3b9578fff779ac263ee6949c9ad1
 {
     public static $files = array (
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
@@ -17,7 +17,7 @@ class ComposerStaticInitcd6d29a87b36eebf9cc1a13c1c60ef58
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitcd6d29a87b36eebf9cc1a13c1c60ef58::$classMap;
+            $loader->classMap = ComposerStaticInit92fd3b9578fff779ac263ee6949c9ad1::$classMap;
 
         }, null, ClassLoader::class);
     }

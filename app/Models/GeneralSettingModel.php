@@ -39,14 +39,14 @@ class GeneralSettingModel extends Model
     public function update_settings()
     {
         $data = $this->input_default();
-        $data['application_name'] = $this->request->getVar('application_name');
-        $data['site_lang'] = $this->request->getVar('lang_id');
-        $data['timezone'] = $this->request->getVar('timezone');
+        $data['application_name'] = $this->request->getVar('application_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['site_lang'] = $this->request->getVar('lang_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['timezone'] = $this->request->getVar('timezone', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $data['copyright'] = $this->request->getVar('copyright');
-        $data['contact_name'] = $this->request->getVar('contact_name');
+        $data['contact_name'] = $this->request->getVar('contact_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $data['contact_address'] = $this->request->getVar('contact_address');
         $data['contact_email'] = $this->request->getVar('contact_email');
-        $data['contact_phone'] = $this->request->getVar('contact_phone');
+        $data['contact_phone'] = $this->request->getVar('contact_phone', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $data['contact_text'] = $this->request->getVar('contact_text');
 
         return $this->builder()->where('id', 1)->update($data);
@@ -56,14 +56,14 @@ class GeneralSettingModel extends Model
     public function update_email_settings()
     {
         $data = array(
-            'mail_protocol' => $this->request->getVar('mail_protocol'),
-            'mail_library' => $this->request->getVar('mail_library'),
-            'mail_title' => $this->request->getVar('mail_title'),
-            'mail_encryption' => $this->request->getVar('mail_encryption'),
+            'mail_protocol' => $this->request->getVar('mail_protocol', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'mail_library' => $this->request->getVar('mail_library', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'mail_title' => $this->request->getVar('mail_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'mail_encryption' => $this->request->getVar('mail_encryption', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             'mail_host' => $this->request->getVar('mail_host'),
-            'mail_port' => $this->request->getVar('mail_port'),
-            'mail_username' => $this->request->getVar('mail_username'),
-            'mail_password' => $this->request->getVar('mail_password'),
+            'mail_port' => $this->request->getVar('mail_port', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'mail_username' => $this->request->getVar('mail_username', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'mail_password' => $this->request->getVar('mail_password', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             'mail_reply_to' => $this->request->getVar('mail_reply_to'),
             'updated_at' => date('Y-m-d H:i:s')
         );
@@ -77,7 +77,7 @@ class GeneralSettingModel extends Model
     public function email_verification_settings()
     {
         $data = array(
-            'email_verification' => $this->request->getVar('email_verification'),
+            'email_verification' => $this->request->getVar('email_verification', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             'updated_at' => date('Y-m-d H:i:s')
         );
 
@@ -89,8 +89,8 @@ class GeneralSettingModel extends Model
     public function update_social_facebook_settings()
     {
         $data = array(
-            'facebook_app_id' => trim($this->request->getVar('facebook_app_id')),
-            'facebook_app_secret' => trim($this->request->getVar('facebook_app_secret'))
+            'facebook_app_id' => trim($this->request->getVar('facebook_app_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
+            'facebook_app_secret' => trim($this->request->getVar('facebook_app_secret', FILTER_SANITIZE_FULL_SPECIAL_CHARS))
         );
 
         //update
@@ -101,8 +101,20 @@ class GeneralSettingModel extends Model
     public function update_social_google_settings()
     {
         $data = array(
-            'google_client_id' => trim($this->request->getVar('google_client_id')),
-            'google_client_secret' => trim($this->request->getVar('google_client_secret'))
+            'google_client_id' => trim($this->request->getVar('google_client_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
+            'google_client_secret' => trim($this->request->getVar('google_client_secret', FILTER_SANITIZE_FULL_SPECIAL_CHARS))
+        );
+
+        //update
+        return $this->builder()->where('id', 1)->update($data);
+    }
+
+    //update social github settings
+    public function update_social_github_settings()
+    {
+        $data = array(
+            'github_client_id' => trim($this->request->getVar('github_client_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
+            'github_client_secret' => trim($this->request->getVar('github_client_secret', FILTER_SANITIZE_FULL_SPECIAL_CHARS))
         );
 
         //update
@@ -162,25 +174,25 @@ class GeneralSettingModel extends Model
         //     $this->general_settings_model->save($general_settings, 1);
         // }
 
-        if ($submit == "logo") {
-            $uploadModel = new UploadModel();
-            $logo_path = $uploadModel->logo_upload('logo');
-            $logo_footer_path = $uploadModel->logo_upload('logo_dark');
-            $logo_email_path = $uploadModel->logo_upload('logo_email');
-            $favicon_path = $uploadModel->favicon_upload('favicon');
-            if (!empty($logo_path)) {
-                $data["logo_light"] = $logo_path;
-            }
-            if (!empty($logo_footer_path)) {
-                $data["logo_dark"] = $logo_footer_path;
-            }
-            if (!empty($logo_email_path)) {
-                $data["logo_email"] = $logo_email_path;
-            }
-            if (!empty($favicon_path)) {
-                $data["favicon"] = $favicon_path;
-            }
-        }
+        // if ($submit == "logo") {
+        //     $uploadModel = new UploadModel();
+        //     $logo_path = $uploadModel->logo_upload('logo');
+        //     $logo_footer_path = $uploadModel->logo_upload('logo_dark');
+        //     $logo_email_path = $uploadModel->logo_upload('logo_email');
+        //     $favicon_path = $uploadModel->favicon_upload('favicon');
+        //     if (!empty($logo_path)) {
+        //         $data["logo_light"] = $logo_path;
+        //     }
+        //     if (!empty($logo_footer_path)) {
+        //         $data["logo_dark"] = $logo_footer_path;
+        //     }
+        //     if (!empty($logo_email_path)) {
+        //         $data["logo_email"] = $logo_email_path;
+        //     }
+        //     if (!empty($favicon_path)) {
+        //         $data["favicon"] = $favicon_path;
+        //     }
+        // }
 
         if (!empty($data)) {
             //update
@@ -194,9 +206,9 @@ class GeneralSettingModel extends Model
     public function update_maintenance_mode_settings()
     {
         $data = array(
-            'maintenance_mode_title' => $this->request->getVar('maintenance_mode_title'),
-            'maintenance_mode_description' => $this->request->getVar('maintenance_mode_description'),
-            'maintenance_mode_status' => $this->request->getVar('maintenance_mode_status'),
+            'maintenance_mode_title' => $this->request->getVar('maintenance_mode_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'maintenance_mode_description' => $this->request->getVar('maintenance_mode_description', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'maintenance_mode_status' => $this->request->getVar('maintenance_mode_status', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
         );
 
         if (empty($data["maintenance_mode_status"])) {
@@ -211,9 +223,9 @@ class GeneralSettingModel extends Model
     public function update_recaptcha_settings()
     {
         $data = array(
-            'recaptcha_site_key' => $this->request->getVar('recaptcha_site_key'),
-            'recaptcha_secret_key' => $this->request->getVar('recaptcha_secret_key'),
-            'recaptcha_lang' => $this->request->getVar('recaptcha_lang'),
+            'recaptcha_site_key' => $this->request->getVar('recaptcha_site_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'recaptcha_secret_key' => $this->request->getVar('recaptcha_secret_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'recaptcha_lang' => $this->request->getVar('recaptcha_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
         );
 
         //update
@@ -224,8 +236,8 @@ class GeneralSettingModel extends Model
     public function update_cache_system()
     {
         $data = array(
-            'cache_system' => $this->request->getVar('cache_system'),
-            'refresh_cache_database_changes' => $this->request->getVar('refresh_cache_database_changes'),
+            'cache_system' => $this->request->getVar('cache_system', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'refresh_cache_database_changes' => $this->request->getVar('refresh_cache_database_changes', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             'cache_refresh_time' => $this->request->getVar('cache_refresh_time') * 60
         );
 

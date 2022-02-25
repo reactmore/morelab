@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?php echo form_open_multipart('admin/languages/add_translations_post'); ?>
+            <?php echo form_open_multipart('admin/language-settings/add-translation-post'); ?>
 
             <div class="modal-body">
                 <input type="hidden" name="lang_id" id="lang_id" value="<?php echo selected_lang()->id ?>">

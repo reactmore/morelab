@@ -11,22 +11,19 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group mb-3">
-                    <label><?php echo trans("firstname"); ?><span class="required"> *</span></label>
-                    <input type="text" name="first_name" class="form-control auth-form-input" placeholder="<?php echo trans("firstname"); ?>" value="<?php echo html_escape($user->first_name); ?>" required>
+                    <label><?php echo trans("fullname"); ?><span class="required"> *</span></label>
+                    <input type="text" name="fullname" class="form-control auth-form-input" placeholder="<?php echo trans("firstname"); ?>" value="<?php echo html_escape($user->fullname); ?>" required>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group mb-3">
-                    <label><?php echo trans("lastname"); ?><span class="required"> *</span></label>
-                    <input type="text" name="last_name" class="form-control auth-form-input" placeholder="<?php echo trans("lastname"); ?>" value="<?php echo html_escape($user->last_name); ?>" required>
+                    <label><?php echo trans('username'); ?><span class="required"> *</span></label>
+                    <input type="text" class="form-control form-input" name="username" placeholder="<?php echo trans('username'); ?>" value="<?php echo html_escape($user->username); ?>" required>
                 </div>
             </div>
         </div>
 
-        <div class="form-group mb-3">
-            <label><?php echo trans('username'); ?><span class="required"> *</span></label>
-            <input type="text" class="form-control form-input" name="username" placeholder="<?php echo trans('username'); ?>" value="<?php echo html_escape($user->username); ?>" required>
-        </div>
+
 
         <div class="form-group mb-3">
             <label><?php echo trans('slug'); ?></label>

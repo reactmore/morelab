@@ -1,7 +1,7 @@
 <?php echo $this->extend('admin/includes/_layout_view') ?>
 
 <?php echo $this->section('content') ?>
-<link href="<?php echo base_url() ?>/public/assets/admin/plugins/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url() ?>/assets/admin/plugins/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css" />
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -60,7 +60,7 @@
                                                     <tr class="tr-phrase">
                                                         <td style="width: 50px;"><?php echo $item->id; ?></td>
                                                         <td style="width: 40%;"><?php echo $item->label; ?></td>
-                                                        <td style="width: 60%;"><a href="javascript:void(0)" class="inline-editable" id="inline-editable" data-type="text" data-pk="<?php echo $item->id; ?>" data-name="translations" data-title="Enter Label" data-link="<?php echo admin_url() ?>languages/update_translation_post"><?php echo $item->translation; ?></a></td>
+                                                        <td style="width: 60%;"><a href="javascript:void(0)" class="inline-editable" id="inline-editable" data-type="text" data-pk="<?php echo $item->id; ?>" data-name="translations" data-title="Enter Label" data-link="<?php echo admin_url() ?>language-settings/update-translation-post"><?php echo $item->translation; ?></a></td>
 
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -89,6 +89,6 @@
 </div>
 <!-- /.content-wrapper -->
 
-<script src="<?php echo base_url() ?>/public/assets/admin/plugins/bootstrap-editable/js/index.js"></script>
-<script src="<?php echo base_url() ?>/public/assets/admin/js/pages/languages-translations.js"></script>
+<script src="<?php echo base_url() ?>/assets/admin/plugins/bootstrap-editable/js/index.js"></script>
+<script src="<?php echo base_url() ?>/assets/admin/js/pages/languages-translations.js"></script>
 <?php echo $this->endSection() ?>

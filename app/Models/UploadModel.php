@@ -54,7 +54,7 @@ class UploadModel extends Model
 
     public function avatar_upload($user_id, $path)
     {
-        $new_path = '/public/uploads/profile/avatar_' . $user_id . '_' . uniqid() . '.jpg';
+        $new_path = '/uploads/profile/avatar_' . $user_id . '_' . uniqid() . '.jpg';
         $img = ImageManagerStatic::make($path)->orientate();
         $img->fit(150, 150);
         $img->save(FCPATH . $new_path, $this->img_quality);
@@ -74,7 +74,7 @@ class UploadModel extends Model
         if ($doUpload) {
             $img = $this->request->getFile($file_name);
             if ($img->isValid()) {
-                $img->move(FCPATH . '/public/uploads/logo/', 'img_' . generate_unique_id() . '.' . $img->getClientExtension());
+                $img->move(FCPATH . '/uploads/logo/', 'img_' . generate_unique_id() . '.' . $img->getClientExtension());
                 if ($img->getTempName() != null) {
                     return 'uploads/logo/' . $img->getName();
                 }
@@ -98,7 +98,7 @@ class UploadModel extends Model
         if ($doUpload) {
             $img = $this->request->getFile($file_name);
             if ($img->isValid()) {
-                $img->move(FCPATH . '/public/uploads/logo/', 'favicon_' . uniqid() . '.' . $img->getClientExtension());
+                $img->move(FCPATH . '/uploads/logo/', 'favicon_' . uniqid() . '.' . $img->getClientExtension());
                 if ($img->getTempName() != null) {
                     return 'uploads/logo/' . $img->getName();
                 }
@@ -113,15 +113,15 @@ class UploadModel extends Model
     public function post_gif_image_upload($file_name)
     {
         $date_directory = $this->create_directory_by_date('images');
-        rename(WRITEPATH . '/uploads/tmp/' . $file_name, FCPATH . '/public/uploads/images/' . $date_directory . $file_name);
-        return '/public/uploads/images/' . $date_directory . $file_name;
+        rename(WRITEPATH . '/uploads/tmp/' . $file_name, FCPATH . '/uploads/images/' . $date_directory . $file_name);
+        return '/uploads/images/' . $date_directory . $file_name;
     }
 
     //post gif image upload
     public function post_svg_image_upload($file_name)
     {
         $date_directory = $this->create_directory_by_date('images');
-        rename(FCPATH . '/public/uploads/tmp/' . $file_name, FCPATH . 'uploads/images/' . $date_directory . $file_name);
+        rename(FCPATH . '/uploads/tmp/' . $file_name, FCPATH . 'uploads/images/' . $date_directory . $file_name);
         return 'uploads/images/' . $date_directory . $file_name;
     }
 
@@ -129,7 +129,7 @@ class UploadModel extends Model
     public function post_big_image_upload($path)
     {
         $new_name = $this->create_directory_by_date('images') . 'image_750x500_' . uniqid() . '.jpg';
-        $new_path = '/public/uploads/images/' . $new_name;
+        $new_path = '/uploads/images/' . $new_name;
         $img = ImageManagerStatic::make($path)->orientate();
         $img->fit(750, 500);
         $img->save(FCPATH . $new_path, $this->img_quality);
@@ -140,7 +140,7 @@ class UploadModel extends Model
     public function post_default_image_upload($path)
     {
         $new_name = $this->create_directory_by_date('images') . 'image_750x_' . uniqid() . '.jpg';
-        $new_path = '/public/uploads/images/' . $new_name;
+        $new_path = '/uploads/images/' . $new_name;
         $img = ImageManagerStatic::make($path)->orientate();
 
         $img->save(FCPATH . $new_path, $this->img_quality);
@@ -151,7 +151,7 @@ class UploadModel extends Model
     public function post_slider_image_upload($path)
     {
         $new_name = $this->create_directory_by_date('images') . 'image_600x460_' . uniqid() . '.jpg';
-        $new_path = '/public/uploads/images/' . $new_name;
+        $new_path = '/uploads/images/' . $new_name;
         $img = ImageManagerStatic::make($path)->orientate();
         $img->fit(600, 460);
         $img->save(FCPATH . $new_path, $this->img_quality);
@@ -162,7 +162,7 @@ class UploadModel extends Model
     public function post_mid_image_upload($path)
     {
         $new_name = $this->create_directory_by_date('images') . 'image_380x226_' . uniqid() . '.jpg';
-        $new_path = '/public/uploads/images/' . $new_name;
+        $new_path = '/uploads/images/' . $new_name;
         $img = ImageManagerStatic::make($path)->orientate();
         $img->fit(380, 226);
         $img->save(FCPATH . $new_path, $this->img_quality);
@@ -173,7 +173,7 @@ class UploadModel extends Model
     public function post_small_image_upload($path)
     {
         $new_name = $this->create_directory_by_date('images') . 'image_140x98_' . uniqid() . '.jpg';
-        $new_path = '/public/uploads/images/' . $new_name;
+        $new_path = '/uploads/images/' . $new_name;
         $img = ImageManagerStatic::make($path)->orientate();
 
 
@@ -189,8 +189,8 @@ class UploadModel extends Model
         $year = date("Y");
         $month = date("m");
 
-        $directory_year = FCPATH . "public/uploads/" . $target_folder . "/" . $year . "/";
-        $directory_month = FCPATH . "public/uploads/" . $target_folder . "/" . $year . "/" . $month . "/";
+        $directory_year = FCPATH . "uploads/" . $target_folder . "/" . $year . "/";
+        $directory_month = FCPATH . "uploads/" . $target_folder . "/" . $year . "/" . $month . "/";
 
         //If the directory doesn't already exists.
         if (!is_dir($directory_month)) {

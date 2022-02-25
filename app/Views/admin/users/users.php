@@ -65,7 +65,7 @@
                                                                 <img src="<?php echo get_user_avatar($user['avatar']); ?>" alt="user" class="img-responsive" style="height: 50px;">
                                                             </a>
                                                         </td>
-                                                        <td><?php echo $user['first_name'] . ' ' .  $user['last_name']; ?> </td>
+                                                        <td><?php echo $user['fullname']; ?> </td>
                                                         <td><?php echo $user['username']; ?></td>
                                                         <td>
                                                             <?php echo $user['email'];

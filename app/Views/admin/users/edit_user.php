@@ -30,7 +30,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Main row -->
-            <?php echo form_open_multipart('admin/usermanagement/edit_user_post', ['id' => 'form_add_user_post', 'class' => 'custom-validation needs-validation']); ?>
+            <?php echo form_open_multipart('admin/usermanagement/edit_user_post', ['id' => 'form', 'class' => 'custom-validation needs-validation']); ?>
             <?php echo $this->include('admin/includes/_messages') ?>
 
             <div class="row">
@@ -74,33 +74,22 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
+                                                <label><?php echo trans("fullname"); ?><span class="required"> *</span></label>
+                                                <input type="text" name="fullname" class="form-control auth-form-input" placeholder="<?php echo trans("fullname"); ?>" value="<?php echo html_escape($user->fullname); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
                                                 <label><?php echo trans("username"); ?><span class="required"> *</span></label>
                                                 <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo html_escape($user->username); ?>" required>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group mb-3">
-                                                <label><?php echo trans("slug"); ?><span class="required"> *</span></label>
-                                                <input type="text" name="slug" class="form-control auth-form-input" placeholder="<?php echo trans("slug"); ?>" value="<?php echo html_escape($user->slug); ?>" required>
-                                            </div>
-                                        </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group mb-3">
-                                                <label><?php echo trans("firstname"); ?><span class="required"> *</span></label>
-                                                <input type="text" name="first_name" class="form-control auth-form-input" placeholder="<?php echo trans("firstname"); ?>" value="<?php echo html_escape($user->first_name); ?>" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group mb-3">
-                                                <label><?php echo trans("lastname"); ?><span class="required"> *</span></label>
-                                                <input type="text" name="last_name" class="form-control auth-form-input" placeholder="<?php echo trans("lastname"); ?>" value="<?php echo html_escape($user->last_name); ?>" required>
-                                            </div>
-                                        </div>
+                                    <div class="form-group mb-3">
+                                        <label><?php echo trans("slug"); ?><span class="required"> *</span></label>
+                                        <input type="text" name="slug" class="form-control auth-form-input" placeholder="<?php echo trans("slug"); ?>" value="<?php echo html_escape($user->slug); ?>" required>
                                     </div>
-
 
 
                                     <div class="form-group mb-3">
@@ -195,7 +184,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("form_password"); ?><span class="required"> *</span></label>
+                                                <label><?php echo trans("form_password"); ?></label>
                                                 <input type="password" name="password" class="form-control auth-form-input" placeholder="<?php echo trans("form_password"); ?>">
                                             </div>
                                         </div>
@@ -205,7 +194,7 @@
                                                 <select id="role" name="role" class="form-control select2" required>
                                                     <option value=""><?php echo trans("select"); ?> </option>
                                                     <?php foreach ($roles as $role) : ?>
-                                                        <option value="<?php echo $role->role; ?>" <?php echo ($user->role == $role->role) ? 'selected' : '' ?>><?php echo $role->role_name; ?></option>
+                                                        <option value="<?php echo $role->id; ?>" <?php echo ($user->role == $role->id) ? 'selected' : '' ?>><?php echo $role->role_name; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -213,7 +202,7 @@
                                     </div>
                                     <div class="form-group mb-3 float-right">
                                         <a href="javascript: void(0);" class="btn btn-primary  btnPrevious"><?php echo 'Previous'; ?></a>
-                                        <button type="submit" id="single_submit" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
+                                        <button type="submit" id="single_submit" name="validate" class="btn btn-primary"><?php echo trans('save_changes'); ?></button>
                                     </div>
 
                                 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo selected_lang()->short_form ?>">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -243,9 +243,13 @@
 				<li class="menu-toggle">
 					<button onclick="toggleMenu();">&#9776;</button>
 				</li>
-				<li class="menu-item hidden"><a href="<?php echo base_url(); ?>">Home</a></li>
-				<li class="menu-item hidden"><a href="<?php echo admin_url(); ?>">Dashboard</a></li>
-				<li class="menu-item hidden"><a href="<?php echo generate_url('logout'); ?>">logout</a></li>
+				<li class="menu-item hidden"><a href="#">Home</a></li>
+				<?php if (session()->get('vr_sess_logged_in') != TRUE) : ?>
+					<li class="menu-item hidden"><a href="<?php echo admin_url(); ?>">Login</a></li>
+				<?php else : ?>
+					<li class="menu-item hidden"><a href="<?php echo base_url('auth/logout'); ?>">Logout</a></li>
+				<?php endif; ?>
+
 			</ul>
 		</div>
 

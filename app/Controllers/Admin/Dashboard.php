@@ -2,32 +2,32 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\BaseController;
-use App\Helpers\Request_helper;
+use App\Libraries\GoogleAnalytics;
 
-class Dashboard extends BaseController
+class Dashboard extends AdminController
 {
-
-    protected $requestHelper;
 
     public function __construct()
     {
-        $this->requestHelper = new Request_helper();
+        $this->analytics = new GoogleAnalytics();
     }
 
     public function index()
     {
-        $data['title'] = trans('dashboard');
+        $data = array_merge($this->data, [
+            'title'     => trans('dashboard'),
+        ]);
 
-
-        return view('admin/blank', $data);
+        return view('admin/dashboard', $data);
     }
 
-    // public function index()
-    // {
-    //     $data['title'] = trans('dashboard');
+    public function Blocked()
+    {
+        $data = array_merge($this->data, [
+            'title'     => 'Forbiden Page',
 
+        ]);
 
-    //     return view('admin/dashboard', $data);
-    // }
+        return view('admin/blocked', $data);
+    }
 }

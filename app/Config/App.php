@@ -6,7 +6,6 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
-
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -37,7 +36,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = '';
+    public $indexPage = 'index.php';
 
     /**
      * --------------------------------------------------------------------------
@@ -175,7 +174,7 @@ class App extends BaseConfig
      *
      * @var int
      */
-    public $sessionExpiration = 172800;
+    public $sessionExpiration = 7200;
 
     /**
      * --------------------------------------------------------------------------

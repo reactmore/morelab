@@ -108,7 +108,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 							</h5>
 						</div>
 						<div class="card-body">
-							<?php echo form_open('admin/languages/set_language_post'); ?>
+							<?php echo form_open('admin/language-settings/set-language-post'); ?>
 							<!-- include message block -->
 							<?php if (!empty(session()->getFlashdata('mes_set_language'))) :
 								echo view('admin/includes/_messages');
@@ -137,7 +137,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 						<div class="card-body">
 
 							<!-- form start -->
-							<?php echo form_open_multipart('admin/languages/add_language_post', ['id' => 'form_add_language_post', 'class' => 'custom-validation needs-validation']); ?>
+							<?php echo form_open_multipart('admin/language-settings/add-language-post', ['id' => 'form_add_language_post', 'class' => 'custom-validation needs-validation']); ?>
 
 							<?php if (empty(session()->getFlashdata('mes_set_language'))) :
 								echo view('admin/includes/_messages');
@@ -146,30 +146,30 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 
 
 							<div class="form-group mb-3">
-								<label><?php echo trans("language_name"); ?></label>
+								<label><?php echo trans("language_name"); ?><span class="required"> *</span></label>
 								<input type="text" class="form-control" name="name" placeholder="<?php echo trans("language_name"); ?>" value="<?php echo old('name'); ?>" required>
 								<small>(Ex: English)</small>
 							</div>
 
 							<div class="form-group mb-3">
-								<label class="control-label"><?php echo trans("short_form"); ?> </label>
+								<label class="control-label"><?php echo trans("short_form"); ?><span class="required"> *</span></label>
 								<input type="text" class="form-control" name="short_form" placeholder="<?php echo trans("short_form"); ?>" value="<?php echo old('short_form'); ?>" required>
 								<small>(Ex: en)</small>
 							</div>
 
 							<div class="form-group mb-3">
-								<label class="control-label"><?php echo trans("language_code"); ?> </label>
+								<label class="control-label"><?php echo trans("language_code"); ?><span class="required"> *</span></label>
 								<input type="text" class="form-control" name="language_code" placeholder="<?php echo trans("language_code"); ?>" value="<?php echo old('language_code'); ?>" required>
 								<small>(Ex: en_us)</small>
 							</div>
 
 							<div class="form-group mb-3">
-								<label><?php echo trans('language_order'); ?></label>
+								<label><?php echo trans('language_order'); ?><span class="required"> *</span></label>
 								<input type="number" class="form-control" name="language_order" placeholder="<?php echo trans('order'); ?>" value="1" min="1" required>
 							</div>
 
 							<div class="form-group mb-3">
-								<label><?php echo trans('text_editor_language'); ?></label>
+								<label><?php echo trans('text_editor_language'); ?><span class="required"> *</span></label>
 								<select name="text_editor_lang" class="form-control select2" data-toggle="select2" required>
 									<?php foreach ($ed_langs as $ed_lang) : ?>
 										<option value="<?php echo $ed_lang['short']; ?>" <?php echo (selected_lang()->short_form == $ed_lang['short']) ? 'selected' : '' ?>><?php echo $ed_lang['name']; ?></option>
@@ -180,7 +180,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 							<div class="form-group mb-3">
 								<div class="row">
 									<div class="col-sm-4 col-xs-12">
-										<label><?php echo trans('text_direction'); ?></label>
+										<label><?php echo trans('text_direction'); ?><span class="required"> *</span></label>
 									</div>
 									<div class="col-sm-4 col-xs-12 col-option">
 										<input type="radio" id="rb_type_1" name="text_direction" value="ltr" class="square-purple" checked>
@@ -270,7 +270,7 @@ $ed_langs[] = array("short" => "cy", "name" => "Welsh"); ?>
 														<div class="dropdown-menu dropdown-menu-animated">
 															<a class="dropdown-item" href="<?php echo admin_url(); ?>language-settings/edit-language/<?php echo html_escape($item->id); ?>"><?php echo trans('edit'); ?></a>
 															<div class="dropdown-divider"></div>
-															<a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/languages/delete_language_post','<?php echo $item->id; ?>','<?php echo trans('confirm_language'); ?>');"><?php echo trans('delete'); ?></a>
+															<a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/language-settings/delete-language-post','<?php echo $item->id; ?>','<?php echo trans('confirm_language'); ?>');"><?php echo trans('delete'); ?></a>
 														</div>
 													</div>
 
