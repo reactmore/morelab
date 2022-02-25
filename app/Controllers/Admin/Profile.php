@@ -9,7 +9,7 @@ use App\Models\Locations\CountryModel;
 use App\Models\Locations\StateModel;
 use App\Models\ProfileModel;
 
-class Profile extends BaseController
+class Profile extends AdminController
 {
     protected $cityModel;
     protected $stateModel;
@@ -27,10 +27,13 @@ class Profile extends BaseController
     public function index()
     {
 
-        $data['title'] = trans("profile");
-        $data["user"] = user();
+        $data = array_merge($this->data, [
+            'title'     => trans('profile'),
+            'active_tab'     => 'details',
+            'user'     =>  user()
 
-        $data["active_tab"] = "details";
+        ]);
+
 
         return view('admin/profile/profile', $data);
     }
@@ -52,6 +55,15 @@ class Profile extends BaseController
 
         //validate inputs
         $rules = [
+            'fullname' => [
+                'label'  => trans('fullname'),
+                'rules'  => 'required|min_length[4]|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
             'username' => [
                 'label'  => trans('username'),
                 'rules'  => 'required|min_length[4]|max_length[100]',
@@ -61,7 +73,14 @@ class Profile extends BaseController
                     'max_length' => trans('form_validation_max_length'),
                 ],
             ],
+            'slug' => [
+                'label'  => trans('slug'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
 
+                ],
+            ],
             'email'    => [
                 'label'  => trans('email'),
                 'rules'  => 'required|max_length[200]|valid_email',
@@ -121,10 +140,12 @@ class Profile extends BaseController
     public function change_password()
     {
 
-        $data['title'] = trans("change_password");
-        $data["user"] = user();
+        $data = array_merge($this->data, [
+            'title'     => trans('change_password'),
+            'active_tab'     => 'change_password',
+            'user'     =>  user()
 
-        $data["active_tab"] = "change_password";
+        ]);
 
         return view('admin/profile/profile', $data);
     }
@@ -195,13 +216,15 @@ class Profile extends BaseController
     public function address_information()
     {
 
-        $data['title'] = trans("address_information");
-        $data["user"] = user();
-        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
-        $data["states"] = $this->stateModel->asObject()->where('country_id', $data['user']->country_id)->findAll();
-        $data["cities"] = $this->cityModel->asObject()->where('state_id', $data['user']->state_id)->findAll();
+        $data = array_merge($this->data, [
+            'title'     => trans('address_information'),
+            'active_tab'     => 'address_information',
+            'user'     =>  user(),
+            'countries'     => $this->countryModel->asObject()->where('status', 1)->findAll(),
+            'states'     => $this->stateModel->asObject()->where('country_id', user()->country_id)->findAll(),
+            'cities'     =>  $this->cityModel->asObject()->where('state_id', user()->state_id)->findAll(),
 
-        $data["active_tab"] = "address_information";
+        ]);
 
         return view('admin/profile/profile', $data);
     }
@@ -240,7 +263,7 @@ class Profile extends BaseController
             ],
             'address'    => [
                 'label'  => trans('address'),
-                'rules'  => 'required|min_length[10]|max_length[90]',
+                'rules'  => 'required|min_length[10]|max_length[200]',
                 'errors' => [
                     'required' => trans('form_validation_required'),
                     'min_length' => trans('form_validation_min_length'),
@@ -267,7 +290,7 @@ class Profile extends BaseController
                 return redirect()->to($this->agent->getReferrer());
             } else {
                 $this->session->setFlashData('error', trans("msg_error"));
-                return redirect()->to($this->agent->getReferrer());
+                return redirect()->to($this->agent->getReferrer())->withInput();
             }
         } else {
             $this->session->setFlashData('errors_form', $this->validator->listErrors());
@@ -280,11 +303,14 @@ class Profile extends BaseController
      */
     public function delete_account()
     {
+        $data = array_merge($this->data, [
+            'title'     => trans('delete_account'),
+            'active_tab'     => 'delete_account',
+            'user'     =>  user(),
 
-        $data['title'] = trans("delete_account");
-        $data["user"] = user();
 
-        $data["active_tab"] = "delete_account";
+        ]);
+
 
         return view('admin/profile/profile', $data);
     }
@@ -303,14 +329,15 @@ class Profile extends BaseController
                 $this->session->setFlashData('error', trans("msg_error"));
                 return redirect()->to($this->agent->getReferrer());
             }
-            if (!$this->bcrypt->check_password($password, $user->password)) {
+
+            if (!password_verify($password, $user->password)) {
                 $this->session->setFlashData('error', trans("msg_wrong_password"));
                 return redirect()->to($this->agent->getReferrer());
             }
 
             //delete account
             $this->userModel->delete_user($user->id);
-            $this->userModel->lgoout();
+            $this->userModel->logout();
             return redirect()->to(base_url());
         }
     }

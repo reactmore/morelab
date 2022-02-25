@@ -48,10 +48,6 @@ Vagrantfile
 #-------------------------
 # Temporary Files
 #-------------------------
-writable/cronjob/*
-!writable/cronjob/index.html
-!writable/cronjob/jobs
-
 writable/cache/*
 !writable/cache/index.html
 
@@ -62,11 +58,8 @@ writable/session/*
 !writable/session/index.html
 
 writable/uploads/*
-!writable/uploads/tmp
 !writable/uploads/index.html
-!writable/uploads/index.html
-writable/database/*
-!writable/database/index.html
+
 writable/debugbar/*
 
 php_errors.log
@@ -90,8 +83,8 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-# vendor/
-# app/ThirdParty/vendor/*
+/vendor/
+
 
 #-------------------------
 # IDE / Development Files
@@ -133,8 +126,5 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
-vendor/*
-app/Telegram/Logs/*
-
-cookiejar
-
+ceklissatu-34a6f1eb7d85.json
+ceklissatu-89fb31f8a165.p12

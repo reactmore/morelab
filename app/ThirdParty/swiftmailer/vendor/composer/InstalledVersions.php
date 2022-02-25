@@ -25,24 +25,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => '9e7ea734aac26bb01b0ada8d92a4dfa2edd1622e',
+    'reference' => 'c6118dd632f5608170c65e4e4f529f127fd3044b',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => '9e7ea734aac26bb01b0ada8d92a4dfa2edd1622e',
+      'reference' => 'c6118dd632f5608170c65e4e4f529f127fd3044b',
     ),
     'swiftmailer/swiftmailer' => 
     array (

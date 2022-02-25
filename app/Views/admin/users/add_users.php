@@ -54,24 +54,17 @@
 
                                 <div class="tab-pane fade show active" id="custom-tabs-basic" role="tabpanel" aria-labelledby="custom-tabs-basic-tab">
 
-
-
-                                    <div class="form-group mb-3">
-                                        <label><?php echo trans("username"); ?><span class="required"> *</span></label>
-                                        <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo old("username"); ?>" data-parsley-required="true" required>
-                                    </div>
-
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("firstname"); ?><span class="required"> *</span></label>
-                                                <input type="text" name="first_name" class="form-control auth-form-input" placeholder="<?php echo trans("firstname"); ?>" value="<?php echo old("first_name"); ?>" required>
+                                                <label><?php echo trans("fullname"); ?><span class="required"> *</span></label>
+                                                <input type="text" name="fullname" class="form-control auth-form-input" placeholder="<?php echo trans("fullname"); ?>" value="<?php echo old("fullname"); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group mb-3">
-                                                <label><?php echo trans("lastname"); ?><span class="required"> *</span></label>
-                                                <input type="text" name="last_name" class="form-control auth-form-input" placeholder="<?php echo trans("lastname"); ?>" value="<?php echo old("last_name"); ?>" required>
+                                                <label><?php echo trans("username"); ?><span class="required"> *</span></label>
+                                                <input type="text" name="username" class="form-control auth-form-input" placeholder="<?php echo trans("username"); ?>" value="<?php echo old("username"); ?>" data-parsley-required="true" required>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +159,7 @@
                                                 <select id="role" name="role" class="form-control select2" required>
                                                     <option value=""><?php echo trans("select"); ?></option>
                                                     <?php foreach ($roles as $role) : ?>
-                                                        <option value="<?php echo $role->role; ?>"><?php echo $role->role_name; ?></option>
+                                                        <option value="<?php echo $role->id; ?>"><?php echo $role->role_name; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>

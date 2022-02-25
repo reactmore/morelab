@@ -158,7 +158,7 @@
             </div>
             <form id="form_safe" action="/admin/locations/state/saved_state_post" method="post">
                 <input type="hidden" id="modal_id" name="id" class="form-control form-input">
-                <input type="hidden" id="crsf" class="form-control form-input">
+                <?php echo csrf_field() ?>
 
                 <div class="modal-body">
                     <div class="form-group">

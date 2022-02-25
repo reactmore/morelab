@@ -29,8 +29,8 @@ class LanguageTranslationsModel extends Model
     public function input_values()
     {
         $data = array(
-            'label' => strtolower($this->request->getVar('label')),
-            'translation' => $this->request->getVar('translation'),
+            'label' => strtolower($this->request->getVar('label', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
+            'translation' => $this->request->getVar('translation', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
         );
         return $data;
     }
@@ -101,13 +101,13 @@ class LanguageTranslationsModel extends Model
     public function add_translations()
     {
         $languageModel = new LanguageModel();
-        foreach ($languageModel->asObject()->where('deleted', 0)
+        foreach ($languageModel->asObject()
             ->findAll() as $item) {
 
             $data_translation = array(
                 'lang_id' => $item->id,
-                'label' => strtolower($this->request->getVar('label')),
-                'translation' => $this->request->getVar('translation'),
+                'label' => strtolower($this->request->getVar('label', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
+                'translation' => $this->request->getVar('translation', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             );
 
             $insert = $this->save($data_translation);

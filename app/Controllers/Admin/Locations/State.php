@@ -2,12 +2,12 @@
 
 namespace App\Controllers\Admin\Locations;
 
-use App\Controllers\Admin\BaseController;
+use App\Controllers\Admin\AdminController;
 use App\Models\Locations\CityModel;
 use App\Models\Locations\CountryModel;
 use App\Models\Locations\StateModel;
 
-class State extends BaseController
+class State extends AdminController
 {
     protected $stateModel;
     protected $countryModel;
@@ -22,8 +22,12 @@ class State extends BaseController
 
     public function index()
     {
-        $data['title'] = trans('state');
-        $data["active_tab"] = 'state';
+        $data = array_merge($this->data, [
+            'title'     => trans('state'),
+            'active_tab'     => 'state',
+        ]);
+
+
 
         // Paginations
         $paginate = $this->stateModel->DataPaginations();
@@ -49,8 +53,23 @@ class State extends BaseController
 
         //validate inputs
         $rules = [
-            'name'              => 'required|max_length[200]',
-            'country_id'    => 'required',
+            'name' => [
+                'label'  => trans('name'),
+                'rules'  => 'required|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+            'country_id' => [
+                'label'  => trans('country'),
+                'rules'  => 'required|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+
         ];
 
         if ($this->validate($rules)) {

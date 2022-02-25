@@ -32,7 +32,7 @@ class ProfileModel extends Model
     {
         parent::__construct();
 
-        $this->bcrypt = new Bcrypt();
+
 
         $this->session = session();
         $this->db = db_connect();
@@ -45,16 +45,15 @@ class ProfileModel extends Model
     {
 
         $data = array(
-            'username' => clean_str(strtolower($this->request->getVar('username'))),
-            'first_name' => clean_str($this->request->getVar('first_name')),
-            'last_name' => clean_str($this->request->getVar('last_name')),
+            'username' => clean_str(strtolower($this->request->getVar('username', FILTER_SANITIZE_FULL_SPECIAL_CHARS))),
+            'fullname' => clean_str($this->request->getVar('fullname', FILTER_SANITIZE_FULL_SPECIAL_CHARS)),
             'slug' => remove_special_characters($this->request->getVar('slug')),
-            'email' => clean_str($this->request->getVar('email')),
-            'mobile_no' => $this->request->getVar('mobile_no'),
-            'about_me' => $this->request->getVar('about_me')
+            'email' => clean_str($this->request->getVar('email', FILTER_SANITIZE_EMAIL)),
+            'mobile_no' => $this->request->getVar('mobile_no', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'about_me' => $this->request->getVar('about_me', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         );
 
-        $_image_id = $this->request->getVar('newimage_id');
+        $_image_id = $this->request->getVar('newimage_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (!empty($_image_id)) {
             $imageModel = new ImagesModel();
             $image =  $imageModel->get_image($_image_id);
@@ -75,7 +74,7 @@ class ProfileModel extends Model
     public function check_email_updated($user_id)
     {
         if (get_general_settings()->email_verification == 1) {
-            $userModel = new UserModel();
+            $userModel = new UsersModel();
             $user = $userModel->get_user($user_id);
             if (!empty($user)) {
                 if (!empty($this->session->get('vr_user_old_email')) && $this->session->get('vr_user_old_email') != $user->email) {
@@ -99,9 +98,9 @@ class ProfileModel extends Model
     public function change_password_input_values()
     {
         $data = array(
-            'old_password' => $this->request->getVar('old_password'),
-            'password' => $this->request->getVar('password'),
-            'password_confirm' => $this->request->getVar('password_confirm')
+            'old_password' => $this->request->getVar('old_password', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'password' => $this->request->getVar('password', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'password_confirm' => $this->request->getVar('password_confirm', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         );
         return $data;
     }
@@ -114,14 +113,13 @@ class ProfileModel extends Model
             $data = $this->change_password_input_values();
             if ($old_password_exists == 1) {
                 //password does not match stored password.
-
-                if (!$this->bcrypt->check_password($data['old_password'], $user->password)) {
+                if (!password_verify($data['old_password'], $user->password)) {
                     $this->session->setFlashData('errors_form', trans("wrong_password_error"));
                     return false;
                 }
             }
             $data = array(
-                'password' => $this->bcrypt->hash_password($data['password'])
+                'password' => password_hash($data['password'], PASSWORD_BCRYPT)
             );
 
             if ($this->builder()->where('id', $user->id)->update($data)) {
@@ -139,14 +137,14 @@ class ProfileModel extends Model
     {
 
         $data = array(
-            'country_id' => $this->request->getVar('country_id'),
-            'state_id' => $this->request->getVar('state_id'),
-            'city_id' => $this->request->getVar('city_id'),
-            'address' => $this->request->getVar('address'),
-            'zip_code' => $this->request->getVar('zip_code')
+            'country_id' => $this->request->getVar('country_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'state_id' => $this->request->getVar('state_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'city_id' => $this->request->getVar('city_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'address' => $this->request->getVar('address', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'zip_code' => $this->request->getVar('zip_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         );
 
-        $_image_id = $this->request->getVar('newimage_id');
+        $_image_id = $this->request->getVar('newimage_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (!empty($_image_id)) {
             $this->change_avatar($_image_id);
         }

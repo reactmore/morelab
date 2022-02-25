@@ -75,7 +75,7 @@
 
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="settings">
-                                        <?php echo form_open_multipart('admin/generalsettings/settings_post'); ?>
+                                        <?php echo form_open_multipart('admin/settings/settings-post'); ?>
 
                                         <?php if (!empty(session()->getFlashdata("mes_settings"))) :
                                             echo $this->include('admin/includes/_messages');
@@ -145,7 +145,7 @@
                                     </div>
 
                                     <div class="tab-pane show" id="maintenance_mode">
-                                        <?php echo form_open('admin/generalsettings/maintenance_mode_post'); ?>
+                                        <?php echo form_open('admin/settings/maintenance-mode-post'); ?>
                                         <!-- include message block -->
                                         <?php if (!empty(session()->getFlashdata("mes_maintenance"))) :
                                             echo view('admin/includes/_messages');
@@ -181,7 +181,7 @@
                                     </div>
 
                                     <div class="tab-pane" id="google_recaptcha">
-                                        <?php echo form_open('admin/generalsettings/recaptcha_settings_post'); ?>
+                                        <?php echo form_open('admin/settings/recaptcha-settings-post'); ?>
                                         <?php if (!empty(session()->getFlashdata("mes_recaptcha"))) :
                                             echo view('admin/includes/_messages');
                                         endif; ?>

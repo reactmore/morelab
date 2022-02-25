@@ -10,7 +10,7 @@
                     <center><img data-toggle="modal" data-target="#file_manager_image" data-bs-image-type="input" data-bs-item-id="#userimg" data-bs-input-id="#newimage_id" id="userimg" src="<?php echo get_user_avatar($user->avatar); ?>" alt="" class="img-fluid rounded-circle avatar-lg img-thumbnail"> </center>
                 </div>
             </div>
-            <h3 class="profile-username text-center"><?php echo html_escape($user->first_name . ' ' . $user->last_name); ?></h3>
+            <h3 class="profile-username text-center"><?php echo html_escape($user->fullname); ?></h3>
             <p class="text-muted text-center"><?php echo html_escape($user->username); ?></p>
         </div>
     </div> <!-- end card-body -->

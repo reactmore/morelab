@@ -29,13 +29,13 @@ class LanguageModel extends Model
     public function input_values()
     {
         $data = array(
-            'name' => $this->request->getVar('name'),
-            'short_form' => $this->request->getVar('short_form'),
-            'language_code' => $this->request->getVar('language_code'),
-            'language_order' => $this->request->getVar('language_order'),
-            'text_direction' => $this->request->getVar('text_direction'),
-            'text_editor_lang' => $this->request->getVar('text_editor_lang'),
-            'status' => $this->request->getVar('status')
+            'name' => $this->request->getVar('name', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'short_form' => $this->request->getVar('short_form', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'language_code' => $this->request->getVar('language_code', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'language_order' => $this->request->getVar('language_order', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'text_direction' => $this->request->getVar('text_direction', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'text_editor_lang' => $this->request->getVar('text_editor_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'status' => $this->request->getVar('status', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         );
         return $data;
     }
@@ -110,7 +110,7 @@ class LanguageModel extends Model
         $generalSettingsModel = new GeneralSettingModel();
 
         $data = array(
-            'site_lang' => $this->request->getVar('site_lang'),
+            'site_lang' => $this->request->getVar('site_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
         );
 
         $lang = $this->asObject()->find($data['site_lang']);

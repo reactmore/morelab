@@ -2,10 +2,11 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\UsersModel;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\UserModel;
-use App\Libraries\Bcrypt;
+
+
 use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends ResourceController
@@ -13,10 +14,10 @@ class User extends ResourceController
     use ResponseTrait;
 
     protected $userModel;
+
     public function __construct()
     {
-        $this->userModel = new UserModel();
-        $this->bcrypt = new Bcrypt();
+        $this->userModel = model('UsersModel');
         helper('custom_helper');
         helper('text');
         helper('url');
@@ -267,10 +268,9 @@ class User extends ResourceController
     // delete product
     public function delete($id = null)
     {
-        $model = new UserModel();
-        $data = $model->find($id);
+        $data = $this->userModel->find($id);
         if ($data) {
-            $model->delete($id);
+            $this->userModel->delete($id);
             $response = [
                 'status'   => 200,
                 'error'    => null,

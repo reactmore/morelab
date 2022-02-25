@@ -2,10 +2,9 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\BaseController;
 use App\Models\ImagesModel;
 
-class File extends BaseController
+class File extends AdminController
 {
 
     /**

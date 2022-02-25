@@ -2,12 +2,13 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\BaseController;
 use App\Models\Locations\CityModel;
 use App\Models\Locations\CountryModel;
 use App\Models\Locations\StateModel;
+use App\Models\RolesPermissionsModel;
+use App\Models\UsersModel;
 
-class UserManagement extends BaseController
+class UserManagement extends AdminController
 {
 
     protected $cityModel;
@@ -19,21 +20,22 @@ class UserManagement extends BaseController
         $this->cityModel = new CityModel();
         $this->stateModel = new StateModel();
         $this->countryModel = new CountryModel();
+        $this->userModel = new UsersModel();
+        $this->RolesPermissionsModel = new RolesPermissionsModel();
     }
 
     public function administrators()
     {
-        $data['title'] = trans("administrators");
+
+
+        $data = array_merge($this->data, [
+            'title' => trans('administrators'),
+        ]);
 
 
         $pagination = $this->paginate($this->userModel->get_paginated_admin_count());
+        $data['users'] =   $this->userModel->get_paginated_admin($pagination['per_page'], $pagination['offset']);
 
-        $data['users'] = get_cached_data('administrator_page_' . $pagination['current_page']);
-
-        if (empty($data['users'])) {
-            $data['users'] =   $data['users'] = $this->userModel->get_paginated_admin($pagination['per_page'], $pagination['offset']);
-            set_cache_data('administrator_page_' . $pagination['current_page'], $data['users']);
-        }
 
         $data['paginations'] = $pagination['pagination'];
 
@@ -44,7 +46,11 @@ class UserManagement extends BaseController
 
     public function users()
     {
-        $data['title'] = trans("users");
+        $data = array_merge($this->data, [
+            'title' => trans('users'),
+        ]);
+
+
         //paginate
         $data['paginate'] = $this->userModel->userPaginate();
         $data['pager'] =  $data['paginate']['pager'];
@@ -55,9 +61,11 @@ class UserManagement extends BaseController
 
     public function add_user()
     {
-        $data['title'] = trans("add_user");
-        $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
-        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
+        $data = array_merge($this->data, [
+            'title' => trans('add_user'),
+            'roles' => $this->RolesPermissionsModel->getRole(),
+            'countries' => $this->countryModel->asObject()->where('status', 1)->findAll(),
+        ]);
 
         return view('admin/users/add_users', $data);
     }
@@ -72,6 +80,15 @@ class UserManagement extends BaseController
         //validate inputs
 
         $rules = [
+            'fullname' => [
+                'label'  => trans('fullname'),
+                'rules'  => 'required|min_length[4]|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
             'username' => [
                 'label'  => trans('username'),
                 'rules'  => 'required|min_length[4]|max_length[100]',
@@ -99,6 +116,13 @@ class UserManagement extends BaseController
                     'required' => trans('form_validation_required'),
                     'min_length' => trans('form_validation_min_length'),
                     'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
+            'role'    => [
+                'label'  => trans('role'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
                 ],
             ],
         ];
@@ -143,10 +167,13 @@ class UserManagement extends BaseController
     public function edit_user($id)
     {
 
-        $data['title'] = trans("update_profile");
-        $data['user'] = $this->userModel->get_user($id);
-        $data['roles'] = $this->RolesPermissionsModel->get_roles_permissions();
-        $data['countries'] = $this->countryModel->asObject()->where('status', 1)->findAll();
+        $data = array_merge($this->data, [
+            'title' => trans('update_profile'),
+            'user' => $this->userModel->get_user($id),
+            'roles' => $this->RolesPermissionsModel->getRole(),
+            'countries' => $this->countryModel->asObject()->where('status', 1)->findAll(),
+        ]);
+
         $data["states"] = $this->stateModel->asObject()->where('country_id', $data['user']->country_id)->findAll();
         $data["cities"] = $this->cityModel->asObject()->where('state_id', $data['user']->state_id)->findAll();
 
@@ -162,13 +189,21 @@ class UserManagement extends BaseController
      */
     public function edit_user_post()
     {
-        if (!check_user_permission('users')) {
-        }
+
 
         $validation =  \Config\Services::validation();
 
         //validate inputs
         $rules = [
+            'fullname' => [
+                'label'  => trans('fullname'),
+                'rules'  => 'required|min_length[4]|max_length[100]',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                    'min_length' => trans('form_validation_min_length'),
+                    'max_length' => trans('form_validation_max_length'),
+                ],
+            ],
             'username' => [
                 'label'  => trans('username'),
                 'rules'  => 'required|min_length[4]|max_length[100]',
@@ -188,7 +223,15 @@ class UserManagement extends BaseController
                     'max_length' => trans('form_validation_max_length'),
                     'valid_email' => 'Please check the Email field. It does not appear to be valid.',
                 ],
-            ]
+            ],
+
+            'role'    => [
+                'label'  => trans('role'),
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => trans('form_validation_required'),
+                ],
+            ],
         ];
 
         if (!empty($this->request->getVar('password'))) {
@@ -246,8 +289,7 @@ class UserManagement extends BaseController
      */
     public function delete_user_post()
     {
-        if (!check_user_permission('users')) {
-        }
+
         $id = $this->request->getVar('id');
         $user = $this->userModel->asObject()->find($id);
 
@@ -271,8 +313,7 @@ class UserManagement extends BaseController
      */
     public function ban_user_post()
     {
-        if (!check_user_permission('users')) {
-        }
+
         $option = $this->request->getVar('option');
         $id = $this->request->getVar('id');
 

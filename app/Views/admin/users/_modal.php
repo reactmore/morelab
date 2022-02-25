@@ -16,8 +16,8 @@
                     <label><?php echo trans("role"); ?></label>
                     <select id="role" name="role" class="form-control select2" required>
                         <option value=""><?php echo trans("select"); ?></option>
-                        <?php foreach (model('Roles_permissionsModel')->get_roles_permissions() as $role) : ?>
-                            <option value="<?php echo $role->role; ?>"><?php echo $role->role_name; ?></option>
+                        <?php foreach (model('RolesPermissionsModel')->getRole() as $role) : ?>
+                            <option value="<?php echo $role->id; ?>"><?php echo $role->role_name; ?></option>
                         <?php endforeach; ?>
                     </select>
 

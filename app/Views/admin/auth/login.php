@@ -33,7 +33,7 @@
             <div class="card-body">
 
                 <?php echo $this->include('admin/includes/_messages') ?>
-                <form id="form" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
+                <form id="forms" action="<?php echo base_url(); ?>/common/admin_login_post" method="post">
                     <input type="hidden" id="crsf">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="<?php echo trans('email') ?>" value="<?php echo old('email') ?>" required>

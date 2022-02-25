@@ -2,20 +2,30 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\BaseController;
 use App\Models\EmailModel;
+use App\Models\GeneralSettingModel;
 use App\Models\UploadModel;
 
-class GeneralSettings extends BaseController
+class GeneralSettings extends AdminController
 {
+
+    protected $languageModel;
+    protected $LanguageTranslationsModel;
+
+    public function __construct()
+    {
+        $this->GeneralSettingModel = new GeneralSettingModel();
+    }
 
     public function index()
     {
 
-        $data['title'] = trans("general_settings");
-        $data['active_tab'] = 'general_settings';
+        $data = array_merge($this->data, [
+            'title'     => trans('general_settings'),
+            'active_tab'     => 'general_settings',
+            'selected_lang'     => $this->request->getGet('lang'),
 
-        $data["selected_lang"] = $this->request->getVar('lang');
+        ]);
 
         if (empty($data["selected_lang"])) {
             $data["selected_lang"] = get_general_settings()->site_lang;
@@ -79,12 +89,16 @@ class GeneralSettings extends BaseController
     public function email_settings()
     {
 
-        $data['title'] = trans("email_settings");
-        $data['active_tab'] = 'email_settings';
-        $data['settings'] = get_general_settings();
-        $data["protocol"] = $this->request->getVar('protocol');
+        $data = array_merge($this->data, [
+            'title'     => trans('email_settings'),
+            'active_tab'     => 'email_settings',
+            'settings'     => get_general_settings(),
+            'protocol'     => $this->request->getVar('protocol'),
+
+        ]);
+
         if (empty($data["protocol"])) {
-            $data['protocol'] = $this->general_settings->mail_protocol;
+            $data['protocol'] = $data["settings"]->mail_protocol;
             return redirect()->to(admin_url() . "settings/email?protocol=" . $data["protocol"]);
         }
         if ($data["protocol"] != "smtp" && $data["protocol"] != "mail") {
@@ -155,11 +169,13 @@ class GeneralSettings extends BaseController
     public function social_settings()
     {
 
-        $data['title'] = trans("social_login_configuration");
-        $data['active_tab'] = 'social_settings';
+        $data = array_merge($this->data, [
+            'title'     => trans('social_login_configuration'),
+            'active_tab'     => 'social_settings',
+            'settings'     => get_general_settings(),
 
-        $data['settings'] = get_general_settings();
 
+        ]);
 
         return view('admin/settings/social_settings', $data);
     }
@@ -197,14 +213,37 @@ class GeneralSettings extends BaseController
     }
 
     /**
+     * Social Login Github Post
+     */
+    public function social_login_github_post()
+    {
+        check_admin();
+        if ($this->GeneralSettingModel->update_social_github_settings()) {
+            $this->session->setFlashData('msg_social_github', '1');
+            $this->session->setFlashData('success', trans("configurations") . " " . trans("msg_suc_updated"));
+            return redirect()->to($this->agent->getReferrer());
+        } else {
+            $this->session->setFlashData('error', trans("msg_error"));
+            return redirect()->to($this->agent->getReferrer());
+        }
+    }
+
+    /**
      * Visual Settings
      */
     public function visual_settings()
     {
 
-        $data['active_tab'] = 'visual_settings';
-        $data['title'] = trans("visual_settings");
-        $data['visual_settings'] = get_general_settings();
+
+        $data = array_merge($this->data, [
+            'title'     => trans('visual_settings'),
+            'active_tab'     => 'visual_settings',
+            'visual_settings'     => get_general_settings(),
+
+
+        ]);
+
+
 
         return view('admin/settings/visual_settings', $data);
     }
@@ -231,10 +270,14 @@ class GeneralSettings extends BaseController
     public function cache_system_settings()
     {
 
-        $data['active_tab'] = 'cache_system';
-        $data['title'] = trans("cache_system");
 
-        $data['settings'] = get_general_settings();
+        $data = array_merge($this->data, [
+            'title'     => trans('cache_system'),
+            'active_tab'     => 'cache_system',
+            'settings'     => get_general_settings(),
+
+
+        ]);
 
         return view('admin/settings/cache_system', $data);
     }

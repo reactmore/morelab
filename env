@@ -1,21 +1,35 @@
 #--------------------------------------------------------------------
+# Example Environment Configuration file
+#
+# This file can be used as a starting point for your own
+# custom .env files, and contains most of the possible settings
+# available in a default install.
+#
+# By default, all of the settings are commented out. If you want
+# to override the setting, you must un-comment it by removing the '#'
+# at the beginning of the line.
+#--------------------------------------------------------------------
+
+#--------------------------------------------------------------------
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
 CI_ENVIRONMENT = development
+
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'http://localhost/'
+app.baseURL = 'https://appstarter.test/'
 # app.forceGlobalSecureRequests = false
 app.appTimezone = 'Asia/Jakarta'
-app.sessionDriver = 'CodeIgniter\Session\Handlers\DatabaseHandler'
-app.sessionCookieName = 'ci_session'
-app.sessionExpiration = 172800
-app.sessionSavePath = 'ci_sessions'
-app.sessionMatchIP = false
-app.sessionTimeToUpdate = 300
+
+app.sessionDriver               = 'CodeIgniter\Session\Handlers\DatabaseHandler'
+app.sessionCookieName           = 'ci_session'
+app.sessionExpiration = 7200
+app.sessionSavePath             = 'ci_sessions'
+app.sessionMatchIP = true
+app.sessionTimeToUpdate = 1440
 app.sessionRegenerateDestroy = true
 
 # app.CSPEnabled = false
@@ -25,16 +39,16 @@ app.sessionRegenerateDestroy = true
 #--------------------------------------------------------------------
 
 database.default.hostname = localhost
-database.default.database = ems
+database.default.database = appstarter
 database.default.username = root
 database.default.password = 
 database.default.DBDriver = MySQLi
-database.default.DBPrefix =
+# database.default.DBPrefix =
 
 # database.tests.hostname = localhost
-# database.tests.database = ci4
+# database.tests.database = codeigniter_test
 # database.tests.username = root
-# database.tests.password = root
+# database.tests.password = 
 # database.tests.DBDriver = MySQLi
 # database.tests.DBPrefix =
 
@@ -78,7 +92,7 @@ cookie.httponly = false
 # ENCRYPTION
 #--------------------------------------------------------------------
 
-# encryption.key =
+# encryption.key = hex2bin:613f32e1c0f0e064cc3041f829c42a24484149985016db9413a43cb9f7b4f537
 # encryption.driver = OpenSSL
 # encryption.blockSize = 16
 # encryption.digest = SHA512
@@ -98,6 +112,7 @@ cookie.httponly = false
 #--------------------------------------------------------------------
 
 security.csrfProtection = 'cookie'
+security.tokenRandomize = false
 security.tokenName = "csrf_token"
 security.headerName = 'X-CSRF-TOKEN'
 security.cookieName = '_csrf_cookie'
@@ -116,7 +131,4 @@ security.redirect = true
 # CURLRequest
 #--------------------------------------------------------------------
 
-# curlrequest.shareOptions = true
-
-
-#TOKEN_SECRET = 
+curlrequest.shareOptions = false

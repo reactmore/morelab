@@ -9,32 +9,35 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/css/adminlte.min.css">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- File Manager css -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-manager/file-manager-1.0.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/file-manager/file-manager-1.0.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/daterangepicker/daterangepicker.css">
     <!-- Upload -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/jquery.dm-uploader.min.css" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/css/styles-1.0.css" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/css/custom.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/file-uploader/css/jquery.dm-uploader.min.css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/file-uploader/css/styles-1.0.css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.css">
     <!-- DataTables -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- jQuery -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/jquery/jquery.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/moment/moment.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/parsley/parsley.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/parsley/parsley.min.js"></script>
     <script>
         csrfName = '<?php echo csrf_token() ?>';
         csrfCookie = '<?php echo config('cookie')->prefix . config('security')->cookieName ?>';
@@ -45,17 +48,17 @@
         sweetalert_cancel = "<?php echo trans("cancel"); ?>";
         var sys_lang_id = "<?php echo get_langguage_id(get_general_settings()->site_lang)->id; ?>";
     </script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/js/custom.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/js/custom.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini <?php echo check_dark_mode_enabled() ? 'dark-mode' : '' ?> layout-fixed layout-footer-fixed layout-navbar-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="<?php echo base_url(); ?>/public/assets/admin/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-        </div>
-        <div id="wait" class="loading"></div>
+        <!-- <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="<?php echo base_url(); ?>/assets/admin/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        </div> -->
+        <!-- <div id="wait" class="loading"></div> -->
 
         <?php echo $this->include('admin/includes/_header') ?>
 
@@ -74,33 +77,37 @@
         $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <?php echo view('admin/file-manager/_load_file_manager', ['load_images' => true, 'load_files' => true, 'load_videos' => false, 'load_audios' => false]); ?>
+
     <!-- File Manager -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-manager/file-manager-1.0.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/jquery.dm-uploader.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/file-uploader/js/ui.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/file-manager/file-manager-1.0.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/file-uploader/js/jquery.dm-uploader.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/file-uploader/js/ui.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/bootstrap-4-tag-input/tagsinput.js"></script>
+
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/chart.js/Chart.min.js"></script>
 
     <!-- DataTables  & Plugins -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/jszip/jszip.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/daterangepicker/daterangepicker.js"></script>
+
     <!-- SweetAlert2 -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
-    <script src="<?php echo base_url(); ?>/public/assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<?php echo base_url(); ?>/public/assets/admin/js/adminlte.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/admin/js/adminlte.js"></script>
 
     <script>
         <?php if (check_cron_time_minutes(1)) : ?>
@@ -136,6 +143,10 @@
         display_c7()
     </script>
 
+    <?php if ($segment === 'dashboard' || empty($segment)) : ?>
+        <script src="<?php echo base_url(); ?>/assets/admin/js/pages/dashboard-admin.js"></script>
+    <?php endif; ?>
+
     <script>
         $(document).ready(function() {
             $('#cs_datatable').DataTable({
@@ -154,6 +165,7 @@
 
                 }
             });
+
             <?php if (session()->getFlashdata('success')) : ?>
                 custom_alert('success', '<?php echo session()->getFlashdata('success'); ?>', false);
             <?php endif; ?>

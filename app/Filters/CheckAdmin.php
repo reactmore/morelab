@@ -11,6 +11,7 @@ class CheckAdmin implements FilterInterface
 
     public function before(RequestInterface $request, $arguments = null)
     {
+        helper('custom');
         if (!is_admin()) {
             return redirect()->to(admin_url());
         }

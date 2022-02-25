@@ -64,7 +64,7 @@
                                                                 <img src="<?php echo get_user_avatar($user['avatar']); ?>" alt="user" class="img-responsive" style="height: 50px;">
                                                             </a>
                                                         </td>
-                                                        <td><?php echo $user['first_name'] . ' ' .  $user['last_name']; ?> </td>
+                                                        <td><?php echo $user['fullname']; ?> </td>
                                                         <td><?php echo $user['username']; ?></td>
                                                         <td>
                                                             <?php echo $user['email'];
@@ -90,14 +90,14 @@
                                                                 </button>
 
                                                                 <div class="dropdown-menu dropdown-menu-animated">
-                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                    <?php if (user()->role == 1) : ?>
                                                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-role" onclick="$('#modal_user_id').val('<?php echo html_escape($user['id']); ?>');"><?php echo trans('change_user_role'); ?></a>
 
                                                                     <?php endif; ?>
                                                                     <?php if ($user['email_status'] != 1) : ?>
                                                                         <a class="dropdown-item" href="javascript:void(0)" onclick="confirm_user_email(<?php echo $user['id']; ?>);"><?php echo trans('confirm_user_email'); ?></a>
                                                                     <?php endif; ?>
-                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                    <?php if (user()->role == 1) : ?>
                                                                         <?php if ($user['status'] == "1") : ?>
                                                                             <a class="dropdown-item" href="javascript:void(0)" onclick="ban_user('<?php echo $user['id']; ?>','<?php echo trans('confirm_ban'); ?>', 'ban');"><?php echo trans('ban_user'); ?></a>
                                                                         <?php else : ?>
@@ -105,7 +105,7 @@
                                                                         <?php endif; ?>
                                                                     <?php endif; ?>
 
-                                                                    <?php if (user()->role == 'admin') : ?>
+                                                                    <?php if (user()->role == 1) : ?>
                                                                         <a class="dropdown-item" href="<?php echo admin_url() . 'users/edit-user/'; ?><?php echo html_escape($user['id']); ?>"><?php echo trans('edit'); ?></a>
                                                                         <div class="dropdown-divider"></div>
                                                                         <a class="dropdown-item" href="javascript:void(0)" onclick="delete_item('/admin/usermanagement/delete_user_post','<?php echo $user['id']; ?>','<?php echo trans('confirm_user'); ?>')"><?php echo trans('delete'); ?></a>

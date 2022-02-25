@@ -1,11 +1,12 @@
 {
-    "name": "codeigniter4/framework",
+    "name": "reactmore/appstarter",
     "type": "project",
-    "description": "The CodeIgniter framework v4",
-    "homepage": "https://codeigniter.com",
+    "description": "Reactmore starter app with Codeigniter 4",
+    "homepage": "https://github.com/reactmore",
     "license": "MIT",
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.3 || ^8",
+        "codeigniter4/framework": "^4",
         "ext-curl": "*",
         "ext-intl": "*",
         "ext-json": "*",
@@ -13,41 +14,37 @@
         "kint-php/kint": "^4.0",
         "laminas/laminas-escaper": "^2.9",
         "psr/log": "^1.1",
-        "fakerphp/faker": "^1.17",
         "phpmailer/phpmailer": "^6.5",
         "intervention/image": "2.5",
         "league/oauth2-google": "^4.0",
-        "firebase/php-jwt": "^5.5",
-        "daycry/cronjob": "^1.0"
+        "league/oauth2-client": "^2.6",
+        "google/apiclient": "^2.12.1",
+        "league/oauth2-github": "^3.0"
     },
     "require-dev": {
-        "codeigniter/coding-standard": "^1.1",
-        "friendsofphp/php-cs-fixer": "^3.1",
+        "fakerphp/faker": "^1.9",
         "mikey179/vfsstream": "^1.6",
-        "nexusphp/cs-config": "^3.3",
-        "phpunit/phpunit": "^9.1",
-        "predis/predis": "^1.1"
+        "phpunit/phpunit": "^9.1"
     },
     "suggest": {
         "ext-fileinfo": "Improves mime type detection for files"
     },
     "autoload": {
         "psr-4": {
-            "CodeIgniter\\": "system/"
+            "App\\": "app",
+            "Config\\": "app/Config"
         },
         "exclude-from-classmap": [
             "**/Database/Migrations/**"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Support\\": "tests/_support"
+        }
+    },
     "scripts": {
-        "post-update-cmd": [
-            "CodeIgniter\\ComposerScripts::postUpdate"
-        ],
         "test": "phpunit"
     },
-    "support": {
-        "forum": "http://forum.codeigniter.com/",
-        "source": "https://github.com/codeigniter4/CodeIgniter4",
-        "slack": "https://codeigniterchat.slack.com"
-    }
+    "support": {}
 }

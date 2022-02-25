@@ -2,400 +2,271 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Recaptcha;
-use App\Models\EmailModel;
-use App\Models\UserModel;
-use CodeIgniter\I18n\Time;
-use Exception;
-use League\OAuth2\Client\Provider\Google;
-use stdClass;
+use App\Models\GeneralSettingModel;
+use App\Models\Locations\CityModel;
+use App\Models\Locations\CountryModel;
+use App\Models\Locations\StateModel;
+use App\Libraries\GoogleAnalytics;
+use App\Models\UsersModel;
 
 class Common extends BaseController
 {
+    protected $stateModel;
+    protected $countryModel;
+    protected $cityModel;
+    protected $userModel;
 
-    /**
-     * --------------------------------------------------------------------------
-     * Login Page Admin Controller
-     * --------------------------------------------------------------------------
-     */
-
-    public function index()
+    public function __construct()
     {
-        if (auth_check()) {
-            return redirect()->to(admin_url());
-        }
-
-        $data['title'] = trans('login');
-
-        return view('admin/auth/login', $data);
-    }
-
-    /**
-     * --------------------------------------------------------------------------
-     * Login Post Admin Controller
-     * --------------------------------------------------------------------------
-     */
-    public function admin_login_post()
-    {
-
-        $userModel = new UserModel();
-        $validation =  \Config\Services::validation();
-
-        $rules = [
-            'email'         => 'required|min_length[4]|max_length[100]|valid_email',
-            'password'      => 'required|min_length[4]|max_length[50]',
-        ];
-
-        if ($this->validate($rules)) {
-            $user = $userModel->get_user_by_email($this->request->getVar('email'));
-            if (!empty($user) && $user->role != 'admin' && get_general_settings()->maintenance_mode_status == 1) {
-                $this->session->setFlashData('errors_form', "Site under construction! Please try again later.");
-                return redirect()->back();
-            }
-
-            if ($userModel->login()) {
-                //remember user
-                $remember_me = $this->request->getVar('remember_me');
-                if ($remember_me == 1) {
-                    $this->response->setCookie(config('cookie')->prefix . '_remember_user_id', user()->id, time() + 86400);
-                }
-                return redirect()->to(admin_url())->withCookies();
-            } else {
-                return redirect()->back()->withInput()->with('error', $validation->getErrors());
-            }
-        } else {
-            $this->session->setFlashData('errors_form', $validation->listErrors());
-            return redirect()->back()->withInput()->with('error', $validation->getErrors());
-        }
-    }
-
-    /**
-     * --------------------------------------------------------------------------
-     * Forgot Password Admin Controller
-     * --------------------------------------------------------------------------
-     */
-
-    public function forgot_password()
-    {
-        if (auth_check()) {
-            return redirect()->to(admin_url());
-        }
-
-        $data['title'] = trans('forgot_password');
-
-        return view('admin/auth/forgot_password', $data);
-    }
-
-    /**
-     * Forgot Password Post
-     */
-    public function forgot_password_post()
-    {
-        //check auth
-        if (auth_check()) {
-            return redirect()->to(admin_url());
-        }
-
-        $email = clean_str($this->request->getVar('email'));
-        //get user
-        $user = $this->userModel->get_user_by_email($email);
-        //if user not exists
-        if (empty($user)) {
-            $this->session->setFlashData('error_form', html_escape(trans("reset_password_error")));
-            return redirect()->back()->withInput();
-        } else {
-            $emailModel = new EmailModel();
-            $emailModel->send_email_reset_password($user->id);
-            $this->session->setFlashData('success_form', trans("reset_password_success"));
-            return redirect()->to(admin_url() . 'forgot-password');
-        }
-    }
-
-    /**
-     * Reset Password
-     */
-    public function reset_password()
-    {
-        if (auth_check()) {
-            return redirect()->to(admin_url());
-        }
-
-        $token = clean_str($this->request->getVar('token'));
-        $data['title'] = trans('reset_password');
-
-        //get user
-        $data["user"] = $this->userModel->get_user_by_token($token);
-        $data["success"] = $this->session->get('success_form');
-        if (empty($data["user"]) && empty($data["success"])) {
-            return redirect()->back();
-        }
-
-        return view('admin/auth/reset_password', $data);
-    }
-
-    /**
-     * Reset Password Post
-     */
-    public function reset_password_post()
-    {
-
-        $success = $this->request->getVar('success_form');
-        if ($success == 1) {
-            redirect(lang_base_url());
-        }
-
-        $validation =  \Config\Services::validation();
-
-        $rules = [
-            'password'         => 'required|min_length[4]|max_length[200]',
-            'password_confirm'      => 'required|matches[password]',
-        ];
-
-        if ($this->validate($rules)) {
-
-            $token = clean_str($this->request->getVar('token'));
-            if ($this->userModel->reset_password($token)) {
-                $this->session->setFlashData('success_form', trans("message_change_password_success"));
-                return redirect()->back();
-            } else {
-                $this->session->setFlashData('errors_form', trans("message_change_password_error"));
-                return redirect()->back();
-            }
-        } else {
-            $this->session->setFlashData('errors_form', $validation->listErrors());
-            return redirect()->back()->withInput()->with('error', $validation->getErrors());
-        }
-    }
-
-    /**
-     * Connect with Google
-     */
-    public function connect_with_google()
-    {
-
-        $provider = new Google([
-            'clientId' => $this->general_settings->google_client_id,
-            'clientSecret' => $this->general_settings->google_client_secret,
-            'redirectUri' => base_url() . '/connect-with-google',
-        ]);
-
-        if (!empty($_GET['error'])) {
-            // Got an error, probably user denied access
-            exit('Got error: ' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'));
-        } elseif (empty($_GET['code'])) {
-
-            // If we don't have an authorization code then get one
-            $authUrl = $provider->getAuthorizationUrl();
-            $_SESSION['oauth2state'] = $provider->getState();
-            $this->session->set('g_login_referrer', $this->agent->getReferrer());
-            header('Location: ' . $authUrl);
-            exit();
-        } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-            // State is invalid, possible CSRF attack in progress
-            unset($_SESSION['oauth2state']);
-            exit('Invalid state');
-        } else {
-            // Try to get an access token (using the authorization code grant)
-            $token = $provider->getAccessToken('authorization_code', [
-                'code' => $_GET['code']
-            ]);
-            // Optional: Now you have a token you can look up a users profile data
-            try {
-                // We got an access token, let's now get the owner details
-                $user = $provider->getResourceOwner($token);
-                dd($user);
-                $g_user = new stdClass();
-                $g_user->id = $user->getId();
-                $g_user->email = $user->getEmail();
-                $g_user->name = $user->getName();
-                $g_user->avatar = $user->getAvatar();
-
-                $userModel = new UserModel();
-                $userModel->login_with_google($g_user);
-
-                if (!empty($this->session->get('g_login_referrer'))) {
-                    redirect($this->session->get('g_login_referrer'));
-                } else {
-                    redirect(base_url());
-                }
-            } catch (Exception $e) {
-                // Failed to get user details
-                exit('Something went wrong: ' . $e->getMessage());
-            }
-        }
-    }
-
-
-
-
-    /**
-     * Register
-     */
-    public function register()
-    {
-        $this->is_registration_active();
-        //check if logged in
-        if (auth_check()) {
-            return redirect()->to(lang_base_url());
-        }
-        $data['title'] = trans("register");
-        $data['description'] = trans("register") . " - " . $this->general_settings->application_name;
-        $data['keywords'] = trans("register") . "," . $this->general_settings->application_name;
-
-        return view('admin/auth/register', $data);
-    }
-
-
-
-    /**
-     * Register Post
-     */
-    public function admin_register_post()
-    {
-
-        $this->reset_flash_data();
-        $userModel = new UserModel();
-        $validation =  \Config\Services::validation();
-
-        $rules = [
-            'username'         => 'required|min_length[4]|max_length[100]',
-            'email'            => 'required|max_length[200]|valid_email',
-            'password'         => 'required|min_length[4]|max_length[200]',
-            'confirm_password' => 'required|min_length[4]|max_length[100]|matches[password]',
-        ];
-
-        if ($this->validate($rules)) {
-
-            if (!$this->recaptcha_verify_request()) {
-                $this->session->setFlashData('error', trans("msg_recaptcha"));
-                return redirect()->to($this->agent->getReferrer());
-            }
-
-            $email = $this->request->getVar('email');
-            $username = $this->request->getVar('username');
-
-            //is username unique
-            if (!$this->userModel->is_unique_username($username)) {
-                $this->session->setFlashData('form_data', $this->userModel->input_values());
-                $this->session->setFlashData('error', trans("msg_username_unique_error"));
-                return redirect()->back()->withInput();
-            }
-            //is email unique
-            if (!$this->userModel->is_unique_email($email)) {
-                $this->session->setFlashData('form_data', $this->userModel->input_values());
-                $this->session->setFlashData('error', trans("message_email_unique_error"));
-                return redirect()->back()->withInput();
-            }
-
-            //register
-            $user = $userModel->register();
-            if ($user) {
-                if (get_general_settings()->email_verification == 1) {
-                    $this->session->setFlashData('success_form', trans("msg_send_confirmation_email"));
-                } else {
-                    $this->session->setFlashData('success_form', trans("msg_register_success"));
-                }
-                if ($userModel->is_logged_in()) {
-                    return redirect()->to(admin_url());
-                }
-
-                return redirect()->to($this->agent->getReferrer());
-            } else {
-                //error
-                $this->session->setFlashData('errors_form', trans("message_register_error"));
-                return redirect()->back()->withInput();
-            }
-        } else {
-            $this->session->setFlashData('errors_form', $validation->listErrors());
-            return redirect()->back()->withInput()->with('error', $validation->getErrors());
-        }
-    }
-
-    public function recaptcha_verify_request()
-    {
-        if (!recaptcha_status()) {
-            return true;
-        }
-
-        $recaptchaLib = new Recaptcha();
-
-        $recaptcha = $this->request->getVar('g-recaptcha-response');
-        if (!empty($recaptcha)) {
-            $response = $recaptchaLib->verifyResponse($recaptcha);
-            if (isset($response['success']) && $response['success'] === true) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //check if membership system active
-    private function is_registration_active()
-    {
-        if (get_general_settings()->registration_system != 1) {
-            return redirect()->to(lang_base_url());
-        }
-    }
-
-    //reset flash data
-    private function reset_flash_data()
-    {
-        $this->session->setFlashData('errors', "");
-        $this->session->setFlashData('error', "");
-        $this->session->setFlashData('success', "");
-    }
-
-    /**
-     * Confirm Email
-     */
-    public function confirm_email()
-    {
-
-        $data['title'] = trans("confirm_your_email");
-
-        $token = clean_str($this->request->getVar("token"));
-        $data["user"] = $this->userModel->get_user_by_token($token);
-
-        if (empty($data["user"])) {
-            return redirect()->to(base_url());
-        }
-
-        if ($data["user"]->email_status == 1) {
-            return redirect()->to(base_url());
-        }
-
-        if ($this->userModel->verify_email($data["user"])) {
-
-            $data["success"] = trans("msg_confirmed");
-        } else {
-            $data["error"] = trans("msg_error");
-        }
-
-
-        echo view('admin/auth/confirm_email', $data);
-    }
-
-    /**
-     * Logout
-     */
-    public function logout()
-    {
-        //unset user data
-        $this->session->remove('vr_sess_user_id');
-        $this->session->remove('vr_sess_user_email');
-        $this->session->remove('vr_sess_user_role');
-        $this->session->remove('vr_sess_logged_in');
-        $this->session->remove('vr_sess_app_key');
-        $this->session->remove('vr_sess_user_ps');
-        helper_deletecookie("remember_user_id");
-        return redirect()->to('/');
+        $this->stateModel = new StateModel();
+        $this->countryModel = new CountryModel();
+        $this->cityModel = new CityModel();
+        $this->GeneralSettingModel = new GeneralSettingModel();
+        $this->analytics = new GoogleAnalytics();
+        $this->userModel = new UsersModel();
     }
 
     public function run_internal_cron()
     {
-        if ($this->request->isAJAX()) {
-            //delete old sessions
-            $this->db->query("DELETE FROM ci_sessions WHERE timestamp < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 3 DAY))");
+        if (!$this->request->isAJAX()) {
+            // ...
+            exit();
         }
+
+        //delete old sessions
+        $db = db_connect();
+        $db->query("DELETE FROM ci_sessions WHERE timestamp < DATE_SUB(NOW(), INTERVAL 3 DAY)");
+        //add last update
+        $this->GeneralSettingModel->builder()->where('id', 1)->update(['last_cron_update' => date('Y-m-d H:i:s')]);
+    }
+
+    public function switch_visual_mode()
+    {
+
+        $vr_dark_mode = 0;
+        $dark_mode = $this->request->getVar('dark_mode');
+        if ($dark_mode == 1) {
+            $vr_dark_mode = 1;
+        }
+
+        set_cookie([
+            'name' => '_vr_dark_mode',
+            'value' =>  $vr_dark_mode,
+            'expire' => time() + (86400 * 30),
+
+
+        ]);
+
+        return redirect()->to($this->agent->getReferrer())->withCookies();
+        exit();
+    }
+
+    //get countries by continent
+    public function get_countries_by_continent()
+    {
+        $key = $this->request->getVar('key');
+        $countries = $this->countryModel->get_countries_by_continent($key);
+        if (!empty($countries)) {
+            foreach ($countries as $country) {
+                echo "<option value='" . $country->id . "'>" . html_escape($country->name) . "</option>";
+            }
+        }
+    }
+
+    //get states by country
+    public function get_states_by_country()
+    {
+        $country_id = $this->request->getVar('country_id');
+        $states = $this->stateModel->get_states_by_country($country_id);
+        $status = 0;
+        $content = '';
+        if (!empty($states)) {
+            $status = 1;
+            $content = '<option value="">' . trans("state") . '</option>';
+            foreach ($states as $state) {
+                $content .= "<option value='" . $state->id . "'>" . html_escape($state->name) . "</option>";
+            }
+        }
+
+        $data = array(
+            'result' => $status,
+            'content' => $content
+        );
+        echo json_encode($data);
+    }
+
+
+
+    //get states
+    public function get_states()
+    {
+        $country_id = $this->request->getVar('country_id');
+        $states = $this->stateModel->get_states_by_country($country_id);
+        $status = 0;
+        $content = '';
+        if (!empty($states)) {
+            $status = 1;
+            $content = '<option value="">' . trans("state") . '</option>';
+            foreach ($states as $item) {
+                $content .= '<option value="' . $item->id . '">' . html_escape($item->name) . '</option>';
+            }
+        }
+        $data = array(
+            'result' => $status,
+            'content' => $content
+        );
+        echo json_encode($data);
+    }
+
+    //get cities
+    public function get_cities()
+    {
+        $state_id = $this->request->getVar('state_id');
+        $cities = $this->cityModel->get_cities_by_state($state_id);
+        $status = 0;
+        $content = '';
+        if (!empty($cities)) {
+            $status = 1;
+            $content = '<option value="">' . trans("city") . '</option>';
+            foreach ($cities as $item) {
+                $content .= '<option value="' . $item->id . '">' . html_escape($item->name) . '</option>';
+            }
+        }
+        $data = array(
+            'result' => $status,
+            'content' => $content
+        );
+        echo json_encode($data);
+    }
+
+    //show address on map
+    public function show_address_on_map()
+    {
+        $country_text = $this->request->getVar('country_text');
+        $country_val = $this->request->getVar('country_val');
+        $state_text = $this->request->getVar('state_text');
+        $state_val = $this->request->getVar('state_val');
+        $city_text = $this->request->getVar('city_text');
+        $city_val = $this->request->getVar('city_val');
+        $address = $this->request->getVar('address');
+        $zip_code = $this->request->getVar('zip_code');
+
+
+
+
+        $data["map_address"] = "";
+
+        if (!empty($country_val)) {
+            $data["map_address"] = $data["map_address"] . $country_text;
+        }
+
+        if (!empty($state_val)) {
+            $data["map_address"] = $data["map_address"] . ' ' . $state_text . " ";
+        }
+
+        if (!empty($city_val)) {
+            $data["map_address"] = $data["map_address"] . $city_text . " ";
+        }
+
+
+        if (!empty($address)) {
+            $data["map_address"] =  $address . " " . $zip_code;
+
+            if (!empty($zip_code)) {
+                $data["map_address"] =  $address . " " . $zip_code;
+            }
+        }
+
+
+        return view('admin/includes/_load_map', $data);
+    }
+
+    public function getAnalyticsReport()
+    {
+        $endDate = date('Y-m-d', strtotime("today"));
+        $startDate = date('Y-m-d', strtotime("first day of this month"));
+
+        if (!empty($this->request->getVar('startDate'))) {
+            $startDate = date('Y-m-d', strtotime($this->request->getVar('startDate')));
+        }
+
+        if (!empty($this->request->getVar('endDate'))) {
+            $endDate = date('Y-m-d', strtotime($this->request->getVar('endDate')));
+        }
+
+
+        echo json_encode($this->analytics->getReportViews($startDate, $endDate));
+    }
+
+    public function getUsersRegister()
+    {
+        $endDate = date('Y-m-d', strtotime("today"));
+        $startDate = date('Y-m-d', strtotime("first day of this month"));
+
+        if (!empty($this->request->getVar('startDate'))) {
+            $startDate = date('Y-m-d', strtotime($this->request->getVar('startDate')));
+        }
+
+        if (!empty($this->request->getVar('endDate'))) {
+            $endDate = date('Y-m-d', strtotime($this->request->getVar('endDate')));
+        }
+
+        $data['latest'] = $this->getUsers($startDate, $endDate);
+        $data['user_type'] = $this->getUsersAuth();
+
+
+        echo json_encode($data);
+    }
+
+    private function getUsers($startDate, $endDate)
+    {
+        $this->userModel->builder('users')
+            ->select('count(id) as users, DATE(created_at) as date')
+            ->where('created_at <=', $endDate)
+            ->where('created_at >=', $startDate)
+            ->groupBy('date');
+
+
+        $query =  $this->userModel->builder('users')->get();
+
+        if (!empty($query->getResult())) {
+            $data = array();
+            foreach ($query->getResult() as $row) {
+
+                $data['day'][] = date("M-d", strtotime($row->date));
+                $data['user'][] = (int) $row->users;
+            }
+        } else {
+            $data['day'][] =  0;
+            $data['user'][] = 0;
+        }
+
+
+        return $data;
+    }
+
+    private function getUsersAuth()
+    {
+        $this->userModel->builder('users')
+            ->select('count(id) as users, user_type')
+            ->groupBy('user_type');
+
+
+        $query =  $this->userModel->builder('users')->get();
+
+        if (!empty($query->getResult())) {
+            $data = array();
+            foreach ($query->getResult() as $row) {
+
+                $data['type'][] = ucfirst($row->user_type);
+                $data['user'][] = (int) $row->users;
+            }
+        } else {
+            $data['type'][] =  0;
+            $data['user'][] = 0;
+        }
+
+
+        return $data;
     }
 }

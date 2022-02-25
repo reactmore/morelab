@@ -1,7 +1,7 @@
 <div class="row table-filter-container">
     <div class="col-sm-12">
         <?php $uri = service('uri'); ?>
-        <?php $RolesPermissionsModel = model('Roles_permissionsModel'); ?>
+        <?php $RolesPermissionsModel = model('RolesPermissionsModel'); ?>
         <?php $request = \Config\Services::request(); ?>
         <?php $url = !empty($uri->getSegment(3)) ? $uri->getSegment(2) . '/' . $uri->getSegment(3) : $uri->getSegment(2) ?>
         <?php echo form_open(admin_url() . $url, ['method' => 'GET']); ?>
@@ -34,13 +34,13 @@
             </select>
         </div>
 
-        <?php if ($uri->getSegment(2) != 'administrators') : ?>
+        <?php if ($uri->getSegment(3) != 'administrators') : ?>
             <div class="item-table-filter">
                 <label><?php echo trans("role"); ?></label>
                 <select name="role" class="form-control">
                     <option value=""><?php echo trans("all"); ?></option>
-                    <?php foreach (model('Roles_permissionsModel')->get_roles() as $role) : ?>
-                        <option value="<?php echo $role->role ?>" <?php echo ($request->getVar('role') == $role->role) ? 'selected' : ''; ?>><?php echo $role->role_name; ?></option>
+                    <?php foreach (model('RolesPermissionsModel')->getRoles() as $role) : ?>
+                        <option value="<?php echo $role->id ?>" <?php echo ($request->getVar('role') == $role->id) ? 'selected' : ''; ?>><?php echo $role->role_name; ?></option>
                     <?php endforeach; ?>
 
                 </select>
